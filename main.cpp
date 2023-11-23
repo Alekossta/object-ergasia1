@@ -21,13 +21,21 @@ int main() {
     cout << "Persons managed by the secretary:" << endl;
     cout << secretary << endl;
 
-    // // Find a person
-    // string nameToFind = "John";
-    // if (secretary.findPerson(nameToFind)) {
-    //     cout << nameToFind << " is managed by the secretary." << endl;
-    // } else {
-    //     cout << nameToFind << " is not managed by the secretary." << endl;
-    // }
+    
+    // Find a person
+    string nameToFind = "John"; // should be found
+    if (secretary.findPerson(nameToFind)) {
+        cout << nameToFind << " is managed by the secretary." << endl;
+    } else {
+        cout << nameToFind << " is not managed by the secretary." << endl;
+    }
+
+    string nameToFind2 = "George"; // should not be found
+    if (secretary.findPerson(nameToFind2)) {
+        cout << nameToFind2 << " is managed by the secretary." << endl;
+    } else {
+        cout << nameToFind2 << " is not managed by the secretary." << endl;
+    }
 
     return 0;
 }

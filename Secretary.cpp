@@ -40,9 +40,9 @@ std::istream& operator>>(std::istream& is, Secretary& s) {
     return is;
 }
 
-// bool Secretary::findPerson(const std::string& name) {
-//     return persons.find(name) != persons.end();
-// }
+bool Secretary::findPerson(const std::string& name) {
+    return persons.find(name) != persons.end();
+}
 
 Secretary& Secretary::operator=(const Secretary& other) {
     if (this != &other) {
