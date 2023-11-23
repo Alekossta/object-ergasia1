@@ -1,4 +1,5 @@
-#include "person.h"
+#include "Person.h"
+#include "Secretary.h"
 #include <iostream>
 using namespace std;
 
