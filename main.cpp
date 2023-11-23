@@ -18,9 +18,7 @@ int main() {
     cout << "Total Persons: " << Person::getCount() << endl;
 
     // Display information about the persons managed by the secretary
-    cout << "Persons managed by the secretary:" << endl;
     cout << secretary << endl;
-
 
     // Find a person
     string nameToFind = "John"; // should be found
@@ -30,19 +28,18 @@ int main() {
         cout << nameToFind << " is not managed by the secretary." << endl;
     }
 
-    string nameToFind2 = "George"; // should not be found
-    if (secretary.findPerson(nameToFind2)) {
-        cout << nameToFind2 << " is managed by the secretary." << endl;
+    nameToFind = "George"; // should not be found
+    if (secretary.findPerson(nameToFind)) {
+        cout << nameToFind << " is managed by the secretary." << endl;
     } else {
-        cout << nameToFind2 << " is not managed by the secretary." << endl;
+        cout << nameToFind << " is not managed by the secretary." << endl;
     }
+    
+    cout << endl;
 
     // Testing input and output operators
     // input
-    Secretary secretary2;
-    cout << "Enter person's name (secretary 2): ";
-    cin >> secretary2; // should add a person to secretary2
-    cout << secretary2 << endl;
+    cin >> secretary; // should add a person to secretary2
 
     // output
     cout << "Persons managed by the secretary:" << endl;
