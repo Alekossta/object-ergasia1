@@ -5,11 +5,11 @@
 
 class Person
 {
-    static int count; // count how many people we have
-    std::string name;
-    unsigned age;
-
     public:
+
+        static int count; // count how many people we have
+        std::string name;
+        unsigned age;
         // constructors
         Person();
         Person(const std::string& startingName);

@@ -6,13 +6,15 @@ using namespace std;
 int Person::count = 0;
 
 int main() {
-    Person p1(12, "george");
-    Person p2;
+    // Δημιουργία και διαχείριση αντικειμένων
+    Secretary secretary;
+    Person p1(25, "John"), p2(30, "Jane");
 
-    cin >> p2;
+    secretary = secretary + p1;
+    secretary = secretary + p2;
 
-    cout << p2 << std::endl;
-    cout << p1 << std::endl;
+    std::cout << "Total Persons: " << Person::getCount() << std::endl;
+    std::cout << secretary;
 
-    return 1;
+    // Άλλες λειτουργίες
 }

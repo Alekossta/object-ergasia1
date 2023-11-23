@@ -1,11 +1,15 @@
 #pragma once
 #include <iostream>
+#include <unordered_map>
 
 class Person;
 
 class Secretary 
 {
     public:
+
+        std::unordered_map<std::string, Person*> persons; 
+
         // constructor(s)
         Secretary();
 
@@ -16,7 +20,7 @@ class Secretary
         ~Secretary();
 
         // overload + operator
-        Secretary& operator+(const Person& personToAdd);
+        Secretary operator+(const Person& personToAdd);
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);
