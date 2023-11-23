@@ -23,10 +23,6 @@ Person::~Person() {
     count--;
 }
 
-int Person::getCount() {
-    return count;
-}
-
 std::istream& operator>>(std::istream& input, Person& person) {
     std::cout << "Enter name: ";
     input >> person.name;

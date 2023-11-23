@@ -1,7 +1,17 @@
+#include "person.h"
 #include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello World" << std::endl;
-    return 0;
+int Person::count = 0;
+
+int main() {
+    Person p1(12, "george");
+    Person p2;
+
+    cin >> p2;
+
+    cout << p2 << std::endl;
+    cout << p1 << std::endl;
+
+    return 1;
 }
