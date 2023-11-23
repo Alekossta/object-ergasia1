@@ -8,11 +8,12 @@ int Person::count = 0;
 int main() {
     // Creation and management of objects
     Secretary secretary;
-    Person p1(25, "John"), p2(30, "Jane");
+    Person p1(25, "John"), p2(30, "Jane"), p3(35, "Jane");
 
     // Adding persons to the secretary
     secretary = secretary + p1;
     secretary = secretary + p2;
+    secretary = secretary + p3;
 
     // Display total number of Person instances
     cout << "Total Persons: " << Person::getCount() << endl;
