@@ -20,7 +20,8 @@ class Secretary
         ~Secretary();
 
         // overload + operator
-        Secretary operator+(const Person& personToAdd);
+        Secretary& operator+(Person& personToAdd);
+
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);

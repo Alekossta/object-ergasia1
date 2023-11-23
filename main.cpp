@@ -6,15 +6,28 @@ using namespace std;
 int Person::count = 0;
 
 int main() {
-    // Δημιουργία και διαχείριση αντικειμένων
+    // Creation and management of objects
     Secretary secretary;
     Person p1(25, "John"), p2(30, "Jane");
 
+    // Adding persons to the secretary
     secretary = secretary + p1;
     secretary = secretary + p2;
 
-    std::cout << "Total Persons: " << Person::getCount() << std::endl;
-    std::cout << secretary;
+    // Display total number of Person instances
+    cout << "Total Persons: " << Person::getCount() << endl;
 
-    // Άλλες λειτουργίες
+    // Display information about the persons managed by the secretary
+    cout << "Persons managed by the secretary:" << endl;
+    cout << secretary << endl;
+
+    // // Find a person
+    // string nameToFind = "John";
+    // if (secretary.findPerson(nameToFind)) {
+    //     cout << nameToFind << " is managed by the secretary." << endl;
+    // } else {
+    //     cout << nameToFind << " is not managed by the secretary." << endl;
+    // }
+
+    return 0;
 }
