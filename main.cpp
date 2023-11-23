@@ -21,7 +21,7 @@ int main() {
     cout << "Persons managed by the secretary:" << endl;
     cout << secretary << endl;
 
-    
+
     // Find a person
     string nameToFind = "John"; // should be found
     if (secretary.findPerson(nameToFind)) {
@@ -36,6 +36,17 @@ int main() {
     } else {
         cout << nameToFind2 << " is not managed by the secretary." << endl;
     }
+
+    // Testing input and output operators
+    // input
+    Secretary secretary2;
+    cout << "Enter person's name (secretary 2): ";
+    cin >> secretary2; // should add a person to secretary2
+    cout << secretary2 << endl;
+
+    // output
+    cout << "Persons managed by the secretary:" << endl;
+    cout << secretary << endl;
 
     return 0;
 }
