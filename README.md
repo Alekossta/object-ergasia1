@@ -1,8 +1,13 @@
 # object-ergasia1
-Εργασια 1 αντικειμενοστραφη
 
-## Run on windows
-- ./compile to compile
-- ./run to run the program
+Εργασία 1 αντικειμενοστραφή
 
-## Run on linux
+## Run on Windows
+
+- `./compile` to compile
+- `./run` to run the program
+
+## Run on Linux
+
+- `make main`
+- `./main`
