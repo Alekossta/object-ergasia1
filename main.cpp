@@ -43,8 +43,10 @@ int main() {
     cin >> secretary; // should add a person to secretary2
 
     // output
-    cout << "Persons managed by the secretary:" << endl;
     cout << secretary << endl;
+
+    // getCount() should return 4
+    cout << "Total Persons: " << Person::getCount() << endl;
 
     return 0;
 }

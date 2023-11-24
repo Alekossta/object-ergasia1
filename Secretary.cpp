@@ -25,8 +25,9 @@ Secretary& Secretary::operator+(Person& personToAdd)
 }
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
+    std::cout << "Persons in the secretary: " << std::endl;
     for (const auto& pair : s.persons) {
-        os << "Person Name: " << pair.first << std::endl;
+        os << "> " << pair.first << std::endl;
     }
     return os;
 }
