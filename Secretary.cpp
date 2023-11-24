@@ -10,7 +10,10 @@ Secretary::Secretary()
 
 Secretary::Secretary(const Secretary& other) : persons(other.persons)
 {
-
+    // insert all persons from other to this
+    for (const auto& pair : other.persons) {
+        persons.insert(std::make_pair(pair.first, pair.second));
+    }
 }
 
 Secretary::~Secretary()

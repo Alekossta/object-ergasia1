@@ -48,5 +48,13 @@ int main() {
     // getCount() should return 4
     cout << "Total Persons: " << Person::getCount() << endl;
 
+    cout << endl;
+
+    // Testing copy constructor
+    cout << "Testing copy constructor" << endl;
+    Secretary secretary2(secretary);
+    cout << secretary2 << endl;
+    cout << "Total Persons: " << Person::getCount() << endl;
+
     return 0;
 }
