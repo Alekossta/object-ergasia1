@@ -8,15 +8,16 @@ class Person
     public:
 
         static int count; // count how many people we have
+        unsigned id;
         std::string name;
         unsigned age;
+
         // constructors
         Person();
         Person(const std::string& startingName);
-        Person(int startingAge);
-        Person(int startingAge, const std::string& startingName);
-        
-        // deconstructors
+        Person(const std::string& startingName, int startingAge);
+
+        // deconstructor
         ~Person();
 
         static int getCount() {return count; };

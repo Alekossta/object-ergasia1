@@ -7,8 +7,8 @@ class Person;
 class Secretary 
 {
     public:
-
-        std::unordered_map<std::string, Person*> persons; 
+        // map that stores id and pointer to person
+        std::unordered_map<unsigned, Person*> persons;
 
         // constructor(s)
         Secretary();
@@ -28,7 +28,7 @@ class Secretary
         friend std::ostream& operator<<(std::ostream& output, const Secretary& secretary);
 
         // find person
-        bool findPerson(const std::string& name);
+        bool findPerson(const unsigned& id);
 
         // overload assigment operator
         Secretary& operator=(const Secretary& other);

@@ -2,21 +2,25 @@
 #include <iostream>
 #include <string>
 
-Person::Person(): name(""), age(0) {
+Person::Person() {
     count++;
+    id = count;
+    name = "";
+    age = 0;
 }
 
-Person::Person(const std::string& startingName): name(startingName), age(0) {
+Person::Person(const std::string& startingName) {
     count++;
+    id = count;
+    name = startingName;
+    age = 0;
 }
 
-Person::Person(int startingAge): name(""), age(startingAge) {
+Person::Person(const std::string& startingName, int startingAge) {
     count++;
-}
-
-Person::Person(int startingAge, const std::string& startingName) : name(startingName), age(startingAge)
-{
-    count++;
+    id = count;
+    name = startingName;
+    age = startingAge;
 }
 
 Person::~Person() {
@@ -32,6 +36,6 @@ std::istream& operator>>(std::istream& input, Person& person) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Person& person) {
-    output << "Name: " << person.name << ", Age: " << person.age;
+    output << "[id: " << person.id << "] Name: " << person.name << ", Age: " << person.age;
     return output;
 }

@@ -8,7 +8,7 @@ int Person::count = 0;
 int main() {
     // Creation and management of objects
     Secretary secretary;
-    Person p1(25, "John"), p2(30, "Jane"), p3(35, "Jane");
+    Person p1("John", 30), p2("Mary", 25), p3("Mark", 40);
 
     // Adding persons to the secretary
     secretary = secretary + p1;
@@ -21,24 +21,33 @@ int main() {
     // Display information about the persons managed by the secretary
     cout << secretary << endl;
 
+    //Testing input and output operators for Person
+    // input
+    Person p4;
+    secretary = secretary + p4;
+    cin >> p4;
+
+    // output
+    cout << "*new*" << p4 << endl;
+
     // Find a person
-    string nameToFind = "John"; // should be found
-    if (secretary.findPerson(nameToFind)) {
-        cout << nameToFind << " is managed by the secretary." << endl;
+    int idToFind = 2; // should be found
+    if (secretary.findPerson(idToFind)) {
+        cout << idToFind << " is managed by the secretary." << endl;
     } else {
-        cout << nameToFind << " is not managed by the secretary." << endl;
+        cout << idToFind << " is not managed by the secretary." << endl;
     }
 
-    nameToFind = "George"; // should not be found
-    if (secretary.findPerson(nameToFind)) {
-        cout << nameToFind << " is managed by the secretary." << endl;
+    idToFind = 14; // should not be found
+    if (secretary.findPerson(idToFind)) {
+        cout << "id " << idToFind << " is managed the secretary." << endl;
     } else {
-        cout << nameToFind << " is not managed by the secretary." << endl;
+        cout << "id " << idToFind << " is not managed by the secretary." << endl;
     }
     
     cout << endl;
 
-    // Testing input and output operators
+    // Testing input and output operators for Secretary
     // input
     cin >> secretary; // should add a person to secretary2
 
