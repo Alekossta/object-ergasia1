@@ -1,57 +1,49 @@
 #include "Person.h"
 #include "Secretary.h"
 #include <iostream>
+
 using namespace std;
 
 int Person::count = 0;
 
 int main() {
-    // Creation and management of objects
-    Secretary secretary;
-    Person p1("John", 30), p2("Mary", 25), p3("Mark", 40);
 
-    // Adding persons to the secretary
+    Secretary secretary;
+
+    Person p1("John", 18), p2("Mary", 19), p3("Mark", 20);
+
     secretary += p1;
     secretary += p2;
     secretary += p3;
 
-    // Display total number of Person instances
     cout << "Total Persons: " << Person::getCount() << endl;
 
-    // Display information about the persons managed by the secretary
     cout << secretary << endl;
 
-    //Testing input and output operators for Person
-    // input
+    // testing input operator for person and then adding to secretary
     Person p4;
-    secretary += p4;
     cin >> p4;
-
-    // output
-    cout << "*new*" << p4 << endl;
+    secretary += p4;
 
     // Find a person
     int idToFind = 2; // should be found
     if (secretary.findPerson(idToFind)) {
-        cout << idToFind << " is managed by the secretary." << endl;
+        cout << idToFind << " was found in the secretary." << endl;
     } else {
-        cout << idToFind << " is not managed by the secretary." << endl;
+        cout << idToFind << " was not found in the secretary." << endl;
     }
 
     idToFind = 14; // should not be found
     if (secretary.findPerson(idToFind)) {
-        cout << "id " << idToFind << " is managed the secretary." << endl;
+        cout << idToFind << " was found in the secretary." << endl;
     } else {
-        cout << "id " << idToFind << " is not managed by the secretary." << endl;
+        cout << idToFind << " was not found in the secretary." << endl;
     }
     
     cout << endl;
 
     // Testing input and output operators for Secretary
-    // input
-    cin >> secretary; // should add a person to secretary2
-
-    // output
+    cin >> secretary;
     cout << secretary << endl;
 
     // getCount() should return 4
