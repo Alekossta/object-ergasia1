@@ -19,10 +19,12 @@ Person::~Person() {
 }
 
 std::istream& operator>>(std::istream& input, Person& person) {
+    std::cout << "---Creating new Person---" << std::endl;
     std::cout << "Enter name: ";
     input >> person.name;
     std::cout << "Enter age: ";
     input >> person.age;
+    std::cout << "---Created new Person---" << std::endl << std::endl; // add one more endl to make it more clean
     return input;
 }
 

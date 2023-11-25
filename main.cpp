@@ -26,7 +26,9 @@ int main() {
     secretary += p4;
 
     // Find a person
+    
     int idToFind = 2; // should be found
+    cout << "Searching for " << idToFind << "..." << endl;
     if (secretary.findPerson(idToFind)) {
         cout << idToFind << " was found in the secretary." << endl;
     } else {
@@ -34,6 +36,7 @@ int main() {
     }
 
     idToFind = 14; // should not be found
+    cout << "Searching for " << idToFind << "..." << endl;
     if (secretary.findPerson(idToFind)) {
         cout << idToFind << " was found in the secretary." << endl;
     } else {
