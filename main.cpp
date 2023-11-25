@@ -12,6 +12,9 @@ int main() {
 
     Person p1("John", 18), p2("Mary", 19), p3("Mark", 20);
 
+    // testing output operator for person
+    cout << p1 << endl;
+
     secretary = secretary + p1;
     secretary += p2;
     secretary += p3;
