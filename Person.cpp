@@ -27,6 +27,6 @@ std::istream& operator>>(std::istream& input, Person& person) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Person& person) {
-    output << "[id: " << person.id << "] Name: " << person.name << ", Age: " << person.age;
+    output << "[id : " << person.id << "] : Name: " << person.name << ", Age: " << person.age;
     return output;
 }

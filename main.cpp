@@ -11,9 +11,9 @@ int main() {
     Person p1("John", 30), p2("Mary", 25), p3("Mark", 40);
 
     // Adding persons to the secretary
-    secretary = secretary + p1;
-    secretary = secretary + p2;
-    secretary = secretary + p3;
+    secretary += p1;
+    secretary += p2;
+    secretary += p3;
 
     // Display total number of Person instances
     cout << "Total Persons: " << Person::getCount() << endl;
@@ -24,7 +24,7 @@ int main() {
     //Testing input and output operators for Person
     // input
     Person p4;
-    secretary = secretary + p4;
+    secretary += p4;
     cin >> p4;
 
     // output

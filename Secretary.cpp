@@ -8,7 +8,7 @@ Secretary::Secretary()
 
 }
 
-Secretary::Secretary(const Secretary& other) : persons(other.persons)
+Secretary::Secretary(const Secretary& other)
 {
     // insert all persons from other to this
     for (const auto& pair : other.persons) {
@@ -21,7 +21,17 @@ Secretary::~Secretary()
 
 }
 
+Secretary& Secretary::operator+=(Person& personToAdd)
+{
+    return addPerson(personToAdd);
+}
+
 Secretary& Secretary::operator+(Person& personToAdd)
+{
+    return addPerson(personToAdd);
+}
+
+Secretary& Secretary::addPerson(Person& personToAdd)
 {
     persons.insert(std::make_pair(personToAdd.getId(), &personToAdd));
     return *this;
@@ -39,7 +49,7 @@ std::ostream& operator<<(std::ostream& os, const Secretary& s) {
 std::istream& operator>>(std::istream& is, Secretary& s) {
     Person* p = new Person();
     std::cin >> *p;
-    s = s + *p;
+    s += *p;
     return is;
 }
 

@@ -19,8 +19,14 @@ class Secretary
         // destructor
         ~Secretary();
 
+        // getters
+        std::unordered_map<unsigned, Person*>& getPersons() {return persons;};
+
         // overload + operator
+        Secretary& operator+=(Person& personToAdd);
         Secretary& operator+(Person& personToAdd);
+
+        Secretary& addPerson(Person& personToAdd);
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);
