@@ -57,10 +57,16 @@ int main() {
 
     cout << endl;
 
-    // Testing copy constructor
-    cout << "Testing copy constructor" << endl;
+    // Testing assignment operator
+    cout << "---Testing assignment operator---" << endl;
     Secretary secretary2 = secretary;
     cout << secretary2 << endl;
+    cout << "Total Persons: " << Person::getCount() << endl;
+
+    // Testing copy constructor
+    cout << endl << "---Testing copy constructor---" << endl;
+    Secretary secretary3(secretary);
+    cout << secretary3 << endl;
     cout << "Total Persons: " << Person::getCount() << endl;
 
     return 0;
