@@ -23,7 +23,7 @@ Secretary::~Secretary()
 
 Secretary& Secretary::operator+(Person& personToAdd)
 {
-    persons.insert(std::make_pair(personToAdd.id, &personToAdd));
+    persons.insert(std::make_pair(personToAdd.getId(), &personToAdd));
     return *this;
 }
 
