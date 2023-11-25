@@ -10,7 +10,6 @@ Secretary::Secretary()
 
 Secretary::Secretary(const Secretary& other)
 {
-    // insert all persons from other to this
     for (const auto& pair : other.persons) {
         persons.insert(std::make_pair(pair.first, pair.second));
     }
@@ -40,7 +39,6 @@ Secretary& Secretary::addPerson(Person& personToAdd)
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     std::cout << "Persons in the secretary: " << std::endl;
     for (const auto& pair : s.persons) {
-        // output all persons and their information using person's output operator
         std::cout << *(pair.second) << std::endl;
     }
     return os;
