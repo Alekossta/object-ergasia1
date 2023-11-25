@@ -1,11 +1,10 @@
 # object-ergasia1
 
-Εργασία 1 αντικειμενοστραφή
+Εργασία 1 Αντικειμενοστραφή Προγραμματισμός
 
 ## Run on Windows
 
-- `./compile` to compile
-- `./run` to run the program
+- `./compileAndRun` to compile and run
 
 ## Run on Linux
 
