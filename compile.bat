@@ -1,1 +1,0 @@
-g++ main.cpp Person.cpp Secretary.cpp -o build
