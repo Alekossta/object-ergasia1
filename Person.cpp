@@ -2,25 +2,16 @@
 #include <iostream>
 #include <string>
 
-Person::Person() {
+Person::Person() : id(count), name(""), age(0) {
     count++;
-    id = count;
-    name = "";
-    age = 0;
 }
 
-Person::Person(const std::string& startingName) {
+Person::Person(const std::string& startingName) : id(count), name(startingName), age(0) {
     count++;
-    id = count;
-    name = startingName;
-    age = 0;
 }
 
-Person::Person(const std::string& startingName, int startingAge) {
+Person::Person(const std::string& startingName, int startingAge) : id(count), name(startingName), age(startingAge) {
     count++;
-    id = count;
-    name = startingName;
-    age = startingAge;
 }
 
 Person::~Person() {

@@ -6,10 +6,10 @@ class Person;
 
 class Secretary 
 {
-    public:
+    private:
         // map that stores id and pointer to person
         std::unordered_map<unsigned, Person*> persons;
-
+    public:
         // constructor(s)
         Secretary();
 
@@ -21,7 +21,6 @@ class Secretary
 
         // overload + operator
         Secretary& operator+(Person& personToAdd);
-
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);

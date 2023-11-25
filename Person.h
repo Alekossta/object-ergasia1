@@ -5,12 +5,23 @@
 
 class Person
 {
-    public:
-
+    private:
         static int count; // count how many people we have
-        unsigned id;
+        unsigned id; // unique id for each person
         std::string name;
         unsigned age;
+
+    public:
+        // getters
+        unsigned getId() const {return id;};
+        std::string getName() const {return name;};
+        unsigned getAge() const {return age;};
+        static int getCount() {return count; };
+
+        // setters
+        void setId(const unsigned newId) {id = newId;};
+        void setName(const std::string newName) {name = newName;};
+        void setAge(const unsigned newAge) {age = newAge;};
 
         // constructors
         Person();
@@ -20,10 +31,8 @@ class Person
         // deconstructor
         ~Person();
 
-        static int getCount() {return count; };
-
+        // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Person& person);
 
         friend std::ostream& operator<<(std::ostream& output, const Person& person);
-
 };
