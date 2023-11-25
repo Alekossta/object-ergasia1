@@ -6,7 +6,7 @@
 
 - Alexandros Giannoudovardis [sdi2200264]
 
-- xx xx [sdi2200xx]
+- Alexandros Stavrinoudakis [sdi2200171]
 
 ## Run on Windows
 
