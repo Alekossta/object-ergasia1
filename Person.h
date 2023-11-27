@@ -23,6 +23,9 @@ class Person
         void setName(const std::string newName) {name = newName;};
         void setAge(const unsigned newAge) {age = newAge;};
 
+        // increase count manually
+        static void increaseCount() {count++;};
+
         // constructors
         Person();
         Person(const std::string& startingName);

@@ -49,7 +49,9 @@ int main() {
     cout << endl;
 
     // Testing input and output operators for Secretary
+    cout << "count before input: " << Person::getCount() << endl;
     cin >> secretary;
+    cout << "count after input: " << Person::getCount() << endl;
     cout << secretary << endl;
 
     // getCount() should return 4

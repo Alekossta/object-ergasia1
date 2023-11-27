@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Person.h"
 #include <unordered_map>
+#include <memory>
 
 Secretary::Secretary()
 {
@@ -45,7 +46,8 @@ std::ostream& operator<<(std::ostream& os, const Secretary& s) {
 }
 
 std::istream& operator>>(std::istream& is, Secretary& s) {
-    Person* p = new Person();
+    std::shared_ptr<Person> p = std::make_shared<Person>();
+    Person::increaseCount(); // increase count manually because make_shared cannot call the constructor (it's private)
     std::cin >> *p;
     s += *p;
     return is;
