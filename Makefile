@@ -3,9 +3,6 @@
 # Compiler
 CXX := g++
 
-# Compiler flags
-CXXFLAGS := -std=c++11 -Wall -Wextra
-
 # Source files
 SRCS := Person.cpp Secretary.cpp main.cpp
 
