@@ -6,7 +6,6 @@ using namespace std;
 
 int Person::count = 0;
 
-
 int main() {
 
     Secretary secretary;
@@ -69,6 +68,11 @@ int main() {
     Secretary secretary3(secretary);
     cout << secretary3 << endl;
     cout << "Total Persons: " << Person::getCount() << endl;
+
+    // delete personsToDelete
+    for (auto& p : secretary.personsToDelete) {
+        delete p;
+    }
 
     return 0;
 }

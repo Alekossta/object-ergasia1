@@ -28,10 +28,6 @@ class Person
 
         // constructors
         Person();
-        
-        // copy constructor
-        Person(const Person& other);
-        
         Person(const std::string& startingName);
         Person(const std::string& startingName, int startingAge);
 

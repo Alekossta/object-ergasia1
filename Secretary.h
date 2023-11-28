@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 class Person;
 
@@ -10,6 +11,9 @@ class Secretary
         // map that stores id and pointer to person
         std::unordered_map<unsigned, Person*> persons;
     public:
+        // vector that stores pointers to persons
+        std::vector<Person*> personsToDelete;
+
         // constructor(s)
         Secretary();
 
