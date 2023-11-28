@@ -6,6 +6,7 @@ using namespace std;
 
 int Person::count = 0;
 
+
 int main() {
 
     Secretary secretary;

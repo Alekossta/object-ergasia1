@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Person.h"
 #include <unordered_map>
-#include <memory>
 
 Secretary::Secretary()
 {
@@ -12,13 +11,15 @@ Secretary::Secretary()
 Secretary::Secretary(const Secretary& other)
 {
     for (const auto& pair : other.persons) {
-        persons.insert(std::make_pair(pair.first, pair.second));
+        persons.insert(std::make_pair(pair.first, new Person(*(pair.second))));
     }
 }
 
 Secretary::~Secretary()
 {
-
+    for (const auto& pair : persons) {
+        delete pair.second;
+    }
 }
 
 Secretary& Secretary::operator+=(Person& personToAdd)
@@ -33,7 +34,8 @@ Secretary& Secretary::operator+(Person& personToAdd)
 
 Secretary& Secretary::addPerson(Person& personToAdd)
 {
-    persons.insert(std::make_pair(personToAdd.getId(), &personToAdd));
+    Person* newPerson = new Person(personToAdd);
+    persons.insert(std::make_pair(personToAdd.getId(), newPerson));
     return *this;
 }
 
@@ -46,10 +48,10 @@ std::ostream& operator<<(std::ostream& os, const Secretary& s) {
 }
 
 std::istream& operator>>(std::istream& is, Secretary& s) {
-    std::shared_ptr<Person> p = std::make_shared<Person>();
-    Person::increaseCount(); // increase count manually because make_shared cannot call the constructor (it's private)
-    std::cin >> *p;
-    s += *p;
+    Person tempPerson;
+    std::cin >> tempPerson;
+    Person* newPerson = new Person(tempPerson.getName(), tempPerson.getAge());
+    s.persons.insert(std::make_pair(newPerson->getId(), newPerson));
     return is;
 }
 

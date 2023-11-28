@@ -1,5 +1,3 @@
-# Makefile for C++ project
-
 # Compiler
 CXX := g++
 
@@ -12,6 +10,9 @@ OBJS := Person.o Secretary.o main.o
 # Executable name
 TARGET := main
 
+# Valgrind options
+VALGRIND_OPTIONS := --leak-check=full --show-leak-kinds=all
+
 # Default target
 all: $(TARGET)
 
@@ -22,6 +23,10 @@ $(TARGET): $(OBJS)
 # Rule to build object files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Valgrind target
+valgrind: $(TARGET)
+	valgrind $(VALGRIND_OPTIONS) ./$(TARGET)
 
 # Clean rule
 clean:
