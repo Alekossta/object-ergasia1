@@ -1,3 +1,7 @@
 *.exe
 .vscode/
 *.build
+*.o
+*.out
+*.so
+main

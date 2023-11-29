@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Person.h"
 #include <unordered_map>
-#include <memory>
 
 Secretary::Secretary()
 {
@@ -12,13 +11,15 @@ Secretary::Secretary()
 Secretary::Secretary(const Secretary& other)
 {
     for (const auto& pair : other.persons) {
-        persons.insert(std::make_pair(pair.first, pair.second));
+        persons.insert(std::make_pair(pair.first, new Person(*(pair.second))));
     }
 }
 
 Secretary::~Secretary()
 {
-
+    for (const auto& pair : persons) {
+        delete pair.second;
+    }
 }
 
 Secretary& Secretary::operator+=(Person& personToAdd)
@@ -33,23 +34,24 @@ Secretary& Secretary::operator+(Person& personToAdd)
 
 Secretary& Secretary::addPerson(Person& personToAdd)
 {
-    persons.insert(std::make_pair(personToAdd.getId(), &personToAdd));
+    Person* newPerson = new Person(personToAdd);
+    persons.insert(std::make_pair(personToAdd.getId(), newPerson));
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
-    std::cout << "People in the secretary: " << std::endl;
+    std::cout << "---Secretary---" << std::endl;
     for (const auto& pair : s.persons) {
         std::cout << *(pair.second) << std::endl;
     }
+    std:: cout << "---------------";
     return os;
 }
 
 std::istream& operator>>(std::istream& is, Secretary& s) {
-    Person* p = new Person();
-    s.personsToDelete.push_back(p);
-    std::cin >> *p;
-    s += *p;
+    Person* newPerson = new Person();
+    std::cin >> *newPerson;
+    s.persons.insert(std::make_pair(newPerson->getId(), newPerson));
     return is;
 }
 

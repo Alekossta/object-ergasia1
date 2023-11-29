@@ -1,6 +1,6 @@
 #include "Person.h"
 #include <iostream>
-#include <string>
+#include <string> 
 
 Person::Person() : id(count), name(""), age(0) {
     count++;
@@ -12,6 +12,14 @@ Person::Person(const std::string& startingName) : id(count), name(startingName),
 
 Person::Person(const std::string& startingName, int startingAge) : id(count), name(startingName), age(startingAge) {
     count++;
+}
+
+// copy constructor. do not increase count because this person already exists
+Person::Person(const Person& other)
+{
+    setId(other.getId());
+    setName(other.getName());
+    setAge(other.getAge());
 }
 
 Person::~Person() {
@@ -29,6 +37,6 @@ std::istream& operator>>(std::istream& input, Person& person) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Person& person) {
-    output << "[id : " << person.id << "] : Name: " << person.name << ", Age: " << person.age;
+    output << "[id:" << person.id << "] = Name: " << person.name << ", Age: " << person.age;
     return output;
 }
