@@ -5,11 +5,14 @@
 
 Secretary::Secretary()
 {
-
+    // add name of university from input
+    std::cout << "Enter name of university: ";
+    std::cin >> universityName;
 }
 
 Secretary::Secretary(const Secretary& other)
 {
+    universityName = other.universityName;
     for (const auto& pair : other.persons) {
         persons.insert(std::make_pair(pair.first, new Person(*(pair.second))));
     }
@@ -41,6 +44,7 @@ Secretary& Secretary::addPerson(Person& personToAdd)
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     std::cout << "---Secretary---" << std::endl;
+    std::cout << "University: " << s.universityName << std::endl;
     for (const auto& pair : s.persons) {
         std::cout << *(pair.second) << std::endl;
     }
@@ -60,6 +64,7 @@ bool Secretary::findPerson(const unsigned& id) {
 }
 
 Secretary& Secretary::operator=(const Secretary& other) {
+    universityName = other.universityName; 
     if (this != &other) {
         persons = other.persons;
     }

@@ -9,6 +9,10 @@ class Secretary
     private:
         // map that stores id and pointer to person
         std::unordered_map<unsigned, Person*> persons;
+
+        // name of university
+        std::string universityName;
+
     public:
         // constructor(s)
         Secretary();
