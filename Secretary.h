@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <unordered_map>
+#include <string>
 
 class Person;
 
@@ -11,11 +12,12 @@ class Secretary
         std::unordered_map<unsigned, Person*> persons;
 
         // name of university
-        std::string universityName;
+        std::string name;
 
     public:
         // constructor(s)
         Secretary();
+        Secretary(const std::string& startingName);
 
         // copy constructor
         Secretary(const Secretary& other);

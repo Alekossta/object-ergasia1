@@ -8,7 +8,7 @@ int Person::count = 0;
 
 int main() {
 
-    Secretary secretary;
+    Secretary secretary("DIT");
 
     Person p1("John", 18), p2("Mary", 19), p3("Mark", 20);
 
