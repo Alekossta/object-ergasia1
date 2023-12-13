@@ -2,10 +2,10 @@
 CXX := g++
 
 # Source files
-SRCS := Person.cpp Secretary.cpp main.cpp
+SRCS := Person.cpp Secretary.cpp main.cpp Student.cpp Proffesor.cpp Course.cpp
 
 # Object files
-OBJS := Person.o Secretary.o main.o
+OBJS := Person.o Secretary.o main.o Student.o Proffesor.o Course.o
 
 # Executable name
 TARGET := main
