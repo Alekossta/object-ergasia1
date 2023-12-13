@@ -25,14 +25,10 @@ class Person
 
         // increase count manually
         static void increaseCount() {count++;};
-
-        // constructors
-        Person();
         
         // copy constructor
         Person(const Person& other);
-        
-        Person(const std::string& startingName);
+        Person();
         Person(const std::string& startingName, int startingAge);
 
         // deconstructor
