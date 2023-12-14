@@ -3,6 +3,7 @@
 #include "../include/Professor.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ Secretary dit = Secretary("DIT");
 
 void displayMenu()
 {
+    cout << "\033[2J\033[1;1H";
     std::cout << "---Menu, enter a number---" << std::endl;
     std::cout << "1 change professors" << std::endl;
     std::cout << "2 change students" << std::endl;
@@ -22,6 +24,7 @@ void displayMenu()
     std::cout << "8 show specific student grades" << std::endl;
     std::cout << "9 show student eligible for graduation" << std::endl;
     std::cout << "0 to exit" << std::endl;
+    cout << dit << endl << endl;
 }
 
 void handleOption(char option)
@@ -86,8 +89,66 @@ void handleOption(char option)
                     cout << "Invalid option" << endl;
                 }
             }
+            break;
         case '2':
-            // placeholder
+        {
+            cout << "1 to add student" << endl;
+            cout << "2 to edit student" << endl;
+            cout << "3 to remove student" << endl;
+
+            unsigned userAnswer;
+            cin >> userAnswer;
+            if (userAnswer == 1) {
+                string name;
+                int age;
+                unsigned entryYear;
+                cout << "Enter name: ";
+                cin >> name;
+                cout << "Enter age: ";
+                cin >> age;
+                cout << "Enter entry year: ";
+                cin >> entryYear;
+                Student stud = Student(name, age, entryYear);
+                dit += stud;
+            }
+            else if (userAnswer == 2) {
+                cout << "Enter student id to modify: ";
+                unsigned id;
+                cin >> id;
+                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                if (stud != nullptr) {
+                    cout << stud->getName() << endl;
+                    cout << "Enter new name: ";
+                    string name;
+                    cin >> name;
+                    cout << stud->getAge() << endl;
+                    cout << "Enter new age: ";
+                    int age;
+                    cin >> age;
+                    stud->setName(name);
+                    stud->setAge(age);
+                }
+                else {
+                    cout << "Student not found" << endl;
+                }
+            }
+            else if (userAnswer == 3) {
+                cout << "Enter student id to remove: ";
+                unsigned id;
+                cin >> id;
+                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                if (stud != nullptr) {
+                    dit.getPersons().erase(id);
+                }
+                else {
+                    cout << "Professor not found" << endl;
+                }
+            }
+            else {
+                cout << "Invalid option" << endl;
+            }
+        }
+        break;
         case '3':
             // placeholder
         case '4':
