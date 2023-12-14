@@ -4,12 +4,13 @@
 #include <string>
 
 class Person;
+class Course;
 
 class Secretary 
 {
     private:
-        // map that stores id and pointer to person
         std::unordered_map<unsigned, Person*> persons;
+        std::unordered_map<unsigned, Course*> courses;
 
         // name of university
         std::string name;
