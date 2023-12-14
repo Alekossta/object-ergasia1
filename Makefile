@@ -1,33 +1,45 @@
 # Compiler
-CXX := g++
+CC = g++
 
-# Source files
-SRCS := Person.cpp Secretary.cpp main.cpp Student.cpp Proffesor.cpp Course.cpp
+# Compiler flags
+CFLAGS = -Wall -g
 
-# Object files
-OBJS := Person.o Secretary.o main.o Student.o Proffesor.o Course.o
+# Define the include directory
+INCLUDES = -I include 
 
-# Executable name
-TARGET := main
+# Define the source directory
+SRCDIR = src
 
-# Valgrind options
-VALGRIND_OPTIONS := --leak-check=full --show-leak-kinds=all
+# Define the object directory
+OBJDIR = obj
 
-# Default target
-all: $(TARGET)
+# Define the output binary
+TARGET = main
 
-# Rule to build the executable
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+# Define source files
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
 
-# Rule to build object files
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# Define object files
+OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=%.o)
 
-# Valgrind target
-valgrind: $(TARGET)
-	valgrind $(VALGRIND_OPTIONS) ./$(TARGET)
+# Rule for making the actual target
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARGET) $(OBJECTS)
 
-# Clean rule
+# Rule for making the object files
+%.o: $(SRCDIR)/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Define a clean rule
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(TARGET) $(OBJECTS) *.d
+
+# Define a rule for rebuilding
+rebuild: clean $(TARGET)
+
+# Include dependencies if they exist
+-include $(OBJECTS:.o=.d)
+
+# Rule to generate a file of dependencies (use g++ -MM)
+%.d: $(SRCDIR)/%.cpp
+	$(CC) $(CFLAGS) $(INCLUDES) -MM $< -MF $@

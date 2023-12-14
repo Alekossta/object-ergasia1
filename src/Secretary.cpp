@@ -1,6 +1,7 @@
-#include "Secretary.h"
+#include "../include/Secretary.h"
 #include <iostream>
-#include "Person.h"
+#include "../include/Person.h"
+#include "../include/Course.h"
 #include <unordered_map>
 
 Secretary::Secretary() : name("")
@@ -45,11 +46,25 @@ Secretary& Secretary::addPerson(Person& personToAdd)
     return *this;
 }
 
+// Course& Secretary::addCourse(Course& courseToAdd)
+// {
+//     // Course* newCourse = new Course(courseToAdd);
+//     // const unsigned id = courses.size();
+//     // courses.insert(std::make_pair(id, newCourse));
+//     // return newCourse;
+// }
+
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     std::cout << "---Secretary " << s.name << "---" << std::endl;
+    std::cout << "---Persons---" << std::endl;
     for (const auto& pair : s.persons) {
         std::cout << *(pair.second) << std::endl;
     }
+    std::cout << "---Courses---" << std::endl;
+    // for (const auto& pair : s.courses)
+    // {
+    //     //std::cout << 
+    // }
     std:: cout << "---------------";
     return os;
 }

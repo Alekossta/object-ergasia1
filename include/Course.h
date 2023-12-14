@@ -1,6 +1,6 @@
 #pragma once
-
 #include <string>
+#include <iostream>
 
 class Course
 {
@@ -8,7 +8,7 @@ class Course
         // constructors
         Course();
         Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
-        unsigned courseSemester);
+        unsigned courseSemester, unsigned courseId);
         
 
         // getters
@@ -21,9 +21,14 @@ class Course
         void setIsMandatory(bool newIsMandatory) {isMandatory = newIsMandatory;};
         void setSemester(unsigned newSemester) {semester = newSemester;};
 
+        friend std::ostream& operator<<(std::ostream& output, const Course& course);
+
     private:
         std::string name;
         unsigned points;
         bool isMandatory;
         unsigned semester;
+        unsigned id;
+
+        
 };

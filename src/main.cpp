@@ -1,6 +1,6 @@
-#include "Secretary.h"
-#include "Student.h"
-#include "Professor.h"
+#include "../include/Secretary.h"
+#include "../include/Student.h"
+#include "../include/Professor.h"
 
 #include <iostream>
 
