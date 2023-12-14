@@ -26,47 +26,32 @@ void displayMenu()
 
 void handleOption(char option)
 {
-    if(option == '0') return;
-
-    if(option == '1')
+    // switch statement up to 10
+    switch (option)
     {
-
-    }
-    else if(option == '2')
-    {
-
-    }
-    else if(option == '3')
-    {
-
-    }
-    else if(option == '4')
-    {
-
-    }
-    else if(option == '5')
-    {
-
-    }
-    else if(option == '6')
-    {
-
-    }
-    else if(option == '7')
-    {
-
-    }
-    else if(option == '8')
-    {
-
-    }
-    else if(option == '9')
-    {
-
-    }
-    else
-    {
-        std::cout << "Please enter a valid option" << std::endl;
+        case '0':
+            // placeholder
+        case '1':
+            // placeholder
+        case '2':
+            // placeholder
+        case '3':
+            // placeholder
+        case '4':
+            // placeholder
+        case '5':
+            // placeholder
+        case '6':
+            // placeholder
+        case '7':
+            // placeholder
+        case '8':
+            // placeholder
+        case '9':   
+            // placeholder
+        
+        default:
+            std::cout << "Invalid option" << std::endl;
     }
 }
 
