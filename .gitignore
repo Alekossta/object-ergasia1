@@ -6,3 +6,6 @@
 *.so
 main
 *.bat
+*.d
+.dep/
+.obj

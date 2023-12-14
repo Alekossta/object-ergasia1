@@ -4,42 +4,47 @@ CC = g++
 # Compiler flags
 CFLAGS = -Wall -g
 
-# Define the include directory
-INCLUDES = -I include 
+# Include directory
+INCLUDES = -Iinclude
 
-# Define the source directory
+# Source, object, and dependency directories
 SRCDIR = src
-
-# Define the object directory
 OBJDIR = obj
+DEPDIR = dep
 
-# Define the output binary
+# Output binary
 TARGET = main
 
-# Define source files
+# Source and object files
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SOURCES))
+DEPS = $(patsubst $(SRCDIR)/%.cpp, $(DEPDIR)/%.d, $(SOURCES))
 
-# Define object files
-OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=%.o)
+# Default target
+all: $(TARGET)
 
-# Rule for making the actual target
+# Linking the target executable
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARGET) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 
-# Rule for making the object files
-%.o: $(SRCDIR)/%.cpp
+# Compiling source files into object files
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPDIR)/%.d | $(OBJDIR) $(DEPDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Define a clean rule
+# Creating object and dependency directories
+$(OBJDIR) $(DEPDIR):
+	mkdir -p $@
+
+# Generating dependency files
+$(DEPDIR)/%.d: $(SRCDIR)/%.cpp | $(DEPDIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -MM -MT $(@:$(DEPDIR)/%.d=$(OBJDIR)/%.o) $< -MF $@
+
+# Including the dependency files
+-include $(DEPS)
+
+# Clean rule
 clean:
-	rm -f $(TARGET) $(OBJECTS) *.d
+	rm -f $(TARGET) $(OBJECTS) $(DEPS)
 
-# Define a rule for rebuilding
-rebuild: clean $(TARGET)
-
-# Include dependencies if they exist
--include $(OBJECTS:.o=.d)
-
-# Rule to generate a file of dependencies (use g++ -MM)
-%.d: $(SRCDIR)/%.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -MM $< -MF $@
+# Phony targets
+.PHONY: all clean
