@@ -76,8 +76,12 @@ std::istream& operator>>(std::istream& is, Secretary& s) {
     return is;
 }
 
-bool Secretary::findPerson(const unsigned& id) {
-    return persons.find(id) != persons.end();
+Person* Secretary::findPerson(const unsigned& id) {
+    if (persons.find(id) != persons.end()) {
+        return persons[id];
+    } else {
+        return nullptr;
+    }
 }
 
 Secretary& Secretary::operator=(const Secretary& other) {

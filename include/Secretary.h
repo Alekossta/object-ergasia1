@@ -42,7 +42,7 @@ class Secretary
         friend std::ostream& operator<<(std::ostream& output, const Secretary& secretary);
 
         // find person
-        bool findPerson(const unsigned& id);
+        Person* findPerson(const unsigned& id);
 
         // overload assigment operator
         Secretary& operator=(const Secretary& other);

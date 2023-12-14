@@ -30,9 +30,62 @@ void handleOption(char option)
     switch (option)
     {
         case '0':
-            // placeholder
-        case '1':
-            // placeholder
+            break;
+        case '1': {
+                cout << "1 to add professor" << endl;
+                cout << "2 to edit professor" << endl;
+                cout << "3 to remove professor" << endl;
+
+                unsigned userAnswer;
+                cin >> userAnswer;
+
+                if (userAnswer == 1) {
+                    string name;
+                    int age;
+                    cout << "Enter name: ";
+                    cin >> name;
+                    cout << "Enter age: ";
+                    cin >> age;
+                    Professor prof = Professor(name, age);
+                    dit += prof;
+                }
+                else if (userAnswer == 2) {
+                    cout << "Enter professor id to modify: ";
+                    unsigned id;
+                    cin >> id;
+                    Professor* prof = static_cast<Professor*>(dit.findPerson(id));
+                    if (prof != nullptr) {
+                        cout << prof->getName() << endl;
+                        cout << "Enter new name: ";
+                        string name;
+                        cin >> name;
+                        cout << prof->getAge() << endl;
+                        cout << "Enter new age: ";
+                        int age;
+                        cin >> age;
+                        prof->setName(name);
+                        prof->setAge(age);
+                    }
+                    else {
+                        cout << "Professor not found" << endl;
+                    }
+                }
+                else if (userAnswer == 3) {
+                    cout << "Enter professor id to remove: ";
+                    unsigned id;
+                    cin >> id;
+                    Professor* prof = static_cast<Professor*>(dit.findPerson(id));
+                    if (prof != nullptr) {
+                        dit.getPersons().erase(id);
+                    }
+                    else {
+                        cout << "Professor not found" << endl;
+                    }
+                }
+                else {
+                    cout << "Invalid option" << endl;
+                }
+            }
         case '2':
             // placeholder
         case '3':
@@ -59,7 +112,7 @@ int main() {
     Student stud1 = Student("Alex", 19, 2022);
     Student stud2 = Student("Kostas", 19, 2023);
 
-    Proffesor pilot = Proffesor("Pilot", 40);
+    Professor pilot = Professor("Pilot", 40);
 
     dit += stud1;
     dit += stud2;
