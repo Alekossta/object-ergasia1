@@ -10,6 +10,8 @@
 using namespace std;
 
 int Person::count = 0;
+unsigned Course::idCounter = 0;
+
 vector<Secretary*> secretaryList;
 
 void displayMenu()
@@ -177,7 +179,25 @@ void handleOption(char option)
             unsigned userAnswer;
             cin >> userAnswer;
             if (userAnswer == 1) {
+                string name;
+                unsigned points;
+                bool isMandatory;
+                unsigned semester;
 
+                cout << "Enter name: ";
+                cin >> name;
+
+                cout << "Enter points: ";
+                cin >> points;
+
+                cout << "Enter isMandatory: ";
+                cin >> isMandatory;
+
+                cout << "Enter semester: ";
+                cin >> semester;
+
+                Course course = Course(name, points, isMandatory, semester, Course::getIdCounter());
+                // PLACEHOLDER (add course to secretary)
             }   
             else if (userAnswer == 2) {
 

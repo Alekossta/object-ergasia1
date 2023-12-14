@@ -16,6 +16,8 @@ class Course
         bool getIsMandatory() const {return isMandatory;};
         unsigned getSemester() const {return semester;};
 
+        static int getIdCounter() {return idCounter;};
+
         // setters
         void setPoints(unsigned newPoints) {points = newPoints;};
         void setIsMandatory(bool newIsMandatory) {isMandatory = newIsMandatory;};
@@ -24,6 +26,7 @@ class Course
         friend std::ostream& operator<<(std::ostream& output, const Course& course);
 
     private:
+        static unsigned idCounter;
         std::string name;
         unsigned points;
         bool isMandatory;
