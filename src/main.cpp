@@ -1,14 +1,16 @@
 #include "../include/Secretary.h"
 #include "../include/Student.h"
 #include "../include/Professor.h"
+#include "../include/Course.h"
 
 #include <iostream>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
 int Person::count = 0;
-Secretary dit = Secretary("DIT");
+vector<Secretary*> secretaryList;
 
 void displayMenu()
 {
@@ -24,71 +26,86 @@ void displayMenu()
     std::cout << "8 show specific student grades" << std::endl;
     std::cout << "9 show student eligible for graduation" << std::endl;
     std::cout << "0 to exit" << std::endl;
-    cout << dit << endl << endl;
+
+    for (unsigned i = 0; i < secretaryList.size(); i++) {
+        cout << i << " " << *secretaryList[i] << endl;
+    }
+}
+
+Secretary* pickSecretary() {
+    unsigned userAnswer;
+    cout << "Pick a secretary" << endl;
+    for (unsigned i = 0; i < secretaryList.size(); i++) {
+        cout << i << ") " << secretaryList[i]->getName() << endl;
+    }
+    cin >> userAnswer;
+    return secretaryList[userAnswer];
 }
 
 void handleOption(char option)
 {
-    // switch statement up to 10
     switch (option)
     {
         case '0':
             break;
-        case '1': {
-                cout << "1 to add professor" << endl;
-                cout << "2 to edit professor" << endl;
-                cout << "3 to remove professor" << endl;
+        case '1': 
+        {
+            cout << "1 to add professor" << endl;
+            cout << "2 to edit professor" << endl;
+            cout << "3 to remove professor" << endl;
 
-                unsigned userAnswer;
-                cin >> userAnswer;
+            unsigned userAnswer;
+            cin >> userAnswer;
 
-                if (userAnswer == 1) {
+            if (userAnswer == 1) {
+                string name;
+                int age;
+                cout << "Enter name: ";
+                cin >> name;
+                cout << "Enter age: ";
+                cin >> age;
+                Professor prof = Professor(name, age);
+                *pickSecretary() += prof;
+            }
+            else if (userAnswer == 2) {
+                Secretary tempSecretary = *pickSecretary();
+                cout << "Enter professor id to modify: ";
+                unsigned id;
+                cin >> id;
+                Professor* prof = static_cast<Professor*>(tempSecretary.findPerson(id));
+                if (prof != nullptr) {
+                    cout << prof->getName() << endl;
+                    cout << "Enter new name: ";
                     string name;
-                    int age;
-                    cout << "Enter name: ";
                     cin >> name;
-                    cout << "Enter age: ";
+                    cout << prof->getAge() << endl;
+                    cout << "Enter new age: ";
+                    int age;
                     cin >> age;
-                    Professor prof = Professor(name, age);
-                    dit += prof;
-                }
-                else if (userAnswer == 2) {
-                    cout << "Enter professor id to modify: ";
-                    unsigned id;
-                    cin >> id;
-                    Professor* prof = static_cast<Professor*>(dit.findPerson(id));
-                    if (prof != nullptr) {
-                        cout << prof->getName() << endl;
-                        cout << "Enter new name: ";
-                        string name;
-                        cin >> name;
-                        cout << prof->getAge() << endl;
-                        cout << "Enter new age: ";
-                        int age;
-                        cin >> age;
-                        prof->setName(name);
-                        prof->setAge(age);
-                    }
-                    else {
-                        cout << "Professor not found" << endl;
-                    }
-                }
-                else if (userAnswer == 3) {
-                    cout << "Enter professor id to remove: ";
-                    unsigned id;
-                    cin >> id;
-                    Professor* prof = static_cast<Professor*>(dit.findPerson(id));
-                    if (prof != nullptr) {
-                        dit.getPersons().erase(id);
-                    }
-                    else {
-                        cout << "Professor not found" << endl;
-                    }
+                    prof->setName(name);
+                    prof->setAge(age);
                 }
                 else {
-                    cout << "Invalid option" << endl;
+                    cout << "Professor not found" << endl;
                 }
             }
+            else if (userAnswer == 3) {
+                Secretary tempSecretary = *pickSecretary();
+                cout << "Enter professor id to remove: ";
+                unsigned id;
+                cin >> id;
+                Professor* prof = static_cast<Professor*>(tempSecretary.findPerson(id));
+                if (prof != nullptr) {
+                    tempSecretary.getPersons().erase(id);
+                }
+                else {
+                    cout << "Professor not found" << endl;
+                }
+            }
+            else {
+                cout << "Invalid option" << endl;
+            }
+        }
             break;
         case '2':
         {
@@ -109,13 +126,14 @@ void handleOption(char option)
                 cout << "Enter entry year: ";
                 cin >> entryYear;
                 Student stud = Student(name, age, entryYear);
-                dit += stud;
+                *pickSecretary() += stud;
             }
             else if (userAnswer == 2) {
+                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter student id to modify: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                Student* stud = static_cast<Student*>(tempSecretary.findPerson(id));
                 if (stud != nullptr) {
                     cout << stud->getName() << endl;
                     cout << "Enter new name: ";
@@ -133,12 +151,13 @@ void handleOption(char option)
                 }
             }
             else if (userAnswer == 3) {
+                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter student id to remove: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                Student* stud = static_cast<Student*>(tempSecretary.findPerson(id));
                 if (stud != nullptr) {
-                    dit.getPersons().erase(id);
+                    tempSecretary.getPersons().erase(id);
                 }
                 else {
                     cout << "Professor not found" << endl;
@@ -150,7 +169,26 @@ void handleOption(char option)
         }
         break;
         case '3':
-            // placeholder
+        {
+            cout << "1 to add course" << endl;
+            cout << "2 to edit course" << endl;
+            cout << "3 to remove course" << endl; 
+
+            unsigned userAnswer;
+            cin >> userAnswer;
+            if (userAnswer == 1) {
+
+            }   
+            else if (userAnswer == 2) {
+
+            }
+            else if (userAnswer == 3) {
+
+            }
+            else {
+                cout << "Invalid option" << endl;
+            }      
+        }
         case '4':
             // placeholder
         case '5':
@@ -170,6 +208,10 @@ void handleOption(char option)
 }
 
 int main() {
+    
+    Secretary dit = Secretary("DIT");
+    secretaryList.push_back(&dit);
+
     Student stud1 = Student("Alex", 19, 2022);
     Student stud2 = Student("Kostas", 19, 2023);
 

@@ -28,6 +28,7 @@ class Secretary
 
         // getters
         std::unordered_map<unsigned, Person*>& getPersons() {return persons;};
+        std::string getName() const {return name;};
 
         // overload + operator
         Secretary& operator+=(Person& personToAdd);
