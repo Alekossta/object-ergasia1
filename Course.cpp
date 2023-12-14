@@ -1,23 +1,8 @@
 #include "Course.h"
 
-Course::Course() : points(0), isMandatory(true), semester(1)
-{
-
-}
-
-Course::Course(unsigned coursePoints) : points(coursePoints), isMandatory(true), semester(1)
-{
-
-}
-
-Course::Course(unsigned coursePoints, bool isCourseMandatory) : points(coursePoints),
- isMandatory(isCourseMandatory), semester(1)
-{
-
-}
-
-Course::Course(unsigned coursePoints, bool isCourseMandatory, unsigned courseSemester) :
-points(coursePoints), isMandatory(isCourseMandatory), semester(courseSemester)
+Course::Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
+unsigned courseSemester) : name(courseName), points(coursePoints), isMandatory(courseIsMandatory),
+semester(courseSemester)
 {
 
 }

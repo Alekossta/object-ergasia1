@@ -4,5 +4,6 @@
 
 class Proffesor : public Person
 {
-
+    public:
+        Proffesor(const std::string& startingName, int startingAge);
 };
