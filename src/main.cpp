@@ -16,7 +16,7 @@ vector<Secretary*> secretaryList;
 
 void displayMenu()
 {
-    cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
     std::cout << "---Menu, enter a number---" << std::endl;
     std::cout << "1 change professors" << std::endl;
     std::cout << "2 change students" << std::endl;
@@ -197,9 +197,8 @@ void handleOption(char option)
                 cout << "Enter semester: ";
                 cin >> semester;
 
-                Course* course = new Course(name, points, isMandatory, semester, Course::getIdCounter()); // memory leak
-                *pickSecretary() += *course;
-                
+                Course course = Course(name, points, isMandatory, semester, Course::getIdCounter());
+                *pickSecretary() += course;
             }   
             else if (userAnswer == 2) {
 

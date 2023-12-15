@@ -27,6 +27,10 @@ Secretary::~Secretary()
     for (const auto& pair : persons) {
         delete pair.second;
     }
+
+    for (const auto& pair : courses) {
+        delete pair.second;
+    }
 }
 
 Secretary& Secretary::operator+=(Person& personToAdd)
@@ -62,7 +66,8 @@ void Secretary::printCourses() const
 
 void Secretary::addCourse(Course& courseToAdd)
 {
-    courses.insert(std::make_pair(courseToAdd.getIdCounter(), &courseToAdd));
+    Course* newCourse = new Course(courseToAdd);
+    courses.insert(std::make_pair(courseToAdd.getIdCounter(), newCourse));
 }
 
 void Secretary::removeCourse(const unsigned& courseId)
