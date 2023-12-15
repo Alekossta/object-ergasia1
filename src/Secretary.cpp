@@ -34,6 +34,12 @@ Secretary& Secretary::operator+=(Person& personToAdd)
     return addPerson(personToAdd);
 }
 
+Secretary& Secretary::operator+=(Course& courseToAdd)
+{
+    addCourse(courseToAdd);
+    return *this;
+}
+
 Secretary& Secretary::operator+(Person& personToAdd)
 {
     return addPerson(personToAdd);
@@ -46,13 +52,23 @@ Secretary& Secretary::addPerson(Person& personToAdd)
     return *this;
 }
 
-// Course& Secretary::addCourse(Course& courseToAdd)
-// {
-//     // Course* newCourse = new Course(courseToAdd);
-//     // const unsigned id = courses.size();
-//     // courses.insert(std::make_pair(id, newCourse));
-//     // return newCourse;
-// }
+void Secretary::printCourses() const
+{
+    std::cout << "[Courses of " << name << "]" << std::endl;
+    for (const auto& pair : courses) {
+        std::cout << *(pair.second) << std::endl;
+    }
+}
+
+void Secretary::addCourse(Course& courseToAdd)
+{
+    courses.insert(std::make_pair(courseToAdd.getIdCounter(), &courseToAdd));
+}
+
+void Secretary::removeCourse(const unsigned& courseId)
+{
+    courses.erase(courseId);
+}
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     std::cout << "---Secretary " << s.name << "---" << std::endl;
@@ -60,12 +76,6 @@ std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     for (const auto& pair : s.persons) {
         std::cout << *(pair.second) << std::endl;
     }
-    std::cout << "---Courses---" << std::endl;
-    // for (const auto& pair : s.courses)
-    // {
-    //     //std::cout << 
-    // }
-    std:: cout << "---------------";
     return os;
 }
 

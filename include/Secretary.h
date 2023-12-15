@@ -36,7 +36,13 @@ class Secretary
 
         Secretary& addPerson(Person& personToAdd);
 
-        // Course& addCourse(Course& courseToAdd);
+        Secretary& operator+=(Course& courseToAdd);
+
+        // course functions
+        void printCourses() const;
+        void addCourse(Course& courseToAdd);
+        void removeCourse(const unsigned& courseId);
+        Course* getCourse(const unsigned& courseId);
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);

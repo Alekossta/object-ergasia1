@@ -30,7 +30,8 @@ void displayMenu()
     std::cout << "0 to exit" << std::endl;
 
     for (unsigned i = 0; i < secretaryList.size(); i++) {
-        cout << i << " " << *secretaryList[i] << endl;
+        cout << endl << i << " " << *secretaryList[i] << endl;
+        secretaryList[i]->printCourses();
     }
 }
 
@@ -196,8 +197,9 @@ void handleOption(char option)
                 cout << "Enter semester: ";
                 cin >> semester;
 
-                Course course = Course(name, points, isMandatory, semester, Course::getIdCounter());
-                // PLACEHOLDER (add course to secretary)
+                Course* course = new Course(name, points, isMandatory, semester, Course::getIdCounter()); // memory leak
+                *pickSecretary() += *course;
+                
             }   
             else if (userAnswer == 2) {
 
@@ -231,6 +233,9 @@ int main() {
     
     Secretary dit = Secretary("DIT");
     secretaryList.push_back(&dit);
+
+    Course oop = Course("OOP", 8, true, 3, Course::getIdCounter());
+    dit += oop;
 
     Student stud1 = Student("Alex", 19, 2022);
     Student stud2 = Student("Kostas", 19, 2023);

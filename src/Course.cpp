@@ -16,7 +16,6 @@ std::ostream& operator<<(std::ostream& output, const Course& course) {
     output << "[id:" << course.id << "] = Name: " << course.name 
     << ", Points: " << course.points
     << ", Is mandatory: " << course.isMandatory
-    << ", Semester: " << course.semester << std::endl;
-    ;
+    << ", Semester: " << course.semester;
     return output;
 }
