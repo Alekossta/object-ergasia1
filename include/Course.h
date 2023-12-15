@@ -9,12 +9,12 @@ class Course
         Course();
         Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
         unsigned courseSemester, unsigned courseId);
-        
 
         // getters
         unsigned getPoints() const {return points;};
         bool getIsMandatory() const {return isMandatory;};
         unsigned getSemester() const {return semester;};
+        unsigned getId() const {return id;};
 
         static int getIdCounter() {return idCounter;};
 

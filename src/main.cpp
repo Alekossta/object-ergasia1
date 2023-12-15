@@ -185,10 +185,42 @@ void handleOption(char option)
                 dit += course;
             }   
             else if (userAnswer == 2) {
+                dit.printCourses();
+                cout << "Enter course id to modify: ";
+                unsigned id;
+                cin >> id;
+                Course* courseToModify = dit.getCourse(id);
+                if (courseToModify != nullptr) {
+                    cout << "Current points: " << courseToModify->getPoints() << endl;
+                    cout << "Enter new points: ";
+                    unsigned points;
+                    cin >> points;
+                    courseToModify->setPoints(points);
 
+                    cout << "Current isMandatory status: " << courseToModify->getIsMandatory() << endl;
+                    cout << "Enter new isMandatory status: ";
+                    bool isMandatory;
+                    cin >> isMandatory;
+                    courseToModify->setIsMandatory(isMandatory);
+
+                    cout << "Current semester: " << courseToModify->getSemester() << endl;
+                    cout << "Enter new semester: ";
+                    unsigned semester;
+                    cin >> semester;
+                    courseToModify->setSemester(semester);
+                }
             }
             else if (userAnswer == 3) {
-
+                dit.printCourses();
+                cout << "Enter course id to remove: ";
+                unsigned id;
+                cin >> id;
+                if (dit.getCourse(id) != nullptr) {
+                    dit.removeCourse(id);
+                }
+                else {
+                    cout << "Course not found" << endl;
+                }
             }
             else {
                 cout << "Invalid option" << endl;

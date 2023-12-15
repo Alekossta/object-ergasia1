@@ -67,12 +67,28 @@ void Secretary::printCourses() const
 void Secretary::addCourse(Course& courseToAdd)
 {
     Course* newCourse = new Course(courseToAdd);
-    courses.insert(std::make_pair(courseToAdd.getIdCounter(), newCourse));
+    courses.insert(std::make_pair(courseToAdd.getId(), newCourse));
 }
 
-void Secretary::removeCourse(const unsigned& courseId)
+void Secretary::removeCourse(const unsigned int& courseId)
 {
-    courses.erase(courseId);
+    for (const auto& pair : courses) {
+        if (pair.second->getId() == courseId) {
+            delete pair.second;
+            courses.erase(courseId);
+            break;
+        }
+    }
+}
+
+Course* Secretary::getCourse(const unsigned int& courseId)
+{
+    for (const auto& pair : courses) {
+        if (pair.second->getId() == courseId) {
+            return pair.second;
+        }
+    }
+    return nullptr;
 }
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {

@@ -41,8 +41,8 @@ class Secretary
         // course functions
         void printCourses() const;
         void addCourse(Course& courseToAdd);
-        void removeCourse(const unsigned& courseId);
-        Course* getCourse(const unsigned& courseId);
+        void removeCourse(const unsigned int& courseId);
+        Course* getCourse(const unsigned int& courseId);
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);
