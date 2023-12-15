@@ -12,7 +12,7 @@ using namespace std;
 int Person::count = 0;
 unsigned Course::idCounter = 0;
 
-vector<Secretary*> secretaryList;
+Secretary dit = Secretary("DIT");
 
 void displayMenu()
 {
@@ -29,20 +29,8 @@ void displayMenu()
     std::cout << "9 show student eligible for graduation" << std::endl;
     std::cout << "0 to exit" << std::endl;
 
-    for (unsigned i = 0; i < secretaryList.size(); i++) {
-        cout << endl << i << " " << *secretaryList[i] << endl;
-        secretaryList[i]->printCourses();
-    }
-}
-
-Secretary* pickSecretary() {
-    unsigned userAnswer;
-    cout << "Pick a secretary" << endl;
-    for (unsigned i = 0; i < secretaryList.size(); i++) {
-        cout << i << ") " << secretaryList[i]->getName() << endl;
-    }
-    cin >> userAnswer;
-    return secretaryList[userAnswer];
+    cout << dit << endl;
+    dit.printCourses();
 }
 
 void handleOption(char option)
@@ -68,14 +56,13 @@ void handleOption(char option)
                 cout << "Enter age: ";
                 cin >> age;
                 Professor prof = Professor(name, age);
-                *pickSecretary() += prof;
+                dit += prof;
             }
             else if (userAnswer == 2) {
-                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter professor id to modify: ";
                 unsigned id;
                 cin >> id;
-                Professor* prof = static_cast<Professor*>(tempSecretary.findPerson(id));
+                Professor* prof = static_cast<Professor*>(dit.findPerson(id));
                 if (prof != nullptr) {
                     cout << prof->getName() << endl;
                     cout << "Enter new name: ";
@@ -93,13 +80,12 @@ void handleOption(char option)
                 }
             }
             else if (userAnswer == 3) {
-                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter professor id to remove: ";
                 unsigned id;
                 cin >> id;
-                Professor* prof = static_cast<Professor*>(tempSecretary.findPerson(id));
+                Professor* prof = static_cast<Professor*>(dit.findPerson(id));
                 if (prof != nullptr) {
-                    tempSecretary.getPersons().erase(id);
+                    dit.getPersons().erase(id);
                 }
                 else {
                     cout << "Professor not found" << endl;
@@ -129,14 +115,13 @@ void handleOption(char option)
                 cout << "Enter entry year: ";
                 cin >> entryYear;
                 Student stud = Student(name, age, entryYear);
-                *pickSecretary() += stud;
+                dit += stud;
             }
             else if (userAnswer == 2) {
-                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter student id to modify: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(tempSecretary.findPerson(id));
+                Student* stud = static_cast<Student*>(dit.findPerson(id));
                 if (stud != nullptr) {
                     cout << stud->getName() << endl;
                     cout << "Enter new name: ";
@@ -154,13 +139,12 @@ void handleOption(char option)
                 }
             }
             else if (userAnswer == 3) {
-                Secretary tempSecretary = *pickSecretary();
                 cout << "Enter student id to remove: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(tempSecretary.findPerson(id));
+                Student* stud = static_cast<Student*>(dit.findPerson(id));
                 if (stud != nullptr) {
-                    tempSecretary.getPersons().erase(id);
+                    dit.getPersons().erase(id);
                 }
                 else {
                     cout << "Professor not found" << endl;
@@ -198,7 +182,7 @@ void handleOption(char option)
                 cin >> semester;
 
                 Course course = Course(name, points, isMandatory, semester, Course::getIdCounter());
-                *pickSecretary() += course;
+                dit += course;
             }   
             else if (userAnswer == 2) {
 
@@ -229,9 +213,6 @@ void handleOption(char option)
 }
 
 int main() {
-    
-    Secretary dit = Secretary("DIT");
-    secretaryList.push_back(&dit);
 
     Course oop = Course("OOP", 8, true, 3, Course::getIdCounter());
     dit += oop;
