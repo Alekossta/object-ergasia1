@@ -23,6 +23,11 @@ Person::~Person() {
     count--;
 }
 
+void Person::printPerson() const 
+{
+    std::cout << "[" << id << "] = Name: " << name << ", Age: " << age;
+}
+
 std::istream& operator>>(std::istream& input, Person& person) {
     std::cout << "---Creating new Person---" << std::endl;
     std::cout << "Enter name: ";
@@ -34,6 +39,6 @@ std::istream& operator>>(std::istream& input, Person& person) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Person& person) {
-    output << "[id:" << person.id << "] = Name: " << person.name << ", Age: " << person.age;
+    person.printPerson();
     return output;
 }

@@ -21,7 +21,7 @@ void displayMenu()
     std::cout << "1 change professors" << std::endl;
     std::cout << "2 change students" << std::endl;
     std::cout << "3 change courses" << std::endl;
-    std::cout << "4 define professors" << std::endl;
+    std::cout << "4 define professors for a course" << std::endl;
     std::cout << "5 register student in a course" << std::endl;
     std::cout << "6 show and save students who passed course at a specific semester" << std::endl;
     std::cout << "7 show professor statistics this semester" << std::endl;
@@ -62,7 +62,7 @@ void handleOption(char option)
                 cout << "Enter professor id to modify: ";
                 unsigned id;
                 cin >> id;
-                Professor* prof = static_cast<Professor*>(dit.findPerson(id));
+                Professor* prof = dynamic_cast<Professor*>(dit.findPerson(id));
                 if (prof != nullptr) {
                     cout << prof->getName() << endl;
                     cout << "Enter new name: ";
@@ -83,7 +83,7 @@ void handleOption(char option)
                 cout << "Enter professor id to remove: ";
                 unsigned id;
                 cin >> id;
-                Professor* prof = static_cast<Professor*>(dit.findPerson(id));
+                Professor* prof = dynamic_cast<Professor*>(dit.findPerson(id));
                 if (prof != nullptr) {
                     dit.getPersons().erase(id);
                 }
@@ -121,7 +121,7 @@ void handleOption(char option)
                 cout << "Enter student id to modify: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                Student* stud = dynamic_cast<Student*>(dit.findPerson(id));
                 if (stud != nullptr) {
                     cout << stud->getName() << endl;
                     cout << "Enter new name: ";
@@ -142,7 +142,7 @@ void handleOption(char option)
                 cout << "Enter student id to remove: ";
                 unsigned id;
                 cin >> id;
-                Student* stud = static_cast<Student*>(dit.findPerson(id));
+                Student* stud = dynamic_cast<Student*>(dit.findPerson(id));
                 if (stud != nullptr) {
                     dit.getPersons().erase(id);
                 }
@@ -227,7 +227,21 @@ void handleOption(char option)
             }      
         }
         case '4':
-            // placeholder
+        {
+            std::cout << "Pick course to define professors for: " << std::endl;
+            dit.printCourses();
+            unsigned id;
+            cin >> id;
+            Course* course = dit.getCourse(id);
+            if(course != nullptr)
+            {
+                std::cout << "Choose from these professors: " << std::endl;
+                dit.printProfessors();
+                unsigned id;
+                cin >> id;
+            }
+        }
+        break;
         case '5':
             // placeholder
         case '6':

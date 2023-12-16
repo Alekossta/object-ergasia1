@@ -14,6 +14,8 @@ class Student : public Person
 
         // setters
         void setEntryYear(unsigned newEntryYear) {entryYear = newEntryYear;};
+
+        virtual void printPerson() const override;
         
     private:
         unsigned entryYear;

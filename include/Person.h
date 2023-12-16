@@ -32,7 +32,9 @@ class Person
         Person(const std::string& startingName, int startingAge);
 
         // deconstructor
-        ~Person();
+        virtual ~Person(); // is virtual for now to allow for polymorphism
+
+        virtual void printPerson() const ;
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Person& person);

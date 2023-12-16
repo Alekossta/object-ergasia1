@@ -2,9 +2,10 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
-
-class Person;
-class Course;
+#include "../include/Person.h"
+#include "../include/Student.h"
+#include "../include/Professor.h"
+#include "../include/Course.h"
 
 class Secretary 
 {
@@ -30,17 +31,27 @@ class Secretary
         std::unordered_map<unsigned, Person*>& getPersons() {return persons;};
         std::string getName() const {return name;};
 
-        // overload + operator
-        Secretary& operator+=(Person& personToAdd);
-        Secretary& operator+(Person& personToAdd);
+        // person functions
 
-        Secretary& addPerson(Person& personToAdd);
+        void printProfessors() const;
+
+        // overload + operator
+
+        //  are we going to add a person like that?
+        // Secretary& operator+=(Person& personToAdd);
+        // Secretary& operator+(Person& personToAdd);
+
+        Secretary& operator+=(Student& personToAdd);
+        Secretary& operator+=(Professor& personToAdd);
+
+        Secretary& addStudent(Student& studentToAdd);
+        Secretary& addProfessor(Professor& professorToAdd);
 
         Secretary& operator+=(Course& courseToAdd);
 
         // course functions
         void printCourses() const;
-        void addCourse(Course& courseToAdd);
+        Secretary& addCourse(Course& courseToAdd);
         void removeCourse(const unsigned int& courseId);
         Course* getCourse(const unsigned int& courseId);
 

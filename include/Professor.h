@@ -16,4 +16,6 @@ class Professor : public Person
         std::vector<Course*>& getCourses() {return courses;};
 
         void printStats() const;
+
+        virtual void printPerson() const override;
 };

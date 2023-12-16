@@ -1,8 +1,8 @@
 #include "../include/Secretary.h"
 #include <iostream>
-#include "../include/Person.h"
-#include "../include/Course.h"
 #include <unordered_map>
+
+/// class functions ///
 
 Secretary::Secretary() : name("")
 {
@@ -33,28 +33,45 @@ Secretary::~Secretary()
     }
 }
 
-Secretary& Secretary::operator+=(Person& personToAdd)
+/// persons functions ///
+void Secretary::printProfessors() const 
 {
-    return addPerson(personToAdd);
+    for (const auto& pair : persons) {
+        Professor* professor = dynamic_cast<Professor*>(pair.second);
+        if(professor != nullptr)
+        {
+            std::cout << *professor << std::endl;
+        }
+    }    
 }
 
-Secretary& Secretary::operator+=(Course& courseToAdd)
+/// adding new persons (students and professors) ///
+
+Secretary& Secretary::operator+=(Student& studentToAdd)
 {
-    addCourse(courseToAdd);
+    return addStudent(studentToAdd);
+}
+
+Secretary& Secretary::operator+=(Professor& professorToAdd)
+{
+    return addProfessor(professorToAdd);
+}
+
+Secretary& Secretary::addStudent(Student& studentToAdd)
+{
+    Student* newPerson = new Student(studentToAdd);
+    persons.insert(std::make_pair(studentToAdd.getId(), newPerson));
     return *this;
 }
 
-Secretary& Secretary::operator+(Person& personToAdd)
+Secretary& Secretary::addProfessor(Professor& professorToAdd)
 {
-    return addPerson(personToAdd);
-}
-
-Secretary& Secretary::addPerson(Person& personToAdd)
-{
-    Person* newPerson = new Person(personToAdd);
-    persons.insert(std::make_pair(personToAdd.getId(), newPerson));
+    Professor* newPerson = new Professor(professorToAdd);
+    persons.insert(std::make_pair(professorToAdd.getId(), newPerson));
     return *this;
 }
+
+/// Courses code ///
 
 void Secretary::printCourses() const
 {
@@ -64,10 +81,16 @@ void Secretary::printCourses() const
     }
 }
 
-void Secretary::addCourse(Course& courseToAdd)
+Secretary& Secretary::operator+=(Course& courseToAdd)
+{
+    return addCourse(courseToAdd);
+}
+
+Secretary& Secretary::addCourse(Course& courseToAdd)
 {
     Course* newCourse = new Course(courseToAdd);
     courses.insert(std::make_pair(courseToAdd.getId(), newCourse));
+    return *this;
 }
 
 void Secretary::removeCourse(const unsigned int& courseId)
@@ -90,6 +113,8 @@ Course* Secretary::getCourse(const unsigned int& courseId)
     }
     return nullptr;
 }
+
+/// input and output operators ///
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {
     std::cout << "---Secretary " << s.name << "---" << std::endl;

@@ -5,3 +5,9 @@ unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studen
 {
     
 }
+
+void Student::printPerson() const 
+{
+    std::cout << "Student: ";
+    Person::printPerson();
+}
