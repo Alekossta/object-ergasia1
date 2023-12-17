@@ -17,15 +17,24 @@ void Course::addProfessor(Professor* newProfessor)
     professors.push_back(newProfessor);
 }
 
+void Course::addStudent(Student* newStudent)
+{
+    students.push_back(newStudent);
+}
+
 std::ostream& operator<<(std::ostream& output, const Course& course) {
-    output << "[id:" << course.id << "] = Name: " << course.name 
-    << ", Points: " << course.points
-    << ", Is mandatory: " << course.isMandatory
-    << ", Semester: " << course.semester
-    << ", Professors: ";
+    output << "---" << course.id << " " << course.name << "---" << std::endl;
+    output << "Course info: " << "Points = " << course.points <<
+     ", Is Mandatory = " << course.isMandatory << ", Semester = " << course.semester << std::endl;
+    output << "Professors teaching " << course.name << std::endl;
     for(Professor* professor : course.professors)
     {
-        std::cout << *professor;
+        std::cout << *professor << std::endl;
+    }
+    output << "Students signed in " << course.name << std::endl;
+    for(Student* student : course.students)
+    {
+        std::cout << *student << std::endl;
     }
     return output;
 }

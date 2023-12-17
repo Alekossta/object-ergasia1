@@ -18,6 +18,7 @@ void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
     std::cout << "---Menu, enter a number---" << std::endl;
+    std::cout << Person::getCount() << std::endl;
     std::cout << "1 change professors" << std::endl;
     std::cout << "2 change students" << std::endl;
     std::cout << "3 change courses" << std::endl;
@@ -95,7 +96,7 @@ void handleOption(char option)
                 cout << "Invalid option" << endl;
             }
         }
-            break;
+        break;
         case '2':
         {
             cout << "1 to add student" << endl;
@@ -255,8 +256,19 @@ void handleOption(char option)
             std::cout << "Please select student ";
             unsigned id;
             cin >> id;
-
-            // ...
+            Student* student = dynamic_cast<Student*>(dit.findPerson(id));
+            if(student != nullptr)
+            {
+                dit.printCourses();
+                std::cout << "Select course to register to: ";
+                unsigned id;
+                cin >> id;
+                Course* course = dit.getCourse(id);
+                if(course != nullptr)
+                {
+                    course->addStudent(student);
+                }
+            }
         }
         break;
         case '6':

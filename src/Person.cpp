@@ -4,11 +4,13 @@
 
 Person::Person() : id(count), name(""), age(0)
 {
-    count++;    
+    count++;
+    std::cout << "increasing count asdasdadsads" << std::endl;
 }
 
 Person::Person(const std::string& startingName, int startingAge) : id(count), name(startingName), age(startingAge) {
     count++;
+    std::cout << "increasing count pre" << std::endl;
 }
 
 // copy constructor. do not increase count because this person already exists

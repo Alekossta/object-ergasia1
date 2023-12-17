@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../include/Professor.h"
+#include "../include/Student.h"
 
 class Course
 {
@@ -29,6 +30,9 @@ class Course
         // manage professors
         void addProfessor(Professor* newProfessor);
 
+        // manage students
+        void addStudent(Student* newStudent);
+
         friend std::ostream& operator<<(std::ostream& output, const Course& course);
 
     private:
@@ -39,4 +43,5 @@ class Course
         unsigned semester;
         unsigned id;
         std::vector<Professor*> professors;
+        std::vector<Student*> students;
 };
