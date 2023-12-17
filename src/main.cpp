@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -17,21 +18,21 @@ Secretary dit = Secretary("DIT");
 void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
-    std::cout << "---Menu, enter a number---" << std::endl;
-    std::cout << Person::getCount() << std::endl;
-    std::cout << "1 change professors" << std::endl;
-    std::cout << "2 change students" << std::endl;
-    std::cout << "3 change courses" << std::endl;
-    std::cout << "4 define professors for a course" << std::endl;
-    std::cout << "5 register student in a course" << std::endl;
-    std::cout << "6 show and save students who passed course at a specific semester" << std::endl;
-    std::cout << "7 show professor statistics this semester" << std::endl;
-    std::cout << "8 show specific student grades" << std::endl;
-    std::cout << "9 show student eligible for graduation" << std::endl;
-    std::cout << "0 to exit" << std::endl;
+    cout << "   ---Menu---" << endl;
+    cout << "[1] add/modify/delete professors" << endl;
+    cout << "[2] add/modify/delete students" << endl;
+    cout << "[3] add/modify/delete courses" << endl;
+    cout << "[4] define professors of a course" << endl;
+    cout << "[5] enroll student in a course" << endl;
+    cout << "[6] show and save students who passed course at a specific semester" << endl;
+    cout << "[7] show professor statistics this semester" << endl;
+    cout << "[8] show specific student grades" << endl;
+    cout << "[9] show student eligible for graduation" << endl;
+    cout << "[0] to exit" << endl;
+    cout << "Enter a number: ";
 
-    cout << dit << endl;
-    dit.printCourses();
+    // cout << dit << endl;
+    // dit.printCourses();
 }
 
 void handleOption(char option)
@@ -42,18 +43,22 @@ void handleOption(char option)
             break;
         case '1': 
         {
-            cout << "1 to add professor" << endl;
-            cout << "2 to edit professor" << endl;
-            cout << "3 to remove professor" << endl;
+            cout << "[1] to add professor" << endl;
+            cout << "[2] to edit professor" << endl;
+            cout << "[3] to remove professor" << endl;
+            cout << "Enter a number: ";
 
             unsigned userAnswer;
             cin >> userAnswer;
+
+            dit.printProfessors();
 
             if (userAnswer == 1) {
                 string name;
                 int age;
                 cout << "Enter name: ";
-                cin >> name;
+                cin.ignore();
+                getline(cin, name);
                 cout << "Enter age: ";
                 cin >> age;
                 Professor prof = Professor(name, age);
@@ -68,7 +73,8 @@ void handleOption(char option)
                     cout << prof->getName() << endl;
                     cout << "Enter new name: ";
                     string name;
-                    cin >> name;
+                    cin.ignore();
+                    getline(cin, name);
                     cout << prof->getAge() << endl;
                     cout << "Enter new age: ";
                     int age;
@@ -99,18 +105,23 @@ void handleOption(char option)
         break;
         case '2':
         {
-            cout << "1 to add student" << endl;
-            cout << "2 to edit student" << endl;
-            cout << "3 to remove student" << endl;
+            cout << "[1] to add student" << endl;
+            cout << "[2] to edit student" << endl;
+            cout << "[3] to remove student" << endl;
+            cout << "Enter a number: ";
 
             unsigned userAnswer;
             cin >> userAnswer;
+
+            dit.printStudents();
+
             if (userAnswer == 1) {
                 string name;
                 int age;
                 unsigned entryYear;
                 cout << "Enter name: ";
-                cin >> name;
+                cin.ignore();
+                getline(cin, name);
                 cout << "Enter age: ";
                 cin >> age;
                 cout << "Enter entry year: ";
@@ -127,7 +138,8 @@ void handleOption(char option)
                     cout << stud->getName() << endl;
                     cout << "Enter new name: ";
                     string name;
-                    cin >> name;
+                    cin.ignore();
+                    getline(cin, name);
                     cout << stud->getAge() << endl;
                     cout << "Enter new age: ";
                     int age;
@@ -158,12 +170,16 @@ void handleOption(char option)
         break;
         case '3':
         {
-            cout << "1 to add course" << endl;
-            cout << "2 to edit course" << endl;
-            cout << "3 to remove course" << endl; 
+            cout << "[1] to add course" << endl;
+            cout << "[2] to edit course" << endl;
+            cout << "[3] to remove course" << endl;
+            cout << "Enter a number: ";
 
             unsigned userAnswer;
             cin >> userAnswer;
+
+            dit.printCourses();
+
             if (userAnswer == 1) {
                 string name;
                 unsigned points;
@@ -171,7 +187,8 @@ void handleOption(char option)
                 unsigned semester;
 
                 cout << "Enter name: ";
-                cin >> name;
+                cin.ignore();
+                getline(cin, name);
 
                 cout << "Enter points: ";
                 cin >> points;
@@ -299,19 +316,14 @@ int main() {
     dit += stud2;
     dit += pilot;
 
-    std::cout << dit << endl;
+    // std::cout << dit << endl;
 
-    std::cout << "Use menu? (Y/N)" << std::endl;
     char userAnswer;
-    std::cin >> userAnswer;
-    if(userAnswer == 'Y' || userAnswer == 'y')
+    while (userAnswer != '0')
     {
-        while (userAnswer != '0')
-        {
-            displayMenu();
-            std::cin >> userAnswer;
-            handleOption(userAnswer);
-        }
+        displayMenu();
+        std::cin >> userAnswer;
+        handleOption(userAnswer);
     }
 
     std::cout << "Bye..." << std::endl;

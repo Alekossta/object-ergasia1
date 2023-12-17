@@ -10,7 +10,6 @@ Person::Person() : id(count), name(""), age(0)
 
 Person::Person(const std::string& startingName, int startingAge) : id(count), name(startingName), age(startingAge) {
     count++;
-    std::cout << "increasing count pre" << std::endl;
 }
 
 // copy constructor. do not increase count because this person already exists
@@ -27,7 +26,7 @@ Person::~Person() {
 
 void Person::printPerson() const 
 {
-    std::cout << "[" << id << "] = Name: " << name << ", Age: " << age << " ";
+    std::cout << "[" <<  "ID: " << id << "] = Name: " << name << ", Age: " << age << " ";
 }
 
 std::istream& operator>>(std::istream& input, Person& person) {

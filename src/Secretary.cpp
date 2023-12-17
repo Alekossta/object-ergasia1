@@ -36,24 +36,28 @@ Secretary::~Secretary()
 /// persons functions ///
 void Secretary::printProfessors() const 
 {
+    std::cout << std::endl << "[Professors of " << this->getName() << "]" << std::endl;
     for (const auto& pair : persons) {
         Professor* professor = dynamic_cast<Professor*>(pair.second);
         if(professor != nullptr)
         {
-            std::cout << *professor << std::endl;
+            std::cout << "> " << *professor << std::endl;
         }
-    }    
+    }
+    std::cout << std::endl;
 }
 
 void Secretary::printStudents() const
 {
+    std::cout << std::endl << "[Students of " << this->getName() << "]" << std::endl;
     for (const auto& pair : persons) {
         Student* student = dynamic_cast<Student*>(pair.second);
         if(student != nullptr)
         {
-            std::cout << *student << std::endl;
+            std::cout << "> " << *student << std::endl;
         }
-    }     
+    }
+    std::cout << std::endl;
 }
 
 
@@ -87,10 +91,11 @@ Secretary& Secretary::addProfessor(Professor& professorToAdd)
 
 void Secretary::printCourses() const
 {
-    std::cout << "[Courses of " << name << "]" << std::endl;
+    std::cout << std::endl << "[Courses of " << name << "]" << std::endl;
     for (const auto& pair : courses) {
-        std::cout << *(pair.second) << std::endl;
+        std::cout << "> " << *(pair.second) << std::endl;
     }
+    std::cout << std::endl;
 }
 
 Secretary& Secretary::operator+=(Course& courseToAdd)

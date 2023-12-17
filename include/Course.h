@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include "../include/Professor.h"
 #include "../include/Student.h"
@@ -33,6 +34,11 @@ class Course
         // manage students
         void addStudent(Student* newStudent);
 
+        // print functions
+        void printProfessors();
+        void printStudents();
+        void printStudentsPassed();
+
         friend std::ostream& operator<<(std::ostream& output, const Course& course);
 
     private:
@@ -43,5 +49,6 @@ class Course
         unsigned semester;
         unsigned id;
         std::vector<Professor*> professors;
-        std::vector<Student*> students;
+        std::unordered_map<Student*, unsigned> students;
+        std::unordered_map<Student*, unsigned> studentsPassed;
 };

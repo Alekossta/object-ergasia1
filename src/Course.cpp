@@ -19,22 +19,50 @@ void Course::addProfessor(Professor* newProfessor)
 
 void Course::addStudent(Student* newStudent)
 {
-    students.push_back(newStudent);
+    unsigned grade = rand() % 11; // random grade from 0 to 10
+    students.insert(std::pair<Student*, unsigned>(newStudent, grade));
+    if (grade >= 5) // if student passed the course add him to studentsPassed
+    {
+        studentsPassed.insert(std::pair<Student*, unsigned>(newStudent, grade));
+    }
 }
 
-std::ostream& operator<<(std::ostream& output, const Course& course) {
-    output << "---" << course.id << " " << course.name << "---" << std::endl;
-    output << "Course info: " << "Points = " << course.points <<
-     ", Is Mandatory = " << course.isMandatory << ", Semester = " << course.semester << std::endl;
-    output << "Professors teaching " << course.name << std::endl;
-    for(Professor* professor : course.professors)
+void Course::printProfessors() {
+    std::cout << "[Professors teaching " << name << "]" << std::endl;
+    for(auto professor : professors)
     {
         std::cout << *professor << std::endl;
     }
-    output << "Students signed in " << course.name << std::endl;
-    for(Student* student : course.students)
+}
+
+void Course::printStudents() {
+    std::cout << "[Students signed in " << name << "]" << std::endl;
+    for(auto student : students)
     {
-        std::cout << *student << std::endl;
+        std::cout << *student.first << " Grade: " << student.second;
+        if (student.second >= 5)
+        {
+            std::cout << " (Passed)" << std::endl;
+        }
+        else
+        {
+            std::cout << " (Failed)" << std::endl;
+        }
     }
+}
+
+void Course::printStudentsPassed() {
+    std::cout << "[Students passed " << name << "]" << std::endl;
+    for(auto student : studentsPassed)
+    {
+        std::cout << *student.first << " Grade: " << student.second << std::endl;
+    }
+}
+
+std::ostream& operator<<(std::ostream& output, const Course& course) {
+    output << "[ID: " << course.id << "] = Name: " << course.name
+    << ", Points: " << course.points
+    << ", Is Mandatory: " << course.isMandatory 
+    << ", Semester: " << course.semester << std::endl;
     return output;
 }
