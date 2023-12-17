@@ -239,6 +239,12 @@ void handleOption(char option)
                 dit.printProfessors();
                 unsigned id;
                 cin >> id;
+                Professor* chosenProfessor = dynamic_cast<Professor*>(dit.findPerson(id));
+                if(chosenProfessor != nullptr)
+                {
+                    std::cout << "Adding " << chosenProfessor->getName() << "..." << std::endl;
+                    course->addProfessor(chosenProfessor);
+                }
             }
         }
         break;

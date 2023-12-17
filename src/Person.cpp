@@ -25,7 +25,7 @@ Person::~Person() {
 
 void Person::printPerson() const 
 {
-    std::cout << "[" << id << "] = Name: " << name << ", Age: " << age;
+    std::cout << "[" << id << "] = Name: " << name << ", Age: " << age << " ";
 }
 
 std::istream& operator>>(std::istream& input, Person& person) {

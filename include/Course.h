@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <vector>
+
+#include "../include/Professor.h"
 
 class Course
 {
@@ -23,6 +26,9 @@ class Course
         void setIsMandatory(bool newIsMandatory) {isMandatory = newIsMandatory;};
         void setSemester(unsigned newSemester) {semester = newSemester;};
 
+        // manage professors
+        void addProfessor(Professor* newProfessor);
+
         friend std::ostream& operator<<(std::ostream& output, const Course& course);
 
     private:
@@ -32,6 +38,5 @@ class Course
         bool isMandatory;
         unsigned semester;
         unsigned id;
-
-        
+        std::vector<Professor*> professors;
 };
