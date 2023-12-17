@@ -226,6 +226,7 @@ void handleOption(char option)
                 cout << "Invalid option" << endl;
             }      
         }
+        break;
         case '4':
         {
             std::cout << "Pick course to define professors for: " << std::endl;
@@ -249,7 +250,15 @@ void handleOption(char option)
         }
         break;
         case '5':
-            // placeholder
+        {
+            dit.printStudents();
+            std::cout << "Please select student ";
+            unsigned id;
+            cin >> id;
+
+            // ...
+        }
+        break;
         case '6':
             // placeholder
         case '7':

@@ -45,6 +45,18 @@ void Secretary::printProfessors() const
     }    
 }
 
+void Secretary::printStudents() const
+{
+    for (const auto& pair : persons) {
+        Student* student = dynamic_cast<Student*>(pair.second);
+        if(student != nullptr)
+        {
+            std::cout << *student << std::endl;
+        }
+    }     
+}
+
+
 /// adding new persons (students and professors) ///
 
 Secretary& Secretary::operator+=(Student& studentToAdd)

@@ -34,6 +34,7 @@ class Secretary
         // person functions
 
         void printProfessors() const;
+        void printStudents() const;
 
         // overload + operator
 
