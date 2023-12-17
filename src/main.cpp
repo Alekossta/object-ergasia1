@@ -29,6 +29,7 @@ void displayMenu()
     cout << "[8] show specific student grades" << endl;
     cout << "[9] show student eligible for graduation" << endl;
     cout << "[0] to exit" << endl;
+    cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "Enter a number: ";
 
     // cout << dit << endl;
@@ -296,6 +297,28 @@ void handleOption(char option)
             // placeholder
         case '9':   
             // placeholder
+        case 'x':
+        {
+            dit.printProfessors();
+            dit.printStudents();
+            dit.printCourses();
+
+            // for each course print professors using the course's printProfessors() method
+            for (const auto& pair : dit.getCourses()) {
+                Course* course = pair.second;
+                course->printProfessors();
+            }
+
+            // for each course print students using the course's printStudents() method
+            for (const auto& pair : dit.getCourses()) {
+                Course* course = pair.second;
+                course->printStudents();
+            }
+
+            cout << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
+        }
         
         default:
             std::cout << "Invalid option" << std::endl;

@@ -29,6 +29,7 @@ class Secretary
 
         // getters
         std::unordered_map<unsigned, Person*>& getPersons() {return persons;};
+        std::unordered_map<unsigned, Course*>& getCourses() {return courses;};
         std::string getName() const {return name;};
 
         // person functions
