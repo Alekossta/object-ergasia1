@@ -21,7 +21,7 @@ Person::Person(const Person& other)
 }
 
 Person::~Person() {
-    count--;
+    
 }
 
 void Person::printPerson() const 
