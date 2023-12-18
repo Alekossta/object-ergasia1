@@ -307,6 +307,10 @@ void handleOption(char option)
             {
                 std::cout << "Professor not found" << std::endl;
             }
+
+            cout << endl << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
         }
         break;
         case '8':

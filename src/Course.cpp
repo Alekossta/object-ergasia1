@@ -37,18 +37,25 @@ void Course::printProfessors() {
 
 void Course::printStudents() {
     std::cout << "[Students signed in " << name << "]" << std::endl;
+    float averageGrade = 0;
+    unsigned studentsPassedCounter = 0;
     for(auto student : students)
     {
+        averageGrade += student.second;
         std::cout << *student.first << " Grade: " << student.second;
         if (student.second >= 5)
         {
             std::cout << " (Passed)" << std::endl;
+            studentsPassedCounter++;
         }
         else
         {
             std::cout << " (Failed)" << std::endl;
         }
     }
+    averageGrade /= students.size();
+    std::cout << "Average grade: " << averageGrade << std::endl;
+    std::cout << "Students passed: " << studentsPassedCounter << "/" << students.size() << "(" << (float)studentsPassedCounter/students.size()*100 << "%)" << std::endl;
 }
 
 void Course::printStudentsPassed() {
