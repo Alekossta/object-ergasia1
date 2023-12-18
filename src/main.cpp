@@ -308,12 +308,14 @@ void handleOption(char option)
                 Course* course = pair.second;
                 course->printProfessors();
             }
+            cout << endl;
 
             // for each course print students using the course's printStudents() method
             for (const auto& pair : dit.getCourses()) {
                 Course* course = pair.second;
                 course->printStudents();
             }
+            cout << endl;
 
             cout << "Press enter to continue..." << endl;
             cin.ignore();
@@ -327,17 +329,24 @@ void handleOption(char option)
 
 int main() {
 
-    Course oop = Course("OOP", 8, true, 3, Course::getIdCounter());
+    Course oop = Course("Object Oriented Programming", 8, true, 3, Course::getIdCounter());
+    Course itp = Course("Intro to Programming", 6, true, 2, Course::getIdCounter());
     dit += oop;
+    dit += itp;
 
     Student stud1 = Student("Alex", 19, 2022);
     Student stud2 = Student("Kostas", 19, 2023);
-
-    Professor pilot = Professor("Pilot", 40);
-
+    Student stud3 = Student("Giannis", 19, 2024);
     dit += stud1;
     dit += stud2;
+    dit += stud3;
+
+    Professor pilot = Professor("Pilot", 40);
+    Professor lygizou = Professor("Lygizou", 37);
+    Professor takis = Professor("Takis", 55);
     dit += pilot;
+    dit += lygizou;
+    dit += takis;
 
     // std::cout << dit << endl;
 
