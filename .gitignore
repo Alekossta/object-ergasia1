@@ -9,3 +9,4 @@ main
 *.d
 .dep/
 .obj
+*.csv
