@@ -12,6 +12,8 @@ using namespace std;
 
 int Person::count = 0;
 unsigned Course::idCounter = 0;
+bool isWinterSemester = true;
+unsigned currentYear = 2023;
 
 Secretary dit = Secretary("DIT");
 
@@ -30,10 +32,8 @@ void displayMenu()
     cout << "[9] show student eligible for graduation" << endl;
     cout << "[0] to exit" << endl;
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
+    cout << "[s] to switch semester" << endl;
     cout << "Enter a number: ";
-
-    // cout << dit << endl;
-    // dit.printCourses();
 }
 
 void handleOption(char option)
@@ -264,6 +264,7 @@ void handleOption(char option)
                 {
                     std::cout << "Adding " << chosenProfessor->getName() << "..." << std::endl;
                     course->addProfessor(chosenProfessor);
+                    chosenProfessor->addCourse(course);
                 }
             }
         }
@@ -292,7 +293,22 @@ void handleOption(char option)
         case '6':
             // placeholder
         case '7':
-            // placeholder
+        {
+            dit.printProfessors();
+            std::cout << "Select a professor: ";
+            unsigned id;
+            cin >> id;
+            Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
+            if(professor != nullptr)
+            {
+                professor->printSemesterStats(isWinterSemester);
+            }
+            else
+            {
+                std::cout << "Professor not found" << std::endl;
+            }
+        }
+        break;
         case '8':
             // placeholder
         case '9':   
@@ -321,7 +337,11 @@ void handleOption(char option)
             cin.ignore();
             cin.get();
         }
-        
+        case 's':
+        {
+            isWinterSemester = !isWinterSemester; // switch to other semester
+        }
+        break;
         default:
             std::cout << "Invalid option" << std::endl;
     }
@@ -347,8 +367,6 @@ int main() {
     dit += pilot;
     dit += lygizou;
     dit += takis;
-
-    // std::cout << dit << endl;
 
     char userAnswer;
     while (userAnswer != '0')

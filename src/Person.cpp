@@ -5,7 +5,6 @@
 Person::Person() : id(count), name(""), age(0)
 {
     count++;
-    std::cout << "increasing count asdasdadsads" << std::endl;
 }
 
 Person::Person(const std::string& startingName, int startingAge) : id(count), name(startingName), age(startingAge) {

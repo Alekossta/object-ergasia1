@@ -11,11 +11,11 @@ class Professor : public Person
 
     public:
         Professor(const std::string& startingName, int startingAge);
-        void addCourse(Course& courseToAdd);
-        void removeCourse(Course& courseToRemove);
+        void addCourse(Course* courseToAdd);
+        void removeCourse(Course* courseToRemove);
         std::vector<Course*>& getCourses() {return courses;};
 
-        void printStats() const;
+        void printSemesterStats(bool isWinterSemester) const;
 
         virtual void printPerson() const override;
 };

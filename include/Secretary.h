@@ -39,10 +39,6 @@ class Secretary
 
         // overload + operator
 
-        //  are we going to add a person like that?
-        // Secretary& operator+=(Person& personToAdd);
-        // Secretary& operator+(Person& personToAdd);
-
         Secretary& operator+=(Student& personToAdd);
         Secretary& operator+=(Professor& personToAdd);
 

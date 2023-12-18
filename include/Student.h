@@ -2,6 +2,16 @@
 
 #include "Person.h"
 
+#include <vector>
+
+class Course;
+
+struct StudentCourse
+{
+    Course* course;
+    unsigned grade;
+};
+
 class Student : public Person
 {
     public:
@@ -19,4 +29,6 @@ class Student : public Person
         
     private:
         unsigned entryYear;
+        std::vector<StudentCourse> currentSemesterCourses;
+        std::vector<StudentCourse> allCourses;
 };
