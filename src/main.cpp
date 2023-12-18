@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -291,7 +292,52 @@ void handleOption(char option)
         }
         break;
         case '6':
-            // placeholder
+        {
+            dit.printCourses();
+            std::cout << "Select course: ";
+            unsigned id;
+            cin >> id;
+            Course* course = dit.getCourse(id);
+
+            // we will write a CSV file with the students who passed the course in the current semester (using isWinterSemester)
+            std::ofstream file;
+            // put it in the directory named "csv"
+            file.open("csv/" + course->getName() + ".csv");
+            if(file.is_open())
+            {
+                // write header
+                file << "ID,Name,Grade" << std::endl;
+                // for each student in the course
+                for (const auto& pair : course->getStudentsPassed()) {
+                    Student* student = pair.first;
+                    // if the course is in the current semester (using isWinterSemester)
+                    if(isWinterSemester)
+                    {
+                        if(course->getSemester() % 2 != 0)
+                        {
+                            // write student's info to file
+                            file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
+                        }
+                        else {
+                            std::cout << "No courses for this semester" << std::endl;
+                        }
+                    }
+                    else
+                    {
+                        if(course->getSemester() % 2 == 0)
+                        {
+                            // write student's info to file
+                            file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
+                        }
+                        else {
+                            std::cout << "No courses for this semester" << std::endl;
+                        }
+                    }
+                }
+                file.close();
+            }
+        }
+        break;
         case '7':
         {
             dit.printProfessors();

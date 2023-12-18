@@ -16,10 +16,12 @@ class Course
         unsigned courseSemester, unsigned courseId);
 
         // getters
+        std::string getName() const {return name;};
         unsigned getPoints() const {return points;};
         bool getIsMandatory() const {return isMandatory;};
         unsigned getSemester() const {return semester;};
         unsigned getId() const {return id;};
+        std::unordered_map<Student*, unsigned> getStudentsPassed() const {return studentsPassed;};
 
         static int getIdCounter() {return idCounter;};
 
