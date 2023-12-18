@@ -34,6 +34,7 @@ void displayMenu()
     cout << "[0] to exit" << endl;
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "[s] to switch semester" << endl;
+    cout << "[a] to auto load profs/students to courses(for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "Enter a number: ";
 }
 
@@ -294,47 +295,24 @@ void handleOption(char option)
         case '6':
         {
             dit.printCourses();
-            std::cout << "Select course: ";
+            std::cout << "Select course to show and save stats of passed students: ";
             unsigned id;
             cin >> id;
             Course* course = dit.getCourse(id);
 
-            // we will write a CSV file with the students who passed the course in the current semester (using isWinterSemester)
             std::ofstream file;
-            // put it in the directory named "csv"
             file.open("csv/" + course->getName() + ".csv");
-            if(file.is_open())
-            {
-                // write header
+            if(file.is_open()) {
                 file << "ID,Name,Grade" << std::endl;
-                // for each student in the course
                 for (const auto& pair : course->getStudentsPassed()) {
                     Student* student = pair.first;
-                    // if the course is in the current semester (using isWinterSemester)
-                    if(isWinterSemester)
-                    {
-                        if(course->getSemester() % 2 != 0)
-                        {
-                            // write student's info to file
-                            file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-                        }
-                        else {
-                            std::cout << "No courses for this semester" << std::endl;
-                        }
-                    }
-                    else
-                    {
-                        if(course->getSemester() % 2 == 0)
-                        {
-                            // write student's info to file
-                            file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-                        }
-                        else {
-                            std::cout << "No courses for this semester" << std::endl;
-                        }
-                    }
+                    file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
+                    std::cout << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
                 }
                 file.close();
+            }
+            else {
+                std::cout << "Error opening file" << std::endl;
             }
         }
         break;
@@ -387,9 +365,38 @@ void handleOption(char option)
             cin.ignore();
             cin.get();
         }
+        break;
         case 's':
         {
             isWinterSemester = !isWinterSemester; // switch to other semester
+        }
+        break;
+        case 'a':
+        {
+            // add lygizou and pilot to oop
+            Course* oop = dit.getCourse(0);
+            oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(3)));
+            oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(4)));
+            dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
+            dynamic_cast<Professor*>(dit.findPerson(4))->addCourse(oop);
+
+            // add takis to itp
+            Course* itp = dit.getCourse(1);
+            itp->addProfessor(dynamic_cast<Professor*>(dit.findPerson(5)));
+            dynamic_cast<Professor*>(dit.findPerson(5))->addCourse(itp);
+
+            // add alex to oop
+            Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
+            oop->addStudent(alex);
+
+            // add kostas to itp
+            Student* kostas = dynamic_cast<Student*>(dit.findPerson(1));
+            itp->addStudent(kostas);
+
+            // add giannis to oop and itp
+            Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
+            oop->addStudent(giannis);
+            itp->addStudent(giannis);
         }
         break;
         default:
