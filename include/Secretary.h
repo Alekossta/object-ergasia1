@@ -48,9 +48,10 @@ class Secretary
         Secretary& operator+=(Course& courseToAdd);
 
         // course functions
-        void printCourses() const;
+        void printCourses(bool isWinterSemester) const;
         Secretary& addCourse(Course& courseToAdd);
         void removeCourse(const unsigned int& courseId);
+        Course* getCourse(const unsigned int& courseId, bool isWinterSemester);
         Course* getCourse(const unsigned int& courseId);
 
         // overload input and output operators

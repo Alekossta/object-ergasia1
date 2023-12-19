@@ -89,11 +89,24 @@ Secretary& Secretary::addProfessor(Professor& professorToAdd)
 
 /// Courses code ///
 
-void Secretary::printCourses() const
+void Secretary::printCourses(bool isWinterSemester) const
 {
-    std::cout << std::endl << "[Courses of " << name << "]" << std::endl;
-    for (const auto& pair : courses) {
-        std::cout << "> " << *(pair.second) << std::endl;
+    if (isWinterSemester) {
+        std::cout << std::endl << "[Winter Courses of " << name << "]" << std::endl;
+        for (const auto& pair : courses) {
+            if (pair.second->getSemester() % 2 != 0) {
+
+                std::cout << "> " << *(pair.second) << std::endl;
+            }
+        }
+    } else {
+        std::cout << std::endl << "[Summer Courses of " << name << "]" << std::endl;
+        for (const auto& pair : courses) {
+            if (pair.second->getSemester() % 2 == 0) {
+
+                std::cout << "> " << *(pair.second) << std::endl;
+            }
+        }
     }
     std::cout << std::endl;
 }
@@ -119,6 +132,24 @@ void Secretary::removeCourse(const unsigned int& courseId)
             break;
         }
     }
+}
+
+Course* Secretary::getCourse(const unsigned int& courseId, bool isWinterSemester)
+{
+    if (isWinterSemester) {
+        for (const auto& pair : courses) {
+            if (pair.second->getSemester() % 2 != 0 && pair.second->getId() == courseId) {
+                return pair.second;
+            }
+        }
+    } else {
+        for (const auto& pair : courses) {
+            if (pair.second->getSemester() % 2 == 0 && pair.second->getId() == courseId) {
+                return pair.second;
+            }
+        }
+    }
+    return nullptr;
 }
 
 Course* Secretary::getCourse(const unsigned int& courseId)

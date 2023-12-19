@@ -36,3 +36,12 @@ void Student::printAllGrades()
         }
     }
 }
+
+void Student::addCourse(Course* newCourse)
+{
+    StudentCourse studentCourse;
+    studentCourse.course = newCourse;
+    studentCourse.grade = 0;
+    currentSemesterCourses.push_back(studentCourse);
+    allCourses.push_back(studentCourse);
+}

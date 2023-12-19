@@ -25,6 +25,7 @@ void Course::addStudent(Student* newStudent)
     {
         studentsPassed.insert(std::pair<Student*, unsigned>(newStudent, grade));
     }
+    
 }
 
 void Course::printProfessors() {

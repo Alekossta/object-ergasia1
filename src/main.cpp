@@ -21,7 +21,8 @@ Secretary dit = Secretary("DIT");
 void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
-    cout << "   ---Menu---" << endl;
+    cout << "   ---Menu---"
+    << currentYear << " " << (isWinterSemester ? "Winter" : "Summer") << " Semester" << endl << endl;
     cout << "[1] add/modify/delete professors" << endl;
     cout << "[2] add/modify/delete students" << endl;
     cout << "[3] add/modify/delete courses" << endl;
@@ -181,7 +182,7 @@ void handleOption(char option)
             unsigned userAnswer;
             cin >> userAnswer;
 
-            dit.printCourses();
+            dit.printCourses(isWinterSemester);
 
             if (userAnswer == 1) {
                 string name;
@@ -206,11 +207,11 @@ void handleOption(char option)
                 dit += course;
             }   
             else if (userAnswer == 2) {
-                dit.printCourses();
+                dit.printCourses(isWinterSemester);
                 cout << "Enter course id to modify: ";
                 unsigned id;
                 cin >> id;
-                Course* courseToModify = dit.getCourse(id);
+                Course* courseToModify = dit.getCourse(id, isWinterSemester);
                 if (courseToModify != nullptr) {
                     cout << "Current points: " << courseToModify->getPoints() << endl;
                     cout << "Enter new points: ";
@@ -232,11 +233,11 @@ void handleOption(char option)
                 }
             }
             else if (userAnswer == 3) {
-                dit.printCourses();
+                dit.printCourses(isWinterSemester);
                 cout << "Enter course id to remove: ";
                 unsigned id;
                 cin >> id;
-                if (dit.getCourse(id) != nullptr) {
+                if (dit.getCourse(id, isWinterSemester) != nullptr) {
                     dit.removeCourse(id);
                 }
                 else {
@@ -251,10 +252,10 @@ void handleOption(char option)
         case '4':
         {
             std::cout << "Pick course to define professors for: " << std::endl;
-            dit.printCourses();
+            dit.printCourses(isWinterSemester);
             unsigned id;
             cin >> id;
-            Course* course = dit.getCourse(id);
+            Course* course = dit.getCourse(id, isWinterSemester);
             if(course != nullptr)
             {
                 std::cout << "Choose from these professors: " << std::endl;
@@ -280,25 +281,30 @@ void handleOption(char option)
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
-                dit.printCourses();
+                dit.printCourses(isWinterSemester);
                 std::cout << "Select course to register to: ";
                 unsigned id;
                 cin >> id;
-                Course* course = dit.getCourse(id);
+                Course* course = dit.getCourse(id, isWinterSemester);
                 if(course != nullptr)
                 {
                     course->addStudent(student);
+                    student->addCourse(course);
                 }
             }
         }
         break;
         case '6':
         {
-            dit.printCourses();
+            dit.printCourses(isWinterSemester);
             std::cout << "Select course to show and save stats of passed students: ";
             unsigned id;
             cin >> id;
-            Course* course = dit.getCourse(id);
+            Course* course = dit.getCourse(id, isWinterSemester);
+            if (course == nullptr) {
+                std::cout << "Course not found" << std::endl;
+                break;
+            }
 
             std::ofstream file;
             file.open("csv/" + course->getName() + ".csv");
@@ -355,6 +361,10 @@ void handleOption(char option)
             {
                 std::cout << "Did not find student" << std::endl;
             }
+
+            cout << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
         }
         break;
         case '9':   
@@ -363,7 +373,7 @@ void handleOption(char option)
         {
             dit.printProfessors();
             dit.printStudents();
-            dit.printCourses();
+            dit.printCourses(isWinterSemester);
 
             // for each course print professors using the course's printProfessors() method
             for (const auto& pair : dit.getCourses()) {
@@ -386,6 +396,7 @@ void handleOption(char option)
         break;
         case 's':
         {
+            if (isWinterSemester) currentYear++;
             isWinterSemester = !isWinterSemester; // switch to other semester
         }
         break;
