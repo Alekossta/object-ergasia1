@@ -26,6 +26,13 @@ class Student : public Person
         void setEntryYear(unsigned newEntryYear) {entryYear = newEntryYear;};
 
         virtual void printPerson() const override;
+
+        // course handlers
+
+        void printCurrentSemesterGrades();
+        void printAllGrades();
+        
+        void addCourse(Course* newCourse);
         
     private:
         unsigned entryYear;

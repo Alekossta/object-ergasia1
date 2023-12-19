@@ -338,7 +338,25 @@ void handleOption(char option)
         }
         break;
         case '8':
-            // placeholder
+        {
+            dit.printStudents();
+            std::cout << "Select a student to print grades for: ";
+            unsigned id;
+            cin >> id;
+            Student* student = dynamic_cast<Student*>(dit.findPerson(id));
+            if(student != nullptr)
+            {
+                std::cout << "---Current semester grades---" << std::endl;
+                student->printCurrentSemesterGrades();
+                std::cout << "---All grades---" << std::endl;
+                student->printAllGrades();
+            }
+            else
+            {
+                std::cout << "Did not find student" << std::endl;
+            }
+        }
+        break;
         case '9':   
             // placeholder
         case 'x':
