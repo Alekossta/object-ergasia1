@@ -365,8 +365,21 @@ void handleOption(char option)
             cin.get();
         }
         break;
-        case '9':   
-            // placeholder
+        case '9':
+        {
+            for(const auto& pair : dit.getPersons())
+            {
+                Student* student = dynamic_cast<Student*>(pair.second);
+                if(student != nullptr)
+                {
+                    if(dit.canGraduate(student))
+                    {
+                        std::cout << student->getName() << " can graduate!" << std::endl;
+                    }
+                }
+            }
+        }
+        break;
         case 'x':
         {
             dit.printProfessors();
@@ -406,23 +419,14 @@ void handleOption(char option)
             dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
             dynamic_cast<Professor*>(dit.findPerson(4))->addCourse(oop);
 
-            // add takis to itp
-            Course* itp = dit.getCourse(1);
-            itp->addProfessor(dynamic_cast<Professor*>(dit.findPerson(5)));
-            dynamic_cast<Professor*>(dit.findPerson(5))->addCourse(itp);
-
             // add alex to oop
             Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
             oop->addStudent(alex);
 
-            // add kostas to itp
-            Student* kostas = dynamic_cast<Student*>(dit.findPerson(1));
-            itp->addStudent(kostas);
 
             // add giannis to oop and itp
             Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
             oop->addStudent(giannis);
-            itp->addStudent(giannis);
         }
         break;
         default:
