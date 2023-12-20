@@ -9,7 +9,11 @@ Secretary::Secretary() : name("")
 
 }
 
-Secretary::Secretary(const std::string& startingName) : name(startingName)
+Secretary::Secretary(const std::string& secretaryName,
+unsigned secretaryNumberOfMandatoryCourses, unsigned secretaryPointsToGraduate,
+unsigned secretaryYearsOfStudy, unsigned secretaryYear) : 
+name(secretaryName), numberOfMandatoryCourses(secretaryNumberOfMandatoryCourses), yearsOfStudy(secretaryYearsOfStudy),
+year(secretaryYear)
 {
 
 }
@@ -60,6 +64,17 @@ void Secretary::printStudents() const
     std::cout << std::endl;
 }
 
+bool Secretary::canGraduate(Student* student) const
+{
+    if(student == nullptr) return false;
+    
+    bool hasPoints = student->getPoints() >= pointsToGraduate;
+    bool hasAllMandatory = student->getMandatoryCoursesPassed() == numberOfMandatoryCourses;
+    bool hasCompletedYearsOfStudy = (year - student->getEntryYear()) >= yearsOfStudy;
+
+    return hasPoints && hasAllMandatory && hasCompletedYearsOfStudy;
+}
+
 
 /// adding new persons (students and professors) ///
 
@@ -89,7 +104,7 @@ Secretary& Secretary::addProfessor(Professor& professorToAdd)
 
 /// Courses code ///
 
-void Secretary::printCourses(bool isWinterSemester) const
+void Secretary::printCourses() const
 {
     if (isWinterSemester) {
         std::cout << std::endl << "[Winter Courses of " << name << "]" << std::endl;
@@ -134,7 +149,7 @@ void Secretary::removeCourse(const unsigned int& courseId)
     }
 }
 
-Course* Secretary::getCourse(const unsigned int& courseId, bool isWinterSemester)
+Course* Secretary::getCourse(const unsigned int& courseId)
 {
     if (isWinterSemester) {
         for (const auto& pair : courses) {
@@ -147,16 +162,6 @@ Course* Secretary::getCourse(const unsigned int& courseId, bool isWinterSemester
             if (pair.second->getSemester() % 2 == 0 && pair.second->getId() == courseId) {
                 return pair.second;
             }
-        }
-    }
-    return nullptr;
-}
-
-Course* Secretary::getCourse(const unsigned int& courseId)
-{
-    for (const auto& pair : courses) {
-        if (pair.second->getId() == courseId) {
-            return pair.second;
         }
     }
     return nullptr;
@@ -194,4 +199,10 @@ Secretary& Secretary::operator=(const Secretary& other) {
         persons = other.persons;
     }
     return *this;
+}
+
+void Secretary::switchSemester()
+{
+    if (isWinterSemester) year++;
+    isWinterSemester = !isWinterSemester; // switch to other semester
 }

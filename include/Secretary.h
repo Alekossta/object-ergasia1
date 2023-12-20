@@ -15,11 +15,18 @@ class Secretary
 
         // name of university
         std::string name;
+        unsigned numberOfMandatoryCourses;
+        unsigned pointsToGraduate;
+        unsigned yearsOfStudy;
+        bool isWinterSemester = true; // we start at default in winter semester
+        unsigned year;
 
     public:
         // constructor(s)
         Secretary();
-        Secretary(const std::string& startingName);
+        Secretary(const std::string& secretaryName,
+         unsigned secretaryNumberOfMandatoryCourses, unsigned secretaryPointsToGraduate,
+         unsigned secretaryYearsOfStudy, unsigned secretaryYear);
 
         // copy constructor
         Secretary(const Secretary& other);
@@ -31,11 +38,16 @@ class Secretary
         std::unordered_map<unsigned, Person*>& getPersons() {return persons;};
         std::unordered_map<unsigned, Course*>& getCourses() {return courses;};
         std::string getName() const {return name;};
+        unsigned getYear() const {return year;};
+        bool getIsWinterSemester() const {return isWinterSemester;};
 
         // person functions
 
         void printProfessors() const;
         void printStudents() const;
+
+        // student
+        bool canGraduate(Student* student) const;
 
         // overload + operator
 
@@ -48,10 +60,9 @@ class Secretary
         Secretary& operator+=(Course& courseToAdd);
 
         // course functions
-        void printCourses(bool isWinterSemester) const;
+        void printCourses() const;
         Secretary& addCourse(Course& courseToAdd);
         void removeCourse(const unsigned int& courseId);
-        Course* getCourse(const unsigned int& courseId, bool isWinterSemester);
         Course* getCourse(const unsigned int& courseId);
 
         // overload input and output operators
@@ -63,4 +74,9 @@ class Secretary
 
         // overload assigment operator
         Secretary& operator=(const Secretary& other);
+
+        // semester
+
+        void switchSemester();
+
 };

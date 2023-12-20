@@ -21,6 +21,8 @@ class Student : public Person
 
         // getters
         unsigned getEntryYear() const {return entryYear;};
+        unsigned getPoints() const {return points;};
+        unsigned getMandatoryCoursesPassed() const {return mandatoryCoursesPassed;};
 
         // setters
         void setEntryYear(unsigned newEntryYear) {entryYear = newEntryYear;};
@@ -36,6 +38,8 @@ class Student : public Person
         
     private:
         unsigned entryYear;
+        unsigned points;
+        unsigned mandatoryCoursesPassed;
         std::vector<StudentCourse> currentSemesterCourses;
         std::vector<StudentCourse> allCourses;
 };

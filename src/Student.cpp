@@ -2,7 +2,8 @@
 #include "../include/Course.h"
 
 Student::Student(const std::string& startingName, int startingAge,
-unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studentEntryYear)
+unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studentEntryYear), points(0),
+mandatoryCoursesPassed(0)
 {
     
 }
