@@ -19,13 +19,7 @@ void Course::addProfessor(Professor* newProfessor)
 
 void Course::addStudent(Student* newStudent)
 {
-    unsigned grade = rand() % 11; // random grade from 0 to 10
-    students.insert(std::pair<Student*, unsigned>(newStudent, grade));
-    if (grade >= 5) // if student passed the course add him to studentsPassed
-    {
-        studentsPassed.insert(std::pair<Student*, unsigned>(newStudent, grade));
-    }
-    
+    students.push_back(newStudent);    
 }
 
 void Course::printProfessors() {
@@ -36,35 +30,23 @@ void Course::printProfessors() {
     }
 }
 
-void Course::printStudents() {
-    std::cout << "[Students signed in " << name << "]" << std::endl;
-    float averageGrade = 0;
-    unsigned studentsPassedCounter = 0;
-    for(auto student : students)
+void Course::printStats()
+{
+    unsigned gradeSum = 0;
+    unsigned passed = 0;
+    for(Student* student : students)
     {
-        averageGrade += student.second;
-        std::cout << *student.first << " Grade: " << student.second;
-        if (student.second >= 5)
+        unsigned studentGrade = student->getGradeForCourse(this);
+        gradeSum += studentGrade;
+        if(studentGrade >= 5)
         {
-            std::cout << " (Passed)" << std::endl;
-            studentsPassedCounter++;
-        }
-        else
-        {
-            std::cout << " (Failed)" << std::endl;
+            passed++;
         }
     }
-    averageGrade /= students.size();
-    std::cout << "Average grade: " << averageGrade << std::endl;
-    std::cout << "Students passed: " << studentsPassedCounter << "/" << students.size() << "(" << (float)studentsPassedCounter/students.size()*100 << "%)" << std::endl;
-}
 
-void Course::printStudentsPassed() {
-    std::cout << "[Students passed " << name << "]" << std::endl;
-    for(auto student : studentsPassed)
-    {
-        std::cout << *student.first << " Grade: " << student.second << std::endl;
-    }
+    float average = (float)gradeSum / students.size();
+    std::cout << "Average is: " << average << std::endl;
+    std::cout << "Student that passed are: " << passed << std::endl;   
 }
 
 std::ostream& operator<<(std::ostream& output, const Course& course) {

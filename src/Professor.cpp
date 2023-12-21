@@ -22,7 +22,7 @@ void Professor::printSemesterStats(bool isWinterSemester) const
         {
             if(course->getSemester() % 2 != 0)
             {
-                course->printStudents();
+                course->printStats();
             }
             else {
                 std::cout << "No courses for this semester" << std::endl;
@@ -32,7 +32,7 @@ void Professor::printSemesterStats(bool isWinterSemester) const
         {
             if(course->getSemester() % 2 == 0)
             {
-                course->printStudents();
+                course->printStats();
             }
             else {
                 std::cout << "No courses for this semester" << std::endl;

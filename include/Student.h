@@ -29,12 +29,16 @@ class Student : public Person
 
         virtual void printPerson() const override;
 
+        void setGrade(Course* course, unsigned grade);
+
         // course handlers
 
         void printCurrentSemesterGrades();
         void printAllGrades();
         
         void addCourse(Course* newCourse);
+
+        unsigned getGradeForCourse(Course* course);
         
     private:
         unsigned entryYear;

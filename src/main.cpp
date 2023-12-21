@@ -13,6 +13,7 @@ using namespace std;
 
 int Person::count = 0;
 unsigned Course::idCounter = 0;
+bool hasGradedStudents = false;
 
 Secretary dit = Secretary("DIT", 40, 160, 4, 2023);
 
@@ -304,20 +305,20 @@ void handleOption(char option)
                 break;
             }
 
-            std::ofstream file;
-            file.open("csv/" + course->getName() + ".csv");
-            if(file.is_open()) {
-                file << "ID,Name,Grade" << std::endl;
-                for (const auto& pair : course->getStudentsPassed()) {
-                    Student* student = pair.first;
-                    file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-                    std::cout << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-                }
-                file.close();
-            }
-            else {
-                std::cout << "Error opening file" << std::endl;
-            }
+            // std::ofstream file;
+            // file.open("csv/" + course->getName() + ".csv");
+            // if(file.is_open()) {
+            //     file << "ID,Name,Grade" << std::endl;
+            //     for (const auto& pair : course->getStudentsPassed()) {
+            //         Student* student = pair.first;
+            //         file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
+            //         std::cout << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
+            //     }
+            //     file.close();
+            // }
+            // else {
+            //     std::cout << "Error opening file" << std::endl;
+            // }
         }
         break;
         case '7':
@@ -394,10 +395,10 @@ void handleOption(char option)
             cout << endl;
 
             // for each course print students using the course's printStudents() method
-            for (const auto& pair : dit.getCourses()) {
-                Course* course = pair.second;
-                course->printStudents();
-            }
+            // for (const auto& pair : dit.getCourses()) {
+            //     Course* course = pair.second;
+            //     course->printStudents();
+            // }
             cout << endl;
 
             cout << "Press enter to continue..." << endl;
@@ -407,7 +408,23 @@ void handleOption(char option)
         break;
         case 's':
         {
-            dit.switchSemester();
+            if(!hasGradedStudents)
+            {
+                for(auto course : dit.getCourses())
+                {
+                    for(auto student : course.second->getStudents())
+                    {
+                        unsigned randomGrade = rand() % 11;
+                        student->setGrade(course.second, randomGrade);
+                    }
+                }
+
+                hasGradedStudents = true;
+            }
+            else
+            {
+                dit.switchSemester();
+            }
         }
         break;
         case 'a':
@@ -422,11 +439,13 @@ void handleOption(char option)
             // add alex to oop
             Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
             oop->addStudent(alex);
+            alex->addCourse(oop);
 
 
             // add giannis to oop and itp
             Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
             oop->addStudent(giannis);
+            giannis->addCourse(oop);
         }
         break;
         default:
