@@ -28,7 +28,7 @@ void Student::printCurrentSemesterGrades()
 
 void Student::printAllGrades()
 {
-    for(StudentCourse studentCourse : allCourses)
+    for(StudentCourse studentCourse : passedCourses)
     {
         Course* course = studentCourse.course;
         if(course != nullptr)
@@ -42,13 +42,18 @@ void Student::setGrade(Course* course, unsigned grade)
 {
     if(course != nullptr)
     {
-        for(StudentCourse currentCourse : allCourses)
+        for(StudentCourse& studentCourse : currentSemesterCourses)
         {
-            if(currentCourse.course == course)
+            if(studentCourse.course == course)
             {
-                std::cout << "Set grade" << std::endl;
-                currentCourse.grade = grade;
-                std::cout << currentCourse.grade;
+                studentCourse.grade = grade;
+                
+                if(grade >= 5) {
+                    passedCourses.push_back(studentCourse);
+                    if (course->getIsMandatory()) mandatoryCoursesPassed++;
+                    points += course->getPoints();
+                }
+                break;
             }
         }
     }
@@ -60,12 +65,11 @@ void Student::addCourse(Course* newCourse)
     studentCourse.course = newCourse;
     studentCourse.grade = 11;
     currentSemesterCourses.push_back(studentCourse);
-    allCourses.push_back(studentCourse);
 }
 
 unsigned Student::getGradeForCourse(Course* course)
 {  
-    for(StudentCourse currentCourse : allCourses)
+    for(StudentCourse currentCourse : passedCourses)
     {
         if(currentCourse.course == course)
         {
@@ -73,5 +77,27 @@ unsigned Student::getGradeForCourse(Course* course)
         }
     }
 
+    for (StudentCourse currentCourse : currentSemesterCourses)
+    {
+        if (currentCourse.course == course)
+        {
+            return currentCourse.grade;
+        }
+    }
+
     return 11;
+}
+
+bool Student::hasPassedCourse(Course* course) {
+    for(StudentCourse currentCourse : passedCourses) {
+        if(currentCourse.course == course) return true;
+    }
+    return false;
+}
+
+bool Student::hasEnrolledCourse(Course* course) {
+    for(StudentCourse currentCourse : currentSemesterCourses) {
+        if(currentCourse.course == course) return true;
+    }
+    return false;
 }

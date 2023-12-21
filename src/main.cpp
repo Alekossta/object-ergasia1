@@ -20,8 +20,9 @@ Secretary dit = Secretary("DIT", 40, 160, 4, 2023);
 void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
-    cout << "Menu "
-    << dit.getYear() << " " << (dit.getIsWinterSemester() ? "Winter" : "Summer") << " Semester" << endl << endl;
+    cout << ">>>Menu" << endl
+    << dit.getYear() << " " << (dit.getIsWinterSemester() ? "Winter" : "Summer") << " Semester"
+    << " (" << (hasGradedStudents ? "Graded" : "Not Graded") << ")" << endl;
     cout << "[1] add/modify/delete professors" << endl;
     cout << "[2] add/modify/delete students" << endl;
     cout << "[3] add/modify/delete courses" << endl;
@@ -33,7 +34,7 @@ void displayMenu()
     cout << "[9] show student eligible for graduation" << endl;
     cout << "[0] to exit" << endl;
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
-    cout << "[s] to switch semester" << endl;
+    cout << (hasGradedStudents ? "[s] to switch semester" : "[s] to grade students") << endl;
     cout << "[a] to auto load profs/students to courses(for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "Enter a number: ";
 }
@@ -285,6 +286,21 @@ void handleOption(char option)
                 unsigned id;
                 cin >> id;
                 Course* course = dit.getCourse(id);
+
+                if (student->hasPassedCourse(course)) {
+                    std::cout << "Student has already passed this course" << std::endl;
+                    std::cout << "Press enter to continue..." << std::endl;
+                    cin.ignore();
+                    cin.get();
+                    break;
+                } else if (student->hasEnrolledCourse(course)) {
+                    std::cout << "Student has already enrolled in this course" << std::endl;
+                    std::cout << "Press enter to continue..." << std::endl;
+                    cin.ignore();
+                    cin.get();
+                    break;
+                }
+
                 if(course != nullptr)
                 {
                     course->addStudent(student);
@@ -351,9 +367,11 @@ void handleOption(char option)
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
-                std::cout << "---Current semester grades---" << std::endl;
-                student->printCurrentSemesterGrades();
-                std::cout << "---All grades---" << std::endl;
+                std::cout << "[Current semester courses]" << std::endl;
+                if (hasGradedStudents) student->printCurrentSemesterGrades();
+                else std::cout << "(Current semester grades not available yet)" << std::endl;
+                
+                std::cout << "[Older passed courses]" << std::endl;
                 student->printAllGrades();
             }
             else
@@ -410,12 +428,16 @@ void handleOption(char option)
         {
             if(!hasGradedStudents)
             {
-                for(auto course : dit.getCourses())
+                // grade students using student's setGrade() with a random grade
+                for(const auto& pair : dit.getPersons())
                 {
-                    for(auto student : course.second->getStudents())
+                    Student* student = dynamic_cast<Student*>(pair.second);
+                    if(student != nullptr)
                     {
-                        unsigned randomGrade = rand() % 11;
-                        student->setGrade(course.second, randomGrade);
+                        for(const auto& course : student->getCurrentSemesterCourses())
+                        {
+                            student->setGrade(course.course, rand() % 11);
+                        }
                     }
                 }
 
@@ -424,28 +446,47 @@ void handleOption(char option)
             else
             {
                 dit.switchSemester();
+                hasGradedStudents = false;
             }
         }
         break;
         case 'a':
         {
-            // add lygizou and pilot to oop
-            Course* oop = dit.getCourse(0);
-            oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(3)));
-            oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(4)));
-            dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
-            dynamic_cast<Professor*>(dit.findPerson(4))->addCourse(oop);
+            if (dit.getIsWinterSemester()) {
+                // add lygizou and pilot to oop
+                Course* oop = dit.getCourse(0);
+                oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(3)));
+                oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(4)));
+                dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
+                dynamic_cast<Professor*>(dit.findPerson(4))->addCourse(oop);
 
-            // add alex to oop
-            Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
-            oop->addStudent(alex);
-            alex->addCourse(oop);
+                // add alex to oop
+                Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
+                oop->addStudent(alex);
+                alex->addCourse(oop);
 
 
-            // add giannis to oop and itp
-            Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
-            oop->addStudent(giannis);
-            giannis->addCourse(oop);
+                // add giannis to oop and itp
+                Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
+                oop->addStudent(giannis);
+                giannis->addCourse(oop);
+            }
+            else {
+                // add takis to itp
+                Course* itp = dit.getCourse(1);
+                itp->addProfessor(dynamic_cast<Professor*>(dit.findPerson(5)));
+                dynamic_cast<Professor*>(dit.findPerson(5))->addCourse(itp);
+
+                // add kostas to itp
+                Student* kostas = dynamic_cast<Student*>(dit.findPerson(1));
+                itp->addStudent(kostas);
+                kostas->addCourse(itp);
+
+                // add alex to itp
+                Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
+                itp->addStudent(alex);
+                alex->addCourse(itp);
+            }
         }
         break;
         default:

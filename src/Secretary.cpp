@@ -201,8 +201,15 @@ Secretary& Secretary::operator=(const Secretary& other) {
     return *this;
 }
 
-void Secretary::switchSemester()
-{
+void Secretary::switchSemester() {
     if (isWinterSemester) year++;
     isWinterSemester = !isWinterSemester; // switch to other semester
+
+    // clear all courses from students
+    for (const auto& pair : persons) {
+        Student* student = dynamic_cast<Student*>(pair.second);
+        if (student != nullptr) {
+            student->getCurrentSemesterCourses().clear();
+        }
+    }
 }
