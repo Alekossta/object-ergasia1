@@ -52,12 +52,12 @@ void Course::printStats()
 
 void Course::printStudents()
 {
-    std::cout << "[Students of " << name << "]" std::endl;
+    std::cout << "[Students of " << name << "]" << std::endl;
     for(Student* student : students)
     {
         std::cout << *student << std::endl;
     }
-    std::endl;
+    std::cout << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& output, const Course& course) {

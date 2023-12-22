@@ -3,11 +3,13 @@
 #include "../include/Professor.h"
 #include "../include/Course.h"
 
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -507,30 +509,68 @@ void handleOption(char option)
     }
 }
 
+bool stringToBool(const std::string& str) {
+    if (str == "true") {
+        return true;
+    } else if (str == "false") {
+        return false;
+    }
+    // Handle error or return a default value
+    std::cerr << "Invalid string for conversion to bool: " << str << std::endl;
+    return false;
+}
+
+void loadStartingData()
+{
+    // Load starting courses
+
+    std::ifstream coursesFile("data/startingData/startingCourses.csv");
+    std::string line, value;
+
+    if(coursesFile.is_open())
+    {
+        while (getline(coursesFile, line)) {
+
+            std::stringstream lineStream(line);
+            Course newCourse = Course();
+
+            // id
+            getline(lineStream, value, ',');
+            unsigned id = static_cast<unsigned>(std::stoul(value));
+            newCourse.setId(id);
+
+            // name
+            getline(lineStream, value, ',');
+            std::string name = value;
+            newCourse.setName(name);
+
+            // points
+            getline(lineStream, value, ',');
+            unsigned points = static_cast<unsigned>(std::stoul(value));
+            newCourse.setPoints(points);
+            
+            // is mandatory
+            getline(lineStream, value, ',');
+            bool isMandatory = stringToBool(value);
+            newCourse.setIsMandatory(isMandatory);
+
+            // semester
+            getline(lineStream, value, ',');
+            unsigned semester = static_cast<unsigned>(std::stoul(value));
+            newCourse.setSemester(semester);
+
+            dit += newCourse;
+        }
+    }
+    else
+    {
+        std::cout << "Error in opening courses file" << std::endl;
+    }
+}
+
 int main() {
 
-    Course oop = Course("Object Oriented Programming", 8, true, 3, Course::getIdCounter());
-    Course itp = Course("Intro to Programming", 6, true, 2, Course::getIdCounter());
-    Course networks = Course("Networks", 6, true, 4, Course::getIdCounter());
-    Course ai = Course("AI", 6, false, 5, Course::getIdCounter());
-    dit += oop;
-    dit += itp;
-    dit += networks;
-    dit += ai;
-
-    Student stud0 = Student("Giannis", 20, 2021);
-    Student stud1 = Student("Alex", 19, 2022);
-    Student stud2 = Student("Kostas", 18, 2023);
-    dit += stud0;
-    dit += stud1;
-    dit += stud2;
-
-    Professor pilot = Professor("Pilot", 40);
-    Professor lygizou = Professor("Lygizou", 37);
-    Professor takis = Professor("Takis", 55);
-    dit += pilot;
-    dit += lygizou;
-    dit += takis;
+    loadStartingData();
 
     char userAnswer;
     while (userAnswer != '0')
