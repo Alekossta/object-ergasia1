@@ -25,8 +25,6 @@ class Course
         std::vector<Student*>& getStudents() {return students;};
 
         // setters
-        void setId(unsigned newId) {id = newId;};
-        void setName(std::string newName) {name = newName;};
         void setPoints(unsigned newPoints) {points = newPoints;};
         void setIsMandatory(bool newIsMandatory) {isMandatory = newIsMandatory;};
         void setSemester(unsigned newSemester) {semester = newSemester;};

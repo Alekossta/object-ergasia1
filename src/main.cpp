@@ -22,7 +22,7 @@ Secretary dit = Secretary("DIT", 40, 160, 4, 2023);
 void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
-    cout << ">>>Menu" << endl
+    cout << ">>>Menu" << endl << endl
     << dit.getYear() << " " << (dit.getIsWinterSemester() ? "Winter" : "Summer") << " Semester"
     << " (" << (hasGradedStudents ? "Graded" : "Not Graded") << ")" << endl;
     cout << "[1] add/modify/delete professors" << endl;
@@ -532,45 +532,109 @@ void loadStartingData()
         while (getline(coursesFile, line)) {
 
             std::stringstream lineStream(line);
-            Course newCourse = Course();
 
             // id
             getline(lineStream, value, ',');
             unsigned id = static_cast<unsigned>(std::stoul(value));
-            newCourse.setId(id);
 
             // name
             getline(lineStream, value, ',');
             std::string name = value;
-            newCourse.setName(name);
 
             // points
             getline(lineStream, value, ',');
             unsigned points = static_cast<unsigned>(std::stoul(value));
-            newCourse.setPoints(points);
             
             // is mandatory
             getline(lineStream, value, ',');
             bool isMandatory = stringToBool(value);
-            newCourse.setIsMandatory(isMandatory);
 
             // semester
             getline(lineStream, value, ',');
             unsigned semester = static_cast<unsigned>(std::stoul(value));
-            newCourse.setSemester(semester);
+
+            Course newCourse = Course(name, points, isMandatory, semester, id);
 
             dit += newCourse;
         }
+        std::cout << "Loaded courses succesfully" << std::endl;
+        coursesFile.close();
     }
     else
     {
         std::cout << "Error in opening courses file" << std::endl;
+    }
+
+    // Load starting professors
+
+    std::ifstream profsFile("data/startingData/startingProfessors.csv");
+
+    if(profsFile.is_open())
+    {
+        while (getline(profsFile, line)) {
+
+            std::stringstream lineStream(line);
+
+            // name
+            getline(lineStream, value, ',');
+            std::string name = value;
+
+            // age
+            getline(lineStream, value, ',');
+            int age = std::stoi(value);
+
+            Professor newProfessor = Professor(name, age);
+
+            dit += newProfessor;
+        }
+        std::cout << "Loaded professors succesfully" << std::endl;
+        profsFile.close();
+    }
+    else
+    {
+        std::cout << "Error in opening professors file" << std::endl;
+    }
+
+    // Load starting students
+
+    std::ifstream studsFile("data/startingData/startingStudents.csv");
+
+    if(studsFile.is_open())
+    {
+        while (getline(studsFile, line)) {
+
+            std::stringstream lineStream(line);
+
+            // name
+            getline(lineStream, value, ',');
+            std::string name = value;
+
+            // age
+            getline(lineStream, value, ',');
+            int age = std::stoi(value);
+
+            // entry year
+            getline(lineStream, value, ',');
+            unsigned entryYear = static_cast<unsigned>(std::stoul(value));
+
+            Student newStudent = Student(name, age, entryYear);
+
+            dit += newStudent;
+        }
+        std::cout << "Loaded students succesfully" << std::endl;
+        studsFile.close();
+    }
+    else
+    {
+        std::cout << "Error in opening students file" << std::endl;
     }
 }
 
 int main() {
 
     loadStartingData();
+    std::cout << "Press enter to proceed to menu..." << std::endl;
+    cin.get();
 
     char userAnswer;
     while (userAnswer != '0')
