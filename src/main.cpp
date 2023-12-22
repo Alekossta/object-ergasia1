@@ -130,6 +130,10 @@ void handleOption(char option)
                 cin >> age;
                 cout << "Enter entry year: ";
                 cin >> entryYear;
+                if (entryYear > dit.getYear()) {
+                    cout << "Invalid entry year" << endl;
+                    break;
+                }
                 Student stud = Student(name, age, entryYear);
                 dit += stud;
             }
@@ -287,7 +291,7 @@ void handleOption(char option)
                 cin >> id;
                 Course* course = dit.getCourse(id);
                 unsigned yearDiff = dit.getYear() - student->getEntryYear();
-                bool canRegister = (course->getSemester() - yearDiff) <= 3;
+                bool canRegister = (course->getSemester())/2 <= yearDiff;
                 
                 if(canRegister)
                 {
