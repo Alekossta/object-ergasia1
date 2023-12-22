@@ -632,7 +632,11 @@ void loadStartingData()
 
 int main() {
 
-    loadStartingData();
+    try {loadStartingData();}
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid argument: " << e.what() << std::endl << "Terminating..." << std::endl;
+        return 1;
+    }
     std::cout << "Press enter to proceed to menu..." << std::endl;
     cin.get();
 
