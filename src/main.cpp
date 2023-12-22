@@ -286,25 +286,34 @@ void handleOption(char option)
                 unsigned id;
                 cin >> id;
                 Course* course = dit.getCourse(id);
-
-                if (student->hasPassedCourse(course)) {
-                    std::cout << "Student has already passed this course" << std::endl;
-                    std::cout << "Press enter to continue..." << std::endl;
-                    cin.ignore();
-                    cin.get();
-                    break;
-                } else if (student->hasEnrolledCourse(course)) {
-                    std::cout << "Student has already enrolled in this course" << std::endl;
-                    std::cout << "Press enter to continue..." << std::endl;
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                if(course != nullptr)
+                unsigned yearDiff = dit.getYear() - student->getEntryYear();
+                bool canRegister = (course->getSemester() - yearDiff) <= 3;
+                
+                if(canRegister)
                 {
-                    course->addStudent(student);
-                    student->addCourse(course);
+                    if (student->hasPassedCourse(course)) {
+                        std::cout << "Student has already passed this course" << std::endl;
+                        std::cout << "Press enter to continue..." << std::endl;
+                        cin.ignore();
+                        cin.get();
+                        break;
+                    } else if (student->hasEnrolledCourse(course)) {
+                        std::cout << "Student has already enrolled in this course" << std::endl;
+                        std::cout << "Press enter to continue..." << std::endl;
+                        cin.ignore();
+                        cin.get();
+                        break;
+                    }
+
+                    if(course != nullptr)
+                    {
+                        course->addStudent(student);
+                        student->addCourse(course);
+                    }
+                }
+                else
+                {
+                    std::cout << "Student cannot register yet" << std::endl;
                 }
             }
         }
@@ -413,10 +422,10 @@ void handleOption(char option)
             cout << endl;
 
             // for each course print students using the course's printStudents() method
-            // for (const auto& pair : dit.getCourses()) {
-            //     Course* course = pair.second;
-            //     course->printStudents();
-            // }
+            for (const auto& pair : dit.getCourses()) {
+                Course* course = pair.second;
+                course->printStudents();
+            }
             cout << endl;
 
             cout << "Press enter to continue..." << endl;
@@ -498,15 +507,19 @@ int main() {
 
     Course oop = Course("Object Oriented Programming", 8, true, 3, Course::getIdCounter());
     Course itp = Course("Intro to Programming", 6, true, 2, Course::getIdCounter());
+    Course networks = Course("Networks", 6, true, 4, Course::getIdCounter());
+    Course ai = Course("AI", 6, false, 5, Course::getIdCounter());
     dit += oop;
     dit += itp;
+    dit += networks;
+    dit += ai;
 
+    Student stud0 = Student("Giannis", 20, 2021);
     Student stud1 = Student("Alex", 19, 2022);
-    Student stud2 = Student("Kostas", 19, 2023);
-    Student stud3 = Student("Giannis", 19, 2024);
+    Student stud2 = Student("Kostas", 18, 2023);
+    dit += stud0;
     dit += stud1;
     dit += stud2;
-    dit += stud3;
 
     Professor pilot = Professor("Pilot", 40);
     Professor lygizou = Professor("Lygizou", 37);

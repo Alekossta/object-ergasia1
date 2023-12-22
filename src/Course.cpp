@@ -23,6 +23,7 @@ void Course::addStudent(Student* newStudent)
 }
 
 void Course::printProfessors() {
+    if(professors.size() <= 0) return;
     std::cout << "[Professors teaching " << name << "]" << std::endl;
     for(auto professor : professors)
     {
@@ -47,6 +48,16 @@ void Course::printStats()
     float average = (float)gradeSum / students.size();
     std::cout << "Average is: " << average << std::endl;
     std::cout << "Student that passed are: " << passed << std::endl;   
+}
+
+void Course::printStudents()
+{
+    std::cout << "[Students of " << name << "]" std::endl;
+    for(Student* student : students)
+    {
+        std::cout << *student << std::endl;
+    }
+    std::endl;
 }
 
 std::ostream& operator<<(std::ostream& output, const Course& course) {

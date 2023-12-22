@@ -38,6 +38,7 @@ class Course
         // print functions
         void printProfessors();
         void printStats();
+        void printStudents(); // mainly for debugging
 
         friend std::ostream& operator<<(std::ostream& output, const Course& course);
 

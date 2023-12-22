@@ -12,6 +12,7 @@ void Student::printPerson() const
 {
     std::cout << "Student: ";
     Person::printPerson();
+    std::cout << "Entry year: " << entryYear;
 }
 
 void Student::printCurrentSemesterGrades()
