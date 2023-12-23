@@ -630,17 +630,18 @@ void loadStudents(std::string studentsFileName)
             getline(lineStream, value, ',');
             unsigned entryYear = static_cast<unsigned>(std::stoul(value));
 
-            Student newStudent = Student(name, age, entryYear);
+            Student* newStudent = new Student(name, age, entryYear);
 
-            dit += newStudent;
+            dit += *newStudent;
 
             // for every other value in the line, add the student to the course with the id equal to the value
             while (getline(lineStream, value, ',')) {
                 Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
                 if (course != nullptr) {
-                    course->addStudent(&newStudent);
-                    newStudent.addCourse(course);
-                    cout << "Added student " << newStudent.getName() << " to course " << course->getName() << endl;
+                    course->addStudent(newStudent);
+                    newStudent->addCourse(course);
+                    
+                    cout << "Added student " << newStudent->getName() << " to course " << course->getName() << endl;
                 }
                 else {
                     cout << "Course not found" << endl;
