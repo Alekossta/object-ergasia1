@@ -630,7 +630,7 @@ void loadStudents(std::string studentsFileName)
             getline(lineStream, value, ',');
             unsigned entryYear = static_cast<unsigned>(std::stoul(value));
 
-            Student* newStudent = new Student(name, age, entryYear);
+            Student* newStudent = new Student(name, age, entryYear); // REMEMBER TO FIX MEMORY LEAK HERE
 
             dit += *newStudent;
 
@@ -639,8 +639,8 @@ void loadStudents(std::string studentsFileName)
                 Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
                 if (course != nullptr) {
                     course->addStudent(newStudent);
-                    newStudent->addCourse(course);
-                    
+                    static_cast<Student*>(dit.findPerson(newStudent->getId()))->addCourse(course);
+
                     cout << "Added student " << newStudent->getName() << " to course " << course->getName() << endl;
                 }
                 else {
