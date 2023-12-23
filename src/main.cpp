@@ -565,6 +565,7 @@ void loadCourses(std::string courseFileName)
 
             dit += newCourse;
         }
+        cout << "Loaded courses" << endl;
         coursesFile.close();
     }
     else
@@ -596,6 +597,7 @@ void loadProfessors(std::string professorsFileName)
 
             dit += newProfessor;
         }
+        cout << "Loaded professors" << endl;
         profsFile.close();
     }
     else
@@ -631,7 +633,21 @@ void loadStudents(std::string studentsFileName)
             Student newStudent = Student(name, age, entryYear);
 
             dit += newStudent;
+
+            // for every other value in the line, add the student to the course with the id equal to the value
+            while (getline(lineStream, value, ',')) {
+                Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                if (course != nullptr) {
+                    course->addStudent(&newStudent);
+                    newStudent.addCourse(course);
+                    cout << "Added student " << newStudent.getName() << " to course " << course->getName() << endl;
+                }
+                else {
+                    cout << "Course not found" << endl;
+                }
+            }
         }
+        cout << "Loaded students" << endl;
         studsFile.close();
     }
     else
@@ -651,9 +667,9 @@ void loadData()
     bool isFirstTime = stringToBool(line);
     if(isFirstTime)
     {
+        loadCourses("data/startingData/startingCourses.csv");
         loadProfessors("data/startingData/startingProfessors.csv");
         loadStudents("data/startingData/startingStudents.csv");
-        loadCourses("data/startingData/startingCourses.csv");
 
         firstTimeRunningFileInput.close();
 
@@ -669,12 +685,16 @@ void loadData()
             std::cout << "Error writing to file first time running file" << std::endl;
         }
 
+        cout << "Loaded all starting data" << endl;
+        cout << "Press enter to continue..." << endl;
+        cin.get();
+
     }
     else
     {
+        loadCourses("data/courses.csv");
         loadProfessors("data/professors.csv");
         loadStudents("data/students.csv");
-        loadCourses("data/courses.csv");
     }
 }
 
@@ -695,9 +715,6 @@ void saveData()
                 << course->getIsMandatory() << ','
                 << course->getSemester()
                 << std::endl;
-
-                // save students signed up
-                // save professors teaching ...
             }
         }
     }
