@@ -3,7 +3,6 @@
 #include "../include/Professor.h"
 #include "../include/Course.h"
 
-
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -354,23 +353,30 @@ void handleOption(char option)
         break;
         case '7':
         {
-            dit.printProfessors();
-            std::cout << "Select a professor: ";
-            unsigned id;
-            cin >> id;
-            Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
-            if(professor != nullptr)
+            if(hasGradedStudents)
             {
-                professor->printSemesterStats(dit.getIsWinterSemester());
+                dit.printProfessors();
+                std::cout << "Select a professor: ";
+                unsigned id;
+                cin >> id;
+                Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
+                if(professor != nullptr)
+                {
+                    professor->printSemesterStats(dit.getIsWinterSemester());
+                }
+                else
+                {
+                    std::cout << "Professor not found" << std::endl;
+                }
+
+                cout << endl << "Press enter to continue..." << endl;
+                cin.ignore();
+                cin.get();
             }
             else
             {
-                std::cout << "Professor not found" << std::endl;
+                std::cout << "Students haven't been graded yet to show stats for this semester." << std::endl;
             }
-
-            cout << endl << "Press enter to continue..." << endl;
-            cin.ignore();
-            cin.get();
         }
         break;
         case '8':
@@ -382,11 +388,15 @@ void handleOption(char option)
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
-                std::cout << "[Current semester courses]" << std::endl;
-                if (hasGradedStudents) student->printCurrentSemesterGrades();
-                else std::cout << "(Current semester grades not available yet)" << std::endl;
-                
-                std::cout << "[Older passed courses]" << std::endl;
+                if (hasGradedStudents)
+                {
+                    student->printCurrentSemesterGrades();
+                } 
+                else
+                {
+                    std::cout << "Current semester grades not available yet" << std::endl;
+                }
+
                 student->printAllGrades();
             }
             else
@@ -581,7 +591,7 @@ void loadStartingData()
 
             // age
             getline(lineStream, value, ',');
-            int age = std::stoi(value);
+            unsigned age = static_cast<unsigned>(std::stoul(value));
 
             Professor newProfessor = Professor(name, age);
 
@@ -611,7 +621,7 @@ void loadStartingData()
 
             // age
             getline(lineStream, value, ',');
-            int age = std::stoi(value);
+            unsigned age = static_cast<unsigned>(std::stoul(value));
 
             // entry year
             getline(lineStream, value, ',');
@@ -632,10 +642,13 @@ void loadStartingData()
 
 int main() {
 
-    try {loadStartingData();}
+    try {
+        loadStartingData();
+    }
     catch (const std::invalid_argument& e) {
         std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
     }
+
     std::cout << "Press enter to proceed to menu..." << std::endl;
     cin.get();
 

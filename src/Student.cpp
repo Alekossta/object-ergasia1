@@ -17,25 +17,41 @@ void Student::printPerson() const
 
 void Student::printCurrentSemesterGrades()
 {
-    for(StudentCourse studentCourse : currentSemesterCourses)
+    if(currentSemesterCourses.size() > 0)
     {
-        Course* course = studentCourse.course;
-        if(course != nullptr)
+        std::cout << "Current semester courses of " << getName() << std::endl;
+        for(StudentCourse studentCourse : currentSemesterCourses)
         {
-            std::cout << course->getName() << " = " << studentCourse.grade << std::endl;
+            Course* course = studentCourse.course;
+            if(course != nullptr)
+            {
+                std::cout << course->getName() << " = " << studentCourse.grade << std::endl;
+            }
         }
+    }
+    else
+    {
+        std::cout << getName() << " has not signed up for a course" << std::endl;
     }
 }
 
 void Student::printAllGrades()
 {
-    for(StudentCourse studentCourse : passedCourses)
+    if(allCourses.size() > 0)
     {
-        Course* course = studentCourse.course;
-        if(course != nullptr)
+        std::cout << "All courses of " << getName() << std::endl;
+        for(StudentCourse studentCourse : allCourses)
         {
-            std::cout << course->getName() << " = " << studentCourse.grade << std::endl;
+            Course* course = studentCourse.course;
+            if(course != nullptr)
+            {
+                std::cout << course->getName() << " = " << studentCourse.grade << std::endl;
+            }
         }
+    }
+    else
+    {
+        std::cout << getName() << " has no courses" << std::endl;
     }
 }
 
@@ -50,7 +66,7 @@ void Student::setGrade(Course* course, unsigned grade)
                 studentCourse.grade = grade;
                 
                 if(grade >= 5) {
-                    passedCourses.push_back(studentCourse);
+                    allCourses.push_back(studentCourse);
                     if (course->getIsMandatory()) mandatoryCoursesPassed++;
                     points += course->getPoints();
                 }
@@ -70,7 +86,7 @@ void Student::addCourse(Course* newCourse)
 
 unsigned Student::getGradeForCourse(Course* course)
 {  
-    for(StudentCourse currentCourse : passedCourses)
+    for(StudentCourse currentCourse : allCourses)
     {
         if(currentCourse.course == course)
         {
@@ -90,7 +106,7 @@ unsigned Student::getGradeForCourse(Course* course)
 }
 
 bool Student::hasPassedCourse(Course* course) {
-    for(StudentCourse currentCourse : passedCourses) {
+    for(StudentCourse currentCourse : allCourses) {
         if(currentCourse.course == course) return true;
     }
     return false;

@@ -48,5 +48,5 @@ class Student : public Person
         unsigned points;
         unsigned mandatoryCoursesPassed;
         std::vector<StudentCourse> currentSemesterCourses;
-        std::vector<StudentCourse> passedCourses;
+        std::vector<StudentCourse> allCourses;
 };

@@ -8,7 +8,7 @@ Then our data will be read/write from the files in the "data" folder
 
 courseId,courseName,coursePoints,courseIdMandatory,courseSemester
 studentId1,studentId2,...,studentIdN
-studentId1,studentId2,...,studentIdN
+professorId1,professorId2,...,professorIdN
 
 ## Professor
 
