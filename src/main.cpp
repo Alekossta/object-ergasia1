@@ -781,6 +781,16 @@ int main() {
         std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
     }
 
+    // print all courses and their students
+    for (const auto& pair : dit.getCourses()) {
+        Course* course = pair.second;
+        cout << course->getName() << endl;
+        course->printStudents();
+    }
+
+    cout << "press enter to continue..." << endl;
+    cin.get();
+
     char userAnswer;
     while (userAnswer != '0')
     {
