@@ -530,11 +530,9 @@ bool stringToBool(const std::string& str) {
     return false;
 }
 
-void loadStartingData()
+void loadCourses(std::string courseFileName)
 {
-    // Load starting courses
-
-    std::ifstream coursesFile("data/startingData/startingCourses.csv");
+    std::ifstream coursesFile(courseFileName);
     std::string line, value;
 
     if(coursesFile.is_open())
@@ -567,17 +565,18 @@ void loadStartingData()
 
             dit += newCourse;
         }
-        std::cout << "Loaded courses succesfully" << std::endl;
         coursesFile.close();
     }
     else
     {
         std::cout << "Error in opening courses file" << std::endl;
     }
+}
 
-    // Load starting professors
-
-    std::ifstream profsFile("data/startingData/startingProfessors.csv");
+void loadProfessors(std::string professorsFileName)
+{
+    std::ifstream profsFile(professorsFileName);
+    std::string line, value;
 
     if(profsFile.is_open())
     {
@@ -597,7 +596,6 @@ void loadStartingData()
 
             dit += newProfessor;
         }
-        std::cout << "Loaded professors succesfully" << std::endl;
         profsFile.close();
     }
     else
@@ -605,9 +603,12 @@ void loadStartingData()
         std::cout << "Error in opening professors file" << std::endl;
     }
 
-    // Load starting students
+}
 
-    std::ifstream studsFile("data/startingData/startingStudents.csv");
+void loadStudents(std::string studentsFileName)
+{
+    std::ifstream studsFile(studentsFileName);
+    std::string line, value;
 
     if(studsFile.is_open())
     {
@@ -631,7 +632,6 @@ void loadStartingData()
 
             dit += newStudent;
         }
-        std::cout << "Loaded students succesfully" << std::endl;
         studsFile.close();
     }
     else
@@ -640,17 +640,128 @@ void loadStartingData()
     }
 }
 
+void loadData()
+{
+    // See if we are running for the first time
+    std::ifstream firstTimeRunningFileInput("data/firstTimeRunning.csv");
+    std::string line;
+
+    getline(firstTimeRunningFileInput, line);
+
+    bool isFirstTime = stringToBool(line);
+    if(isFirstTime)
+    {
+        loadProfessors("data/startingData/startingProfessors.csv");
+        loadStudents("data/startingData/startingStudents.csv");
+        loadCourses("data/startingData/startingCourses.csv");
+
+        firstTimeRunningFileInput.close();
+
+        // Open the file in write mode, which will clear its contents
+        std::ofstream firstTimeRunningFileOutput("data/firstTimeRunning.csv", std::ios::out | std::ios::trunc);
+
+        if(firstTimeRunningFileOutput.is_open())
+        {
+            firstTimeRunningFileOutput << "false";
+        }
+        else
+        {
+            std::cout << "Error writing to file first time running file" << std::endl;
+        }
+
+    }
+    else
+    {
+        loadProfessors("data/professors.csv");
+        loadStudents("data/students.csv");
+        loadCourses("data/courses.csv");
+    }
+}
+
+void saveData()
+{
+    // Save courses
+
+    std::ofstream coursesFile("data/courses.csv");
+    if(coursesFile.is_open()) {
+        for(auto coursePair : dit.getCourses())
+        {
+            Course* course = coursePair.second;
+            if(course != nullptr)
+            {
+                coursesFile << course->getId() << ','
+                << course->getName() << ','
+                << course->getPoints() << ','
+                << course->getIsMandatory() << ','
+                << course->getSemester()
+                << std::endl;
+
+                // save students signed up
+                // save professors teaching ...
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Error: File could not be opened" << std::endl;
+    }
+
+    // Save students
+
+    std::ofstream studentsFile("data/students.csv");
+    if(studentsFile.is_open()) {
+        for(auto personPair : dit.getPersons())
+        {
+            Student* student = dynamic_cast<Student*>(personPair.second);
+            if(student != nullptr)
+            {
+                studentsFile << student->getId() << ','
+                << student->getName() << ','
+                << student->getAge() << ','
+                << student->getEntryYear()
+                << std::endl;
+
+                // save courses signed up to ...
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Error: File could not be opened" << std::endl;
+    }
+
+    // Save professors
+
+    std::ofstream professorsFile("data/professors.csv");
+    if(professorsFile.is_open()) {
+        for(auto personPair : dit.getPersons())
+        {
+            Professor* professor = dynamic_cast<Professor*>(personPair.second);
+            if(professor != nullptr)
+            {
+                professorsFile << professor->getId() << ','
+                << professor->getName() << ','
+                << professor->getAge()
+                << std::endl;
+
+                // save courses teaching ...
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Error: File could not be opened" << std::endl;
+    }
+}
+
 int main() {
 
     try {
-        loadStartingData();
+        loadData();
     }
     catch (const std::invalid_argument& e) {
         std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
     }
-
-    std::cout << "Press enter to proceed to menu..." << std::endl;
-    cin.get();
 
     char userAnswer;
     while (userAnswer != '0')
@@ -660,7 +771,7 @@ int main() {
         handleOption(userAnswer);
     }
 
-    std::cout << "Bye..." << std::endl;
+    saveData();
     
     return 0;
 }
