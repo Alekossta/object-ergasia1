@@ -41,6 +41,10 @@ class Secretary
         unsigned getYear() const {return year;};
         bool getIsWinterSemester() const {return isWinterSemester;};
 
+        // setters
+        void setYear(const unsigned& newYear) {year = newYear;};
+        void setIsWinterSemester(const bool& newIsWinterSemester) {isWinterSemester = newIsWinterSemester;};
+
         // person functions
 
         void printProfessors() const;

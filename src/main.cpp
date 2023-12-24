@@ -33,7 +33,7 @@ void displayMenu()
     cout << "[7] show professor statistics this semester" << endl;
     cout << "[8] show specific student grades" << endl;
     cout << "[9] show student eligible for graduation" << endl;
-    cout << "[0] to exit" << endl;
+    cout << "[0] to exit and save data" << endl;
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "[r] to reset data" << endl;
     cout << (hasGradedStudents ? "[s] to switch semester" : "[s] to grade students") << endl;
@@ -326,17 +326,37 @@ void handleOption(char option)
         break;
         case '6':
         {
-            // not ready yet
-
             dit.printCourses();
-            std::cout << "Select course to show and save stats of passed students: ";
+            std::cout << "Select a course: ";
             unsigned id;
             cin >> id;
             Course* course = dit.getCourse(id);
-            if (course == nullptr) {
-                std::cout << "Course not found" << std::endl;
-                break;
+
+            // loop through all students and print the ones that have passed the course
+            if(course != nullptr)
+            {
+                std::cout << "Students who have passed " << course->getName() << ": " << std::endl;
+                for(const auto& pair : dit.getPersons())
+                {
+                    Student* student = dynamic_cast<Student*>(pair.second);
+                    if(student != nullptr)
+                    {
+                        if(student->hasPassedCourse(course))
+                        {
+                            std::cout << student->getName() << std::endl;
+                            // ADD FUNCTION TO SAVE THIS TO UNIQUE FILE
+                        }
+                    }
+                }
             }
+            else
+            {
+                std::cout << "Course not found" << std::endl;
+            }
+
+            cout << endl << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
         }
         break;
         case '7':
@@ -382,10 +402,10 @@ void handleOption(char option)
                 } 
                 else
                 {
-                    std::cout << "Current semester grades not available yet" << std::endl;
+                    std::cout << "[Current semester grades not available yet]" << std::endl;
                 }
 
-                student->printAllGrades();
+                student->printPassedGrades();
             }
             else
             {
@@ -799,6 +819,36 @@ void loadData()
         loadCourses("data/courses.csv", true);
         loadProfessors("data/professors.csv", true);
         loadStudents("data/students.csv", true);
+
+        // load time data
+        std::ifstream timeDataFile("data/timeData.csv");
+        std::string line, value;
+
+        if(timeDataFile.is_open())
+        {
+            getline(timeDataFile, line);
+
+            std::stringstream lineStream(line);
+
+            // year
+            getline(lineStream, value, ',');
+            unsigned year = static_cast<unsigned>(std::stoul(value));
+
+            // is winter semester
+            getline(lineStream, value, ',');
+            bool isWinterSemester = stringToBool(value);
+
+            dit.setYear(year);
+            dit.setIsWinterSemester(isWinterSemester);
+
+            cout << "Loaded time data" << endl;
+            timeDataFile.close();
+        }
+        else
+        {
+            std::cout << "Error in opening time data file" << std::endl;
+        }
+
     }
 }
 
@@ -873,6 +923,21 @@ void saveData()
     {
         std::cout << "Error: File could not be opened" << std::endl;
     }
+
+    // Save time data
+
+    std::ofstream timeDataFile("data/timeData.csv");
+    if(timeDataFile.is_open()) {
+        timeDataFile 
+        << dit.getYear() << ','
+        << (dit.getIsWinterSemester() ? "true" : "false")
+        << std::endl;
+    }
+    else
+    {
+        std::cout << "Error: File could not be opened" << std::endl;
+    }
+
 }
 
 int main() {

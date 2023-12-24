@@ -37,7 +37,7 @@ class Student : public Person
         // course handlers
 
         void printCurrentSemesterGrades();
-        void printAllGrades();
+        void printPassedGrades();
         
         void addCourse(Course* newCourse);
 
@@ -50,5 +50,5 @@ class Student : public Person
         unsigned points;
         unsigned mandatoryCoursesPassed;
         std::vector<StudentCourse> currentSemesterCourses;
-        std::vector<StudentCourse> allCourses;
+        std::vector<StudentCourse> passedCourses;
 };
