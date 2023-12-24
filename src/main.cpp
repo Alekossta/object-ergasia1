@@ -460,7 +460,7 @@ void handleOption(char option)
         case 'r': 
         {
            
-            // will se firstTimeRunning to true
+            // will set firstTimeRunning to true
 
             std::ofstream firstTimeRunningFileOutput("data/firstTimeRunning.csv", std::ios::out | std::ios::trunc);
             if(firstTimeRunningFileOutput.is_open())
@@ -693,15 +693,37 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
             getline(lineStream, value, ',');
             unsigned age = static_cast<unsigned>(std::stoul(value));
 
+
+            Professor* professorAdded;
             if(loadIds)
             {
                 Professor newProfessor = Professor(name, age, id);
                 dit += newProfessor;
+                professorAdded = dynamic_cast<Professor*>(dit.findPerson(newProfessor.getId()));
             }
             else
             {
                 Professor newProfessor = Professor(name, age);
                 dit += newProfessor;
+                professorAdded = dynamic_cast<Professor*>(dit.findPerson(newProfessor.getId()));
+            }
+
+            // load professor-course relations
+            if(professorAdded != nullptr)
+            {
+                // for every other value in the line, add the student to the course with the id equal to the value
+                while (getline(lineStream, value, ',')) {
+                    Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                    if (course != nullptr) {
+                        course->addProfessor(professorAdded);
+                        static_cast<Professor*>(dit.findPerson(professorAdded->getId()))->addCourse(course);
+
+                        cout << "Added rofessor " << professorAdded->getName() << " to course " << course->getName() << endl;
+                    }
+                    else {
+                        cout << "Course not found" << endl;
+                    }
+                }
             }
         }
         cout << "Loaded professors" << endl;
@@ -759,6 +781,7 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                 studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
             }
 
+            // load student-course relations
             if(studentAdded != nullptr)
             {
                 // for every other value in the line, add the student to the course with the id equal to the value
