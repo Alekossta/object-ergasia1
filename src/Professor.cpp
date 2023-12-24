@@ -2,8 +2,14 @@
 #include <iostream>
 #include "../include/Course.h"
 
-Professor::Professor(const std::string& startingName, int startingAge) : 
+Professor::Professor(const std::string& startingName, unsigned startingAge) : 
 Person(startingName, startingAge)
+{
+
+}
+
+Professor::Professor(const std::string& startingName, unsigned startingAge, unsigned startingId) : 
+Person(startingName, startingAge, startingId)
 {
 
 }

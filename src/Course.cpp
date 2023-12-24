@@ -6,8 +6,15 @@ Course::Course() : name(""), points(0), isMandatory(false), semester(0), id(idCo
 }
 
 Course::Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
-unsigned courseSemester, unsigned courseId) : name(courseName), points(coursePoints), isMandatory(courseIsMandatory),
+unsigned courseSemester) : name(courseName), points(coursePoints), isMandatory(courseIsMandatory),
 semester(courseSemester), id(idCounter)
+{
+    idCounter++;
+}
+
+Course::Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
+unsigned courseSemester, unsigned courseId) : name(courseName), points(coursePoints), isMandatory(courseIsMandatory),
+semester(courseSemester), id(courseId)
 {
     idCounter++;
 }

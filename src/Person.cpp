@@ -11,6 +11,12 @@ Person::Person(const std::string& startingName, int startingAge) : id(count), na
     count++;
 }
 
+Person::Person(const std::string& startingName, int startingAge, unsigned startingId) :
+id(startingId), name(startingName), age(startingAge)
+{
+    count++;
+}
+
 // copy constructor. do not increase count because this person already exists
 Person::Person(const Person& other)
 {

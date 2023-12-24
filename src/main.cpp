@@ -35,6 +35,7 @@ void displayMenu()
     cout << "[9] show student eligible for graduation" << endl;
     cout << "[0] to exit" << endl;
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
+    cout << "[r] to reset data" << endl;
     cout << (hasGradedStudents ? "[s] to switch semester" : "[s] to grade students") << endl;
     cout << "[a] to auto load profs/students to courses(for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "Enter a number: ";
@@ -449,6 +450,11 @@ void handleOption(char option)
             cin.get();
         }
         break;
+        case 'r':
+        {
+            
+        }
+        break;
         case 's':
         {
             if(!hasGradedStudents)
@@ -530,7 +536,7 @@ bool stringToBool(const std::string& str) {
     return false;
 }
 
-void loadCourses(std::string courseFileName)
+void loadCourses(std::string courseFileName, bool loadIds)
 {
     std::ifstream coursesFile(courseFileName);
     std::string line, value;
@@ -541,9 +547,13 @@ void loadCourses(std::string courseFileName)
 
             std::stringstream lineStream(line);
 
-            // id
-            getline(lineStream, value, ',');
-            unsigned id = static_cast<unsigned>(std::stoul(value));
+            unsigned id;
+            if(loadIds)
+            {
+                // id
+                getline(lineStream, value, ',');
+                id = static_cast<unsigned>(std::stoul(value));
+            } 
 
             // name
             getline(lineStream, value, ',');
@@ -561,9 +571,16 @@ void loadCourses(std::string courseFileName)
             getline(lineStream, value, ',');
             unsigned semester = static_cast<unsigned>(std::stoul(value));
 
-            Course newCourse = Course(name, points, isMandatory, semester, id);
-
-            dit += newCourse;
+            if(loadIds)
+            {
+                Course newCourse = Course(name, points, isMandatory, semester, id);
+                dit += newCourse;
+            }
+            else
+            {
+                Course newCourse = Course(name, points, isMandatory, semester);
+                dit += newCourse;
+            }
         }
         cout << "Loaded courses" << endl;
         coursesFile.close();
@@ -574,7 +591,7 @@ void loadCourses(std::string courseFileName)
     }
 }
 
-void loadProfessors(std::string professorsFileName)
+void loadProfessors(std::string professorsFileName, bool loadIds)
 {
     std::ifstream profsFile(professorsFileName);
     std::string line, value;
@@ -585,6 +602,14 @@ void loadProfessors(std::string professorsFileName)
 
             std::stringstream lineStream(line);
 
+            unsigned id;
+            if(loadIds)
+            {
+                // id
+                getline(lineStream, value, ',');
+                id = static_cast<unsigned>(std::stoul(value));
+            } 
+
             // name
             getline(lineStream, value, ',');
             std::string name = value;
@@ -593,9 +618,16 @@ void loadProfessors(std::string professorsFileName)
             getline(lineStream, value, ',');
             unsigned age = static_cast<unsigned>(std::stoul(value));
 
-            Professor newProfessor = Professor(name, age);
-
-            dit += newProfessor;
+            if(loadIds)
+            {
+                Professor newProfessor = Professor(name, age, id);
+                dit += newProfessor;
+            }
+            else
+            {
+                Professor newProfessor = Professor(name, age);
+                dit += newProfessor;
+            }
         }
         cout << "Loaded professors" << endl;
         profsFile.close();
@@ -607,7 +639,7 @@ void loadProfessors(std::string professorsFileName)
 
 }
 
-void loadStudents(std::string studentsFileName)
+void loadStudents(std::string studentsFileName, bool loadIds)
 {
     std::ifstream studsFile(studentsFileName);
     std::string line, value;
@@ -617,6 +649,14 @@ void loadStudents(std::string studentsFileName)
         while (getline(studsFile, line)) {
 
             std::stringstream lineStream(line);
+
+            unsigned id;
+            if(loadIds)
+            {
+                // id
+                getline(lineStream, value, ',');
+                id = static_cast<unsigned>(std::stoul(value));
+            } 
 
             // name
             getline(lineStream, value, ',');
@@ -630,21 +670,34 @@ void loadStudents(std::string studentsFileName)
             getline(lineStream, value, ',');
             unsigned entryYear = static_cast<unsigned>(std::stoul(value));
 
-            Student* newStudent = new Student(name, age, entryYear); // REMEMBER TO FIX MEMORY LEAK HERE
+            Student* studentAdded;
+            if(loadIds)
+            {
+                Student newStudent = Student(name, age, id);
+                dit += newStudent;
+                studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
+            }
+            else
+            {
+                Student newStudent = Student(name, age, entryYear);
+                dit += newStudent;
+                studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
+            }
 
-            dit += *newStudent;
+            if(studentAdded != nullptr)
+            {
+                // for every other value in the line, add the student to the course with the id equal to the value
+                while (getline(lineStream, value, ',')) {
+                    Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                    if (course != nullptr) {
+                        course->addStudent(studentAdded);
+                        static_cast<Student*>(dit.findPerson(studentAdded->getId()))->addCourse(course);
 
-            // for every other value in the line, add the student to the course with the id equal to the value
-            while (getline(lineStream, value, ',')) {
-                Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
-                if (course != nullptr) {
-                    course->addStudent(newStudent);
-                    static_cast<Student*>(dit.findPerson(newStudent->getId()))->addCourse(course);
-
-                    cout << "Added student " << newStudent->getName() << " to course " << course->getName() << endl;
-                }
-                else {
-                    cout << "Course not found" << endl;
+                        cout << "Added student " << studentAdded->getName() << " to course " << course->getName() << endl;
+                    }
+                    else {
+                        cout << "Course not found" << endl;
+                    }
                 }
             }
         }
@@ -668,9 +721,9 @@ void loadData()
     bool isFirstTime = stringToBool(line);
     if(isFirstTime)
     {
-        loadCourses("data/startingData/startingCourses.csv");
-        loadProfessors("data/startingData/startingProfessors.csv");
-        loadStudents("data/startingData/startingStudents.csv");
+        loadCourses("data/startingData/startingCourses.csv", false);
+        loadProfessors("data/startingData/startingProfessors.csv", false);
+        loadStudents("data/startingData/startingStudents.csv", false);
 
         firstTimeRunningFileInput.close();
 
@@ -685,17 +738,12 @@ void loadData()
         {
             std::cout << "Error writing to file first time running file" << std::endl;
         }
-
-        cout << "Loaded all starting data" << endl;
-        cout << "Press enter to continue..." << endl;
-        cin.get();
-
     }
     else
     {
-        loadCourses("data/courses.csv");
-        loadProfessors("data/professors.csv");
-        loadStudents("data/students.csv");
+        loadCourses("data/courses.csv", true);
+        loadProfessors("data/professors.csv", true);
+        loadStudents("data/students.csv", true);
     }
 }
 
@@ -780,16 +828,6 @@ int main() {
     catch (const std::invalid_argument& e) {
         std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
     }
-
-    // print all courses and their students
-    for (const auto& pair : dit.getCourses()) {
-        Course* course = pair.second;
-        cout << course->getName() << endl;
-        course->printStudents();
-    }
-
-    cout << "press enter to continue..." << endl;
-    cin.get();
 
     char userAnswer;
     while (userAnswer != '0')

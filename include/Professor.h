@@ -10,7 +10,8 @@ class Professor : public Person
         std::vector<Course*> courses;
 
     public:
-        Professor(const std::string& startingName, int startingAge);
+        Professor(const std::string& startingName, unsigned startingAge);
+        Professor(const std::string& startingName, unsigned startingAge, unsigned id);
         void addCourse(Course* courseToAdd);
         void removeCourse(Course* courseToRemove);
         std::vector<Course*>& getCourses() {return courses;};

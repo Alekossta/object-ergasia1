@@ -4,6 +4,8 @@ Then our data will be read/write from the files in the "data" folder
 
 # Files format
 
+in the starting data we will have no ids.
+
 ## Course
 
 courseId,courseName,coursePoints,courseIdMandatory,courseSemester

@@ -1,11 +1,19 @@
 #include "../include/Student.h"
 #include "../include/Course.h"
 
-Student::Student(const std::string& startingName, int startingAge,
+Student::Student(const std::string& startingName, unsigned startingAge,
 unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studentEntryYear), points(0),
 mandatoryCoursesPassed(0)
 {
     
+}
+
+Student::Student(const std::string& startingName, unsigned startingAge,
+unsigned studentEntryYear, unsigned startingId) : Person(startingName, startingAge, startingId),
+entryYear(studentEntryYear), points(0),
+mandatoryCoursesPassed(0)
+{
+
 }
 
 void Student::printPerson() const 

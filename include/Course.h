@@ -13,6 +13,8 @@ class Course
         // constructors
         Course();
         Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
+        unsigned courseSemester);
+        Course(std::string courseName, unsigned coursePoints, bool courseIsMandatory,
         unsigned courseSemester, unsigned courseId);
 
         // getters

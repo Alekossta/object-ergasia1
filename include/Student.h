@@ -16,8 +16,10 @@ class Student : public Person
 {
     public:
         // constructors
-        Student(const std::string& startingName, int startingAge,
+        Student(const std::string& startingName, unsigned startingAge,
          unsigned studentEntryYear);
+        Student(const std::string& startingName, unsigned startingAge,
+         unsigned studentEntryYear, unsigned startingId);
 
         // getters
         unsigned getEntryYear() const {return entryYear;};

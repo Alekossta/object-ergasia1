@@ -28,8 +28,11 @@ class Person
         
         // copy constructor
         Person(const Person& other);
+
+        // constructors
         Person();
         Person(const std::string& startingName, int startingAge);
+        Person(const std::string& startingName, int startingAge, unsigned startingId);
 
         // deconstructor
         virtual ~Person(); // is virtual for now to allow for polymorphism
