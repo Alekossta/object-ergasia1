@@ -326,6 +326,8 @@ void handleOption(char option)
         break;
         case '6':
         {
+            // not ready yet
+
             dit.printCourses();
             std::cout << "Select course to show and save stats of passed students: ";
             unsigned id;
@@ -335,21 +337,6 @@ void handleOption(char option)
                 std::cout << "Course not found" << std::endl;
                 break;
             }
-
-            // std::ofstream file;
-            // file.open("csv/" + course->getName() + ".csv");
-            // if(file.is_open()) {
-            //     file << "ID,Name,Grade" << std::endl;
-            //     for (const auto& pair : course->getStudentsPassed()) {
-            //         Student* student = pair.first;
-            //         file << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-            //         std::cout << student->getId() << "," << student->getName() << "," << pair.second << std::endl;
-            //     }
-            //     file.close();
-            // }
-            // else {
-            //     std::cout << "Error opening file" << std::endl;
-            // }
         }
         break;
         case '7':
@@ -450,9 +437,77 @@ void handleOption(char option)
             cin.get();
         }
         break;
-        case 'r':
+        case 'r': 
         {
+           
+            // will se firstTimeRunning to true
+
+            std::ofstream firstTimeRunningFileOutput("data/firstTimeRunning.csv", std::ios::out | std::ios::trunc);
+            if(firstTimeRunningFileOutput.is_open())
+            {
+                firstTimeRunningFileOutput << "true";
+            }   
+            else
+            {
+                std::cout << "Failed to open file firstTimeRunning.csv" << std::endl;
+            }
+
+            firstTimeRunningFileOutput.close();
+
             
+            // will set date back to 2023 winter semester
+            std::ofstream timeDataOutput("data/timeData.csv", std::ios::out | std::ios::trunc);
+            if(timeDataOutput.is_open())
+            {
+                timeDataOutput << 2023 << ',' << "true";
+            }   
+            else
+            {
+                std::cout << "Failed to open file timeData.csv" << std::endl;
+            }
+
+            timeDataOutput.close();
+
+            // will make all other files in data empty
+
+            dit.getCourses().clear();
+            dit.getPersons().clear();
+
+            // std::ofstream coursesOutput("data/courses.csv", std::ios::out | std::ios::trunc);
+            // if(coursesOutput.is_open())
+            // {
+            //     coursesOutput << "";
+            // }
+            // else
+            // {
+            //     std::cout << "Failed to open file courses.csv" << std::endl;
+            // }
+
+            // coursesOutput.close();
+
+            // std::ofstream studentsOutput("data/courses.csv", std::ios::out | std::ios::trunc);
+            // if(studentsOutput.is_open())
+            // {
+            //     studentsOutput << "";
+            // }
+            // else
+            // {
+            //     std::cout << "Failed to open file courses.csv" << std::endl;
+            // }
+
+            // studentsOutput.close();
+
+            // std::ofstream professorsOutput("data/courses.csv", std::ios::out | std::ios::trunc);
+            // if(professorsOutput.is_open())
+            // {
+            //     professorsOutput << "";
+            // }
+            // else
+            // {
+            //     std::cout << "Failed to open file courses.csv" << std::endl;
+            // }
+
+            // professorsOutput.close();
         }
         break;
         case 's':
