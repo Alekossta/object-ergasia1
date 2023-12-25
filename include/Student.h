@@ -23,8 +23,6 @@ class Student : public Person
 
         // getters
         unsigned getEntryYear() const {return entryYear;};
-        unsigned getPoints() const {return points;};
-        unsigned getMandatoryCoursesPassed() const {return mandatoryCoursesPassed;};
         std::vector<StudentCourse>& getCurrentSemesterCourses() {return currentSemesterCourses;};
 
         // setters
@@ -44,11 +42,12 @@ class Student : public Person
         unsigned getGradeForCourse(Course* course);
         bool hasPassedCourse(Course* course);
         bool hasEnrolledCourse(Course* course);
+
+        unsigned calculatePoints();
+        unsigned getPassedMandatoryCount();
         
     private:
         unsigned entryYear;
-        unsigned points;
-        unsigned mandatoryCoursesPassed;
         std::vector<StudentCourse> currentSemesterCourses;
         std::vector<StudentCourse> passedCourses;
 };

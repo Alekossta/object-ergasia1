@@ -2,16 +2,14 @@
 #include "../include/Course.h"
 
 Student::Student(const std::string& startingName, unsigned startingAge,
-unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studentEntryYear), points(0),
-mandatoryCoursesPassed(0)
+unsigned studentEntryYear) : Person(startingName, startingAge), entryYear(studentEntryYear)
 {
     
 }
 
 Student::Student(const std::string& startingName, unsigned startingAge,
 unsigned studentEntryYear, unsigned startingId) : Person(startingName, startingAge, startingId),
-entryYear(studentEntryYear), points(0),
-mandatoryCoursesPassed(0)
+entryYear(studentEntryYear)
 {
 
 }
@@ -75,8 +73,6 @@ void Student::setGrade(Course* course, unsigned grade)
                 
                 if(grade >= 5) {
                     passedCourses.push_back(studentCourse);
-                    if (course->getIsMandatory()) mandatoryCoursesPassed++;
-                    points += course->getPoints();
                 }
                 break;
             }
@@ -125,4 +121,38 @@ bool Student::hasEnrolledCourse(Course* course) {
         if(currentCourse.course == course) return true;
     }
     return false;
+}
+
+unsigned Student::calculatePoints()
+{
+    unsigned points = 0;
+    for(StudentCourse studentCourse : passedCourses)
+    {
+        Course* course = studentCourse.course;
+        if(course)
+        {
+            points += course->getPoints();
+        }
+    }
+
+    return points;
+}
+
+unsigned Student::getPassedMandatoryCount()
+{
+    unsigned count = 0;
+    for(StudentCourse studentCourse : passedCourses)
+    {
+        Course* course = studentCourse.course;
+        if(course)
+        {
+            if(course->getIsMandatory())
+            {
+                count++;
+            }
+            
+        }
+    }
+
+    return count;
 }

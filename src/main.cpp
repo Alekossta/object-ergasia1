@@ -16,7 +16,7 @@ int Person::count = 0;
 unsigned Course::idCounter = 0;
 bool hasGradedStudents = false;
 
-Secretary dit = Secretary("DIT", 40, 160, 4, 2023);
+Secretary dit = Secretary("DIT", 160, 4, 2023);
 
 void displayMenu()
 {
@@ -461,7 +461,6 @@ void handleOption(char option)
         {
            
             // will set firstTimeRunning to true
-
             std::ofstream firstTimeRunningFileOutput("data/firstTimeRunning.csv", std::ios::out | std::ios::trunc);
             if(firstTimeRunningFileOutput.is_open())
             {
@@ -488,46 +487,10 @@ void handleOption(char option)
 
             timeDataOutput.close();
 
-            // will make all other files in data empty
-
+            // will make all other files in data empty 
+            // (given that we exit the program with 0 and save functions gets called)
             dit.getCourses().clear();
             dit.getPersons().clear();
-
-            // std::ofstream coursesOutput("data/courses.csv", std::ios::out | std::ios::trunc);
-            // if(coursesOutput.is_open())
-            // {
-            //     coursesOutput << "";
-            // }
-            // else
-            // {
-            //     std::cout << "Failed to open file courses.csv" << std::endl;
-            // }
-
-            // coursesOutput.close();
-
-            // std::ofstream studentsOutput("data/courses.csv", std::ios::out | std::ios::trunc);
-            // if(studentsOutput.is_open())
-            // {
-            //     studentsOutput << "";
-            // }
-            // else
-            // {
-            //     std::cout << "Failed to open file courses.csv" << std::endl;
-            // }
-
-            // studentsOutput.close();
-
-            // std::ofstream professorsOutput("data/courses.csv", std::ios::out | std::ios::trunc);
-            // if(professorsOutput.is_open())
-            // {
-            //     professorsOutput << "";
-            // }
-            // else
-            // {
-            //     std::cout << "Failed to open file courses.csv" << std::endl;
-            // }
-
-            // professorsOutput.close();
         }
         break;
         case 's':

@@ -9,10 +9,9 @@ Secretary::Secretary() : name("")
 
 }
 
-Secretary::Secretary(const std::string& secretaryName,
-unsigned secretaryNumberOfMandatoryCourses, unsigned secretaryPointsToGraduate,
+Secretary::Secretary(const std::string& secretaryName, unsigned secretaryPointsToGraduate,
 unsigned secretaryYearsOfStudy, unsigned secretaryYear) : 
-name(secretaryName), numberOfMandatoryCourses(secretaryNumberOfMandatoryCourses), yearsOfStudy(secretaryYearsOfStudy),
+name(secretaryName), yearsOfStudy(secretaryYearsOfStudy),
 year(secretaryYear)
 {
 
@@ -68,11 +67,13 @@ bool Secretary::canGraduate(Student* student) const
 {
     if(student == nullptr) return false;
     
-    bool hasPoints = student->getPoints() >= pointsToGraduate;
-    bool hasAllMandatory = student->getMandatoryCoursesPassed() == numberOfMandatoryCourses;
+    bool hasPoints = student->calculatePoints() >= pointsToGraduate;
+
+    bool hasMandatory = student->getPassedMandatoryCount() == calculateMandatoryCount();
+
     bool hasCompletedYearsOfStudy = (year - student->getEntryYear()) >= yearsOfStudy;
 
-    return hasPoints && hasAllMandatory && hasCompletedYearsOfStudy;
+    return hasPoints && hasMandatory && hasCompletedYearsOfStudy;
 }
 
 
@@ -165,6 +166,24 @@ Course* Secretary::getCourse(const unsigned int& courseId)
         }
     }
     return nullptr;
+}
+
+unsigned Secretary::calculateMandatoryCount()
+{
+    unsigned count = 0;
+    for(auto pair : courses)
+    {
+        Course* course = pair.second;
+        if(course)
+        {
+            if(course->getIsMandatory())
+            {
+                count++;
+            }
+        }
+    }
+
+    return count;
 }
 
 /// input and output operators ///

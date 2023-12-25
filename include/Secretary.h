@@ -15,7 +15,6 @@ class Secretary
 
         // name of university
         std::string name;
-        unsigned numberOfMandatoryCourses;
         unsigned pointsToGraduate;
         unsigned yearsOfStudy;
         bool isWinterSemester = true; // we start at default in winter semester
@@ -24,8 +23,7 @@ class Secretary
     public:
         // constructor(s)
         Secretary();
-        Secretary(const std::string& secretaryName,
-         unsigned secretaryNumberOfMandatoryCourses, unsigned secretaryPointsToGraduate,
+        Secretary(const std::string& secretaryName, unsigned secretaryPointsToGraduate,
          unsigned secretaryYearsOfStudy, unsigned secretaryYear);
 
         // copy constructor
@@ -68,6 +66,8 @@ class Secretary
         Secretary& addCourse(Course& courseToAdd);
         void removeCourse(const unsigned int& courseId);
         Course* getCourse(const unsigned int& courseId);
+
+        unsigned calculateMandatoryCount();
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);
