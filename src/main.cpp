@@ -9,8 +9,12 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 using namespace std;
+
+namespace fs = std::filesystem;
+
 
 int Person::count = 0;
 unsigned Course::idCounter = 0;
@@ -19,6 +23,14 @@ bool hasGradedStudents = false;
 // 6 points to graduate not a realistic number 
 // but usefull for debugging
 Secretary dit = Secretary("DIT", 6, 4, 2023);
+
+void emptyFolder(const fs::path& path) {
+    if (fs::exists(path) && fs::is_directory(path)) {
+        for (const auto& entry : fs::directory_iterator(path)) {
+            fs::remove_all(entry);
+        }
+    }
+}
 
 void displayMenu()
 {
@@ -338,18 +350,35 @@ void handleOption(char option)
             if(course != nullptr)
             {
                 std::cout << "Students who have passed " << course->getName() << ": " << std::endl;
-                for(const auto& pair : dit.getPersons())
+
+                unsigned year = dit.getYear();
+                std::string courseName = course->getName();
+                std::string filename = "data/passedStudents/" + std::to_string(year) + "_" + courseName + ".csv";
+                std::ofstream outputFile(filename);
+
+                std::cout << filename << std::endl;
+
+                if(outputFile.is_open())
                 {
-                    Student* student = dynamic_cast<Student*>(pair.second);
-                    if(student != nullptr)
+                    for(const auto& pair : dit.getPersons())
                     {
-                        if(student->hasPassedCourse(course))
+                        Student* student = dynamic_cast<Student*>(pair.second);
+                        if(student != nullptr)
                         {
-                            std::cout << student->getName() << std::endl;
-                            // ADD FUNCTION TO SAVE THIS TO UNIQUE FILE
+                            if(student->hasPassedCourse(course))
+                            {
+                                std::cout << student->getName() << std::endl; // to console
+                                outputFile << student->getId() << "," << student->getName() << std::endl; // to file
+                            }
                         }
                     }
                 }
+                else
+                {
+                    std::cout << "Could not create file" << std::endl;
+                }
+                
+                outputFile.close();
             }
             else
             {
@@ -493,6 +522,9 @@ void handleOption(char option)
             // (given that we exit the program with 0 and save functions gets called)
             dit.getCourses().clear();
             dit.getPersons().clear();
+
+            // make passedStudents folder empty
+            emptyFolder("data/passedStudents");
         }
         break;
         case 's':
