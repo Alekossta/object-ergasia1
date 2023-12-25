@@ -16,7 +16,9 @@ int Person::count = 0;
 unsigned Course::idCounter = 0;
 bool hasGradedStudents = false;
 
-Secretary dit = Secretary("DIT", 160, 4, 2023);
+// 6 points to graduate not a realistic number 
+// but usefull for debugging
+Secretary dit = Secretary("DIT", 6, 4, 2023);
 
 void displayMenu()
 {
@@ -597,6 +599,7 @@ void loadCourses(std::string courseFileName, bool loadIds)
             getline(lineStream, value, ',');
             std::string name = value;
 
+
             // points
             getline(lineStream, value, ',');
             unsigned points = static_cast<unsigned>(std::stoul(value));
@@ -613,11 +616,13 @@ void loadCourses(std::string courseFileName, bool loadIds)
             {
                 Course newCourse = Course(name, points, isMandatory, semester, id);
                 dit += newCourse;
+                std::cout << name;
             }
             else
             {
                 Course newCourse = Course(name, points, isMandatory, semester);
                 dit += newCourse;
+                std::cout << name;
             }
         }
         cout << "Loaded courses" << endl;
@@ -663,30 +668,30 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
                 Professor newProfessor = Professor(name, age, id);
                 dit += newProfessor;
                 professorAdded = dynamic_cast<Professor*>(dit.findPerson(newProfessor.getId()));
+
+                // load professor-course relations
+                if(professorAdded != nullptr)
+                {
+                    // for every other value in the line, add the student to the course with the id equal to the value
+                    while (getline(lineStream, value, ',')) {
+                        Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                        if (course != nullptr) {
+                            course->addProfessor(professorAdded);
+                            static_cast<Professor*>(dit.findPerson(professorAdded->getId()))->addCourse(course);
+
+                            cout << "Added rofessor " << professorAdded->getName() << " to course " << course->getName() << endl;
+                        }
+                        else {
+                            cout << "Course not found" << endl;
+                        }
+                    }
+                }
             }
             else
             {
                 Professor newProfessor = Professor(name, age);
                 dit += newProfessor;
                 professorAdded = dynamic_cast<Professor*>(dit.findPerson(newProfessor.getId()));
-            }
-
-            // load professor-course relations
-            if(professorAdded != nullptr)
-            {
-                // for every other value in the line, add the student to the course with the id equal to the value
-                while (getline(lineStream, value, ',')) {
-                    Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
-                    if (course != nullptr) {
-                        course->addProfessor(professorAdded);
-                        static_cast<Professor*>(dit.findPerson(professorAdded->getId()))->addCourse(course);
-
-                        cout << "Added rofessor " << professorAdded->getName() << " to course " << course->getName() << endl;
-                    }
-                    else {
-                        cout << "Course not found" << endl;
-                    }
-                }
             }
         }
         cout << "Loaded professors" << endl;
@@ -736,30 +741,30 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                 Student newStudent = Student(name, age, id);
                 dit += newStudent;
                 studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
+
+                // load student-course relations
+                if(studentAdded != nullptr)
+                {
+                    // for every other value in the line, add the student to the course with the id equal to the value
+                    while (getline(lineStream, value, ',')) {
+                        Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                        if (course != nullptr) {
+                            course->addStudent(studentAdded);
+                            static_cast<Student*>(dit.findPerson(studentAdded->getId()))->addCourse(course);
+
+                            cout << "Added student " << studentAdded->getName() << " to course " << course->getName() << endl;
+                        }
+                        else {
+                            cout << "Course not found" << endl;
+                        }
+                    }
+                }
             }
             else
             {
                 Student newStudent = Student(name, age, entryYear);
                 dit += newStudent;
                 studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
-            }
-
-            // load student-course relations
-            if(studentAdded != nullptr)
-            {
-                // for every other value in the line, add the student to the course with the id equal to the value
-                while (getline(lineStream, value, ',')) {
-                    Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
-                    if (course != nullptr) {
-                        course->addStudent(studentAdded);
-                        static_cast<Student*>(dit.findPerson(studentAdded->getId()))->addCourse(course);
-
-                        cout << "Added student " << studentAdded->getName() << " to course " << course->getName() << endl;
-                    }
-                    else {
-                        cout << "Course not found" << endl;
-                    }
-                }
             }
         }
         cout << "Loaded students" << endl;

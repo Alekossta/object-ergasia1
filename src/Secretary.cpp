@@ -11,7 +11,7 @@ Secretary::Secretary() : name("")
 
 Secretary::Secretary(const std::string& secretaryName, unsigned secretaryPointsToGraduate,
 unsigned secretaryYearsOfStudy, unsigned secretaryYear) : 
-name(secretaryName), yearsOfStudy(secretaryYearsOfStudy),
+name(secretaryName), pointsToGraduate(secretaryPointsToGraduate), yearsOfStudy(secretaryYearsOfStudy),
 year(secretaryYear)
 {
 
@@ -168,7 +168,7 @@ Course* Secretary::getCourse(const unsigned int& courseId)
     return nullptr;
 }
 
-unsigned Secretary::calculateMandatoryCount()
+unsigned Secretary::calculateMandatoryCount() const
 {
     unsigned count = 0;
     for(auto pair : courses)

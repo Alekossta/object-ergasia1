@@ -67,7 +67,7 @@ class Secretary
         void removeCourse(const unsigned int& courseId);
         Course* getCourse(const unsigned int& courseId);
 
-        unsigned calculateMandatoryCount();
+        unsigned calculateMandatoryCount() const;
 
         // overload input and output operators
         friend std::istream& operator>>(std::istream& input, Secretary& secretary);
