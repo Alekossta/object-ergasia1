@@ -9,3 +9,5 @@ main
 *.d
 .dep/
 .obj
+/data/*.csv
+!/data/firstTimeRunning.csv
