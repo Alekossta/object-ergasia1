@@ -12,11 +12,11 @@ courseId,courseName,coursePoints,courseIdMandatory,courseSemester
 
 ## Professor
 
-professorId,professorName,professorAge, courseId1,courseId2,...,courseIdN
+professorId,professorName,professorAge,courseId1,courseId2,...,courseIdN
 
 ## Student
 
-studentId,studentName,studentAge,courseId1,courseId2,...,courseIdN
+studentId,studentName,studentAge,passedCourseId1,passedCourseId1Grade,passedCourseId2,passedCourseId2Grade,...,passedCourseIdN,passedCourseIdNGrade
 
 ## Time data
 

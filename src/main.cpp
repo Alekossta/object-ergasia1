@@ -447,6 +447,7 @@ void handleOption(char option)
         break;
         case '9':
         {
+            cout << "[Students eligible for graduation]" << endl;
             for(const auto& pair : dit.getPersons())
             {
                 Student* student = dynamic_cast<Student*>(pair.second);
@@ -458,6 +459,9 @@ void handleOption(char option)
                     }
                 }
             }
+            cout << endl << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
         }
         break;
         case 'x':
@@ -817,10 +821,14 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                 {
                     // for every other value in the line, add the student to the course with the id equal to the value
                     while (getline(lineStream, value, ',')) {
+                        // get course with id equal to value
                         Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
                         if (course != nullptr) {
-                            course->addStudent(studentAdded);
-                            static_cast<Student*>(dit.findPerson(studentAdded->getId()))->addCourse(course);
+                            // get grade from next value
+                            getline(lineStream, value, ',');
+                            unsigned grade = static_cast<unsigned>(std::stoul(value));
+
+                            studentAdded->addPassedCourse(course, grade);
 
                             cout << "Added student " << studentAdded->getName() << " to course " << course->getName() << endl;
                         }
@@ -950,10 +958,18 @@ void saveData()
                 studentsFile << student->getId() << ','
                 << student->getName() << ','
                 << student->getAge() << ','
-                << student->getEntryYear()
-                << std::endl;
+                << student->getEntryYear();
 
-                // save courses signed up to ...
+                // save courses passed and their grades
+                for(StudentCourse studentCourse : student->getPassedCourses())
+                {
+                    Course* course = studentCourse.course;
+                    if(course != nullptr)
+                    {
+                        studentsFile << ',' << course->getId() << ',' << studentCourse.grade;
+                    }
+                }
+                studentsFile << endl;
             }
         }
     }

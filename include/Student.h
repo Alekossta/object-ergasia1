@@ -24,6 +24,7 @@ class Student : public Person
         // getters
         unsigned getEntryYear() const {return entryYear;};
         std::vector<StudentCourse>& getCurrentSemesterCourses() {return currentSemesterCourses;};
+        std::vector<StudentCourse>& getPassedCourses() {return passedCourses;};
 
         // setters
         void setEntryYear(unsigned newEntryYear) {entryYear = newEntryYear;};
@@ -38,6 +39,7 @@ class Student : public Person
         void printPassedGrades();
         
         void addCourse(Course* newCourse);
+        void addPassedCourse(Course* newCourse, unsigned grade);
 
         unsigned getGradeForCourse(Course* course);
         bool hasPassedCourse(Course* course);

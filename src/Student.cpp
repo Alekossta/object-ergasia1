@@ -88,6 +88,14 @@ void Student::addCourse(Course* newCourse)
     currentSemesterCourses.push_back(studentCourse);
 }
 
+void Student::addPassedCourse(Course* newCourse, unsigned grade)
+{
+    StudentCourse studentCourse;
+    studentCourse.course = newCourse;
+    studentCourse.grade = grade;
+    passedCourses.push_back(studentCourse);
+}
+
 unsigned Student::getGradeForCourse(Course* course)
 {  
     for(StudentCourse currentCourse : passedCourses)
