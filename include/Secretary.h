@@ -37,6 +37,7 @@ class Secretary
         std::unordered_map<unsigned, Course*>& getCourses() {return courses;};
         std::string getName() const {return name;};
         unsigned getYear() const {return year;};
+        unsigned getYearsOfStudy() const {return yearsOfStudy;};
         bool getIsWinterSemester() const {return isWinterSemester;};
 
         // setters

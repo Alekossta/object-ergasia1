@@ -221,6 +221,10 @@ void handleOption(char option)
 
                 cout << "Enter semester: ";
                 cin >> semester;
+                if (semester > dit.getYearsOfStudy() * 2) {
+                    cout << "Invalid semester" << endl;
+                    break;
+                }
 
                 Course course = Course(name, points, isMandatory, semester, Course::getIdCounter());
                 dit += course;
@@ -293,6 +297,10 @@ void handleOption(char option)
         break;
         case '5':
         {
+            if (hasGradedStudents) {
+                std::cout << "Cannot enroll students until next semester starts" << std::endl;
+                break;
+            }
             dit.printStudents();
             std::cout << "Please select student ";
             unsigned id;
