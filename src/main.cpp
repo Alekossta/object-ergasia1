@@ -15,7 +15,6 @@ using namespace std;
 
 namespace fs = std::filesystem;
 
-
 int Person::count = 0;
 unsigned Course::idCounter = 0;
 bool hasGradedStudents = false;
@@ -356,8 +355,6 @@ void handleOption(char option)
                 std::string filename = "data/passedStudents/" + std::to_string(year) + "_" + courseName + ".csv";
                 std::ofstream outputFile(filename);
 
-                std::cout << filename << std::endl;
-
                 if(outputFile.is_open())
                 {
                     for(const auto& pair : dit.getPersons())
@@ -490,7 +487,6 @@ void handleOption(char option)
         break;
         case 'r': 
         {
-           
             // will set firstTimeRunning to true
             std::ofstream firstTimeRunningFileOutput("data/firstTimeRunning.csv", std::ios::out | std::ios::trunc);
             if(firstTimeRunningFileOutput.is_open())
@@ -531,20 +527,62 @@ void handleOption(char option)
         {
             if(!hasGradedStudents)
             {
-                // grade students using student's setGrade() with a random grade
-                for(const auto& pair : dit.getPersons())
+                std::cout << "Do you want to grade students manually? (Y/N): ";
+                char userInput;
+                std::cin >> userInput;
+                if(userInput == 'y' || userInput == 'Y')
                 {
-                    Student* student = dynamic_cast<Student*>(pair.second);
-                    if(student != nullptr)
+                    dit.printProfessors();
+                    std::cout << "Please enter your id: ";
+                    unsigned id;
+                    std::cin >> id;
+                    Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
+                    if(professor)
                     {
-                        for(const auto& course : student->getCurrentSemesterCourses())
+                        professor->printCourses();
+                        std::cout << "Enter course id you want to grade: ";
+                        unsigned id;
+                        std::cin >> id;
+                        Course* course = professor->getCourse(id);
+                        if(course)
                         {
-                            student->setGrade(course.course, rand() % 11);
+                            for(Student* student : course->getStudents())
+                            {
+                                if(student)
+                                {
+                                    std::cout << "Grade " << student->getName() << ": ";
+                                    unsigned grade;
+                                    cin >> grade;
+                                    student->setGrade(course, grade);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            std::cout << "Could not find course" << std::endl;
                         }
                     }
+                    else
+                    {
+                        std::cout << "Could not find professor" << std::endl;
+                    }
                 }
-
-                hasGradedStudents = true;
+                else
+                {
+                    // grade all students randomly
+                    for(const auto& pair : dit.getPersons())
+                    {
+                        Student* student = dynamic_cast<Student*>(pair.second);
+                        if(student != nullptr)
+                        {
+                            for(const auto& course : student->getCurrentSemesterCourses())
+                            {
+                                student->setGrade(course.course, rand() % 11);
+                            }
+                        }
+                    }
+                    hasGradedStudents = true;
+                }
             }
             else
             {

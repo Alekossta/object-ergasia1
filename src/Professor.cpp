@@ -20,6 +20,27 @@ void Professor::printPerson() const
     Person::printPerson();
 }
 
+void Professor::printCourses() const
+{
+    for(Course* course : courses)
+    {
+        std::cout << *course << std::endl;
+    }
+}
+
+Course* Professor::getCourse(unsigned id)
+{
+    for(Course* course : courses)
+    {
+        if(course->getId() == id)
+        {
+            return course;
+        }
+    }
+
+    return nullptr;
+}
+
 void Professor::printSemesterStats(bool isWinterSemester) const
 {
     for(Course* course : courses)

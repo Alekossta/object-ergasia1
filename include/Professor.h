@@ -18,5 +18,9 @@ class Professor : public Person
 
         void printSemesterStats(bool isWinterSemester) const;
 
+        void printCourses() const;
+
+        Course* getCourse(unsigned id);
+
         virtual void printPerson() const override;
 };
