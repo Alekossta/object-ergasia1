@@ -40,6 +40,7 @@ class Student : public Person
         
         void addCourse(Course* newCourse);
         void addPassedCourse(Course* newCourse, unsigned grade);
+        void removeCourse(Course* course);
 
         unsigned getGradeForCourse(Course* course);
         bool hasPassedCourse(Course* course);

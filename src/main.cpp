@@ -260,7 +260,15 @@ void handleOption(char option)
                 cout << "Enter course id to remove: ";
                 unsigned id;
                 cin >> id;
-                if (dit.getCourse(id) != nullptr) {
+
+                Course* courseToRemove = dit.getCourse(id);
+                if (courseToRemove != nullptr) {
+                    // for every student currentlys enrolled in the course, remove the course from their current course
+                    for (Student* student : courseToRemove->getStudents()) {
+                        student->removeCourse(courseToRemove);
+                    }
+                    dit.getCourses().erase(id);
+
                     dit.removeCourse(id);
                 }
                 else {
@@ -288,7 +296,6 @@ void handleOption(char option)
                 Professor* chosenProfessor = dynamic_cast<Professor*>(dit.findPerson(id));
                 if(chosenProfessor != nullptr)
                 {
-                    std::cout << "Adding " << chosenProfessor->getName() << "..." << std::endl;
                     course->addProfessor(chosenProfessor);
                     chosenProfessor->addCourse(course);
                 }
@@ -412,15 +419,14 @@ void handleOption(char option)
                 {
                     std::cout << "Professor not found" << std::endl;
                 }
-
-                cout << endl << "Press enter to continue..." << endl;
-                cin.ignore();
-                cin.get();
             }
             else
             {
                 std::cout << "Students haven't been graded yet to show stats for this semester." << std::endl;
             }
+            cout << endl << "Press enter to continue..." << endl;
+            cin.ignore();
+            cin.get();
         }
         break;
         case '8':
@@ -754,7 +760,7 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
                 // load professor-course relations
                 if(professorAdded != nullptr)
                 {
-                    // for every other value in the line, add the student to the course with the id equal to the value
+                    // for every other value in the line, add the professor to the course with the id equal to the value
                     while (getline(lineStream, value, ',')) {
                         Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
                         if (course != nullptr) {
@@ -997,10 +1003,17 @@ void saveData()
             {
                 professorsFile << professor->getId() << ','
                 << professor->getName() << ','
-                << professor->getAge()
-                << std::endl;
+                << professor->getAge();
 
-                // save courses teaching ...
+                // save courses teaching
+                for(Course* course : professor->getCourses())
+                {
+                    if(course != nullptr)
+                    {
+                        professorsFile << ',' << course->getId();
+                    }
+                }
+                professorsFile << endl;
             }
         }
     }

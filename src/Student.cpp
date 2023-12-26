@@ -96,6 +96,18 @@ void Student::addPassedCourse(Course* newCourse, unsigned grade)
     passedCourses.push_back(studentCourse);
 }
 
+void Student::removeCourse(Course* course)
+{
+    for (int i = 0; i < static_cast<int>(currentSemesterCourses.size()); i++)
+    {
+        if(currentSemesterCourses[i].course == course)
+        {
+            currentSemesterCourses.erase(currentSemesterCourses.begin() + i);
+            break;
+        }
+    }
+}
+
 unsigned Student::getGradeForCourse(Course* course)
 {  
     for(StudentCourse currentCourse : passedCourses)
