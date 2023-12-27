@@ -36,7 +36,7 @@ void Student::printCurrentSemesterGrades()
     }
     else
     {
-        std::cout << "[" << getName() << " has not signed up for a course this semester]" << std::endl;
+        std::cout << getName() << " has not signed up for a course this semester" << std::endl;
     }
 }
 

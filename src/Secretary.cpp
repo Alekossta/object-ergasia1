@@ -231,4 +231,19 @@ void Secretary::switchSemester() {
             student->getCurrentSemesterCourses().clear();
         }
     }
+
+    // clear all courses from professors
+    for (const auto& pair : persons) {
+        Professor* professor = dynamic_cast<Professor*>(pair.second);
+        // loop through all course of professor
+        if (professor != nullptr) {
+            for (const auto& pair2 : professor->getCourses()) {
+                Course* course = pair2;
+                if (course != nullptr) {
+                    course->getProfessors().clear();
+                    professor->getCourses().clear();
+                }
+            }
+        }
+    }
 }

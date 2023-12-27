@@ -25,6 +25,7 @@ class Course
         unsigned getId() const {return id;};    
         static int getIdCounter() {return idCounter;};
         std::vector<Student*>& getStudents() {return students;};
+        std::vector<Professor*>& getProfessors() {return professors;};
 
         // setters
         void setPoints(unsigned newPoints) {points = newPoints;};
