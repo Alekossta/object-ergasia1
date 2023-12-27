@@ -29,6 +29,10 @@ void Course::addStudent(Student* newStudent)
     students.push_back(newStudent);    
 }
 
+bool Course::hasProfessors() {
+    return (professors.size() > 0);
+}
+
 void Course::printProfessors() {
     if(professors.size() <= 0) return;
     std::cout << "[Professors teaching " << name << "]" << std::endl;

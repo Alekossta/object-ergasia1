@@ -45,6 +45,7 @@ class Student : public Person
         unsigned getGradeForCourse(Course* course);
         bool hasPassedCourse(Course* course);
         bool hasEnrolledCourse(Course* course);
+        double getAverage();
 
         unsigned calculatePoints();
         unsigned getPassedMandatoryCount();

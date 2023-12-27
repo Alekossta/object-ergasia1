@@ -25,7 +25,6 @@ void Student::printCurrentSemesterGrades()
 {
     if(currentSemesterCourses.size() > 0)
     {
-        std::cout << "[Current semester courses of " << getName() << "]" << std::endl;
         for(StudentCourse studentCourse : currentSemesterCourses)
         {
             Course* course = studentCourse.course;
@@ -43,9 +42,9 @@ void Student::printCurrentSemesterGrades()
 
 void Student::printPassedGrades()
 {
+    std::cout << "[All passed courses of " << getName() << "]" << std::endl;
     if(passedCourses.size() > 0)
     {
-        std::cout << "[All passed courses of " << getName() << "]" << std::endl;
         for(StudentCourse studentCourse : passedCourses)
         {
             Course* course = studentCourse.course;
@@ -141,6 +140,14 @@ bool Student::hasEnrolledCourse(Course* course) {
         if(currentCourse.course == course) return true;
     }
     return false;
+}
+
+double Student::getAverage() {
+    double sum;
+    for (StudentCourse studentCourse : passedCourses) {
+        sum += studentCourse.grade;
+    }
+    return (sum / passedCourses.size());
 }
 
 unsigned Student::calculatePoints()

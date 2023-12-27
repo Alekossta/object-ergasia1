@@ -34,8 +34,8 @@ void emptyFolder(const fs::path& path) {
 void displayMenu()
 {
     cout << "\033[2J\033[1;1H"; // scroll down to give the effect of clearing the screen
-    cout << ">>>Menu" << endl << endl
-    << dit.getYear() << " " << (dit.getIsWinterSemester() ? "Winter" : "Summer") << " Semester"
+    cout << "[Menu]" << endl << endl
+    << dit.getYear() << " - " << (dit.getIsWinterSemester() ? "Winter" : "Summer") << " Semester"
     << " (" << (hasGradedStudents ? "Graded" : "Not Graded") << ")" << endl;
     cout << "[1] add/modify/delete professors" << endl;
     cout << "[2] add/modify/delete students" << endl;
@@ -103,6 +103,9 @@ void handleOption(char option)
                 }
                 else {
                     cout << "Professor not found" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
             else if (userAnswer == 3) {
@@ -115,10 +118,16 @@ void handleOption(char option)
                 }
                 else {
                     cout << "Professor not found" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
             else {
                 cout << "Invalid option" << endl;
+                cout << endl << "Press enter to continue..." << endl;
+                cin.ignore();
+                cin.get();
             }
         }
         break;
@@ -147,6 +156,9 @@ void handleOption(char option)
                 cin >> entryYear;
                 if (entryYear > dit.getYear()) {
                     cout << "Invalid entry year" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                     break;
                 }
                 Student stud = Student(name, age, entryYear);
@@ -172,6 +184,9 @@ void handleOption(char option)
                 }
                 else {
                     cout << "Student not found" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
             else if (userAnswer == 3) {
@@ -184,10 +199,16 @@ void handleOption(char option)
                 }
                 else {
                     cout << "Professor not found" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
             else {
                 cout << "Invalid option" << endl;
+                cout << endl << "Press enter to continue..." << endl;
+                cin.ignore();
+                cin.get();
             }
         }
         break;
@@ -223,6 +244,9 @@ void handleOption(char option)
                 cin >> semester;
                 if (semester > dit.getYearsOfStudy() * 2) {
                     cout << "Invalid semester" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                     break;
                 }
 
@@ -273,10 +297,16 @@ void handleOption(char option)
                 }
                 else {
                     cout << "Course not found" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
             else {
                 cout << "Invalid option" << endl;
+                cout << endl << "Press enter to continue..." << endl;
+                cin.ignore();
+                cin.get();
             }      
         }
         break;
@@ -306,6 +336,9 @@ void handleOption(char option)
         {
             if (hasGradedStudents) {
                 std::cout << "Cannot enroll students until next semester starts" << std::endl;
+                cout << endl << "Press enter to continue..." << endl;
+                cin.ignore();
+                cin.get();
                 break;
             }
             dit.printStudents();
@@ -320,6 +353,23 @@ void handleOption(char option)
                 unsigned id;
                 cin >> id;
                 Course* course = dit.getCourse(id);
+
+                if (course == nullptr) {
+                    cout << "Course not available" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
+                    break;
+                }
+
+                if (!course->hasProfessors()) {
+                    cout << "No professors teaching this course" << endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
+                    break;
+                }
+
                 unsigned yearDiff = dit.getYear() - student->getEntryYear();
                 bool canRegister = (course->getSemester())/2 <= yearDiff;
                 
@@ -338,16 +388,15 @@ void handleOption(char option)
                         cin.get();
                         break;
                     }
-
-                    if(course != nullptr)
-                    {
-                        course->addStudent(student);
-                        student->addCourse(course);
-                    }
+                    course->addStudent(student);
+                    student->addCourse(course);
                 }
                 else
                 {
                     std::cout << "Student cannot register yet" << std::endl;
+                    cout << endl << "Press enter to continue..." << endl;
+                    cin.ignore();
+                    cin.get();
                 }
             }
         }
@@ -438,13 +487,14 @@ void handleOption(char option)
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
+                std::cout << "[Current semester courses of " << student->getName() << "]" << std::endl;
                 if (hasGradedStudents)
                 {
                     student->printCurrentSemesterGrades();
                 } 
                 else
                 {
-                    std::cout << "[Current semester grades not available yet]" << std::endl;
+                    std::cout << "Current semester grades not available yet" << std::endl;
                 }
 
                 student->printPassedGrades();
@@ -469,7 +519,7 @@ void handleOption(char option)
                 {
                     if(dit.canGraduate(student))
                     {
-                        std::cout << student->getName() << " can graduate!" << std::endl;
+                        std::cout << student->getName() << " can graduate! [" << student->getAverage() << "]" << std::endl;
                     }
                 }
             }

@@ -33,6 +33,7 @@ class Course
 
         // manage professors
         void addProfessor(Professor* newProfessor);
+        bool hasProfessors();
 
         // manage students
         void addStudent(Student* newStudent);
