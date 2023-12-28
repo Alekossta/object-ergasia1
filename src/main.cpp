@@ -1097,6 +1097,32 @@ int main() {
         std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
     }
 
+    // run a demonstration of the functionality of our program
+    // Β5. Πρόγραμμα main που θα επιδεικνύει την λειτουργικότητα των παραπάνω.
+    std::cout << "Do you want to run demonstration? (Y/N): ";
+    char demoAnswer;
+    std::cin >> demoAnswer;
+    if(demoAnswer == 'y' || demoAnswer == 'Y')
+    {
+        // run demo
+        // what should demo do?
+
+        // 1. create a new student
+        Student demoStudent = Student("Mike", 19, 2022);
+        dit += demoStudent;
+
+        // 2. create a new professor
+        Professor demoProfessor = Professor("Gizopoulos", 51);
+        dit += demoProfessor;
+
+        // 3. create a new course
+        // 4. move a course from one semester to another? 
+        // 5. define some professors for some courses
+        // 6. enroll students to a course
+
+        // probably we already do that with the [a] option in the menu
+    } 
+
     char userAnswer;
     while (userAnswer != '0')
     {
