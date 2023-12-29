@@ -258,7 +258,7 @@ void handleOption(char option)
                 cout << "Enter course id to modify: ";
                 unsigned id;
                 cin >> id;
-                Course* courseToModify = dit.getCourse(id);
+                Course* courseToModify = dit.getAvailableCourse(id);
                 if (courseToModify != nullptr) {
                     cout << "Current points: " << courseToModify->getPoints() << endl;
                     cout << "Enter new points: ";
@@ -285,7 +285,7 @@ void handleOption(char option)
                 unsigned id;
                 cin >> id;
 
-                Course* courseToRemove = dit.getCourse(id);
+                Course* courseToRemove = dit.getAvailableCourse(id);
                 if (courseToRemove != nullptr) {
                     // for every student currentlys enrolled in the course, remove the course from their current course
                     for (Student* student : courseToRemove->getStudents()) {
@@ -316,7 +316,7 @@ void handleOption(char option)
             dit.printCourses();
             unsigned id;
             cin >> id;
-            Course* course = dit.getCourse(id);
+            Course* course = dit.getAvailableCourse(id);
             if(course != nullptr)
             {
                 std::cout << "Choose from these professors: " << std::endl;
@@ -352,7 +352,7 @@ void handleOption(char option)
                 std::cout << "Select course to register to: ";
                 unsigned id;
                 cin >> id;
-                Course* course = dit.getCourse(id);
+                Course* course = dit.getAvailableCourse(id);
 
                 if (course == nullptr) {
                     cout << "Course not available" << endl;
@@ -407,7 +407,7 @@ void handleOption(char option)
             std::cout << "Select a course: ";
             unsigned id;
             cin >> id;
-            Course* course = dit.getCourse(id);
+            Course* course = dit.getAvailableCourse(id);
 
             // loop through all students and print the ones that have passed the course
             if(course != nullptr)
@@ -663,7 +663,7 @@ void handleOption(char option)
         {
             if (dit.getIsWinterSemester()) {
                 // add lygizou and pilot to oop
-                Course* oop = dit.getCourse(0);
+                Course* oop = dit.getAvailableCourse(0);
                 oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(3)));
                 oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(4)));
                 dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
@@ -682,7 +682,7 @@ void handleOption(char option)
             }
             else {
                 // add takis to itp
-                Course* itp = dit.getCourse(1);
+                Course* itp = dit.getAvailableCourse(1);
                 itp->addProfessor(dynamic_cast<Professor*>(dit.findPerson(5)));
                 dynamic_cast<Professor*>(dit.findPerson(5))->addCourse(itp);
 
@@ -812,7 +812,7 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
                 {
                     // for every other value in the line, add the professor to the course with the id equal to the value
                     while (getline(lineStream, value, ',')) {
-                        Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                        Course* course = dit.getAvailableCourse(static_cast<unsigned>(std::stoul(value)));
                         if (course != nullptr) {
                             course->addProfessor(professorAdded);
                             static_cast<Professor*>(dit.findPerson(professorAdded->getId()))->addCourse(course);
@@ -886,7 +886,7 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                     // for every other value in the line, add the student to the course with the id equal to the value
                     while (getline(lineStream, value, ',')) {
                         // get course with id equal to value
-                        Course* course = dit.getCourse(static_cast<unsigned>(std::stoul(value)));
+                        Course* course = dit.getAvailableCourse(static_cast<unsigned>(std::stoul(value)));
                         if (course != nullptr) {
                             // get grade from next value
                             getline(lineStream, value, ',');
@@ -1098,67 +1098,72 @@ int main() {
     }
 
     // run a demonstration of the functionality of our program
-    std::cout << "Do you want to run demonstration? (Y/N): ";
+    cout << "Do you want to run demonstration? (Y/N): ";
     char demoAnswer;
-    std::cin >> demoAnswer;
+    cin >> demoAnswer;
     if(demoAnswer == 'y' || demoAnswer == 'Y')
     {
+        // demo secretary
+        Secretary demoSecretary = Secretary("demoSecretary", 6, 4, 2023);
+
         // 1. create a new student
         Student demoStudent = Student("Mike", 19, 2022);
-        dit += demoStudent;
+        demoSecretary += demoStudent;
 
         // 2. create a new professor
         Professor demoProfessor = Professor("Gizopoulos", 51, Person::getCount());
-        dit += demoProfessor;
+        demoSecretary += demoProfessor;
 
         // 3. create a new course
-        std::cout << Course::getIdCounter() << std::endl;
+        cout << Course::getIdCounter() << endl;
         Course demoCourse = Course("Architecture 2", 6, false, 4, Course::getIdCounter());
-        dit += demoCourse;
+        demoSecretary += demoCourse;
 
         // 4. move a course from one semester to another
-
-        // Need to refactor for get course to be able to get courses
-        // not only in this semester
-        
-        std::cout << Course::getIdCounter() << std::endl;
-        Course* addedCourse = dit.getCourse(Course::getIdCounter() - 1);
+        cout << Course::getIdCounter() << endl;
+        Course* addedCourse = demoSecretary.getCourse(Course::getIdCounter() - 1);
         if(addedCourse)
         {
             addedCourse->setSemester(5);
         }
         else
         {
-            std::cout << "did not find course" << std::endl;
+            cout << "did not find course" << endl;
         }
 
         // 5. define some professors for some courses
         if(addedCourse)
         {
-            Professor* addedProfessor = dynamic_cast<Professor*>(dit.findPerson(Person::getCount()));
+            Professor* addedProfessor = dynamic_cast<Professor*>(demoSecretary.findPerson(Person::getCount()));
             if(addedProfessor != nullptr)
             {
                 addedCourse->addProfessor(addedProfessor);
                 addedProfessor->addCourse(addedCourse);
             }
         }
+
         // 6. enroll students to a course
         if(addedCourse)
         {
-            Student* addedStudent = dynamic_cast<Student*>(dit.findPerson(Person::getCount() - 1));
+            Student* addedStudent = dynamic_cast<Student*>(demoSecretary.findPerson(Person::getCount() - 1));
             if(addedStudent)
             {
                 addedStudent->addCourse(addedCourse);
                 addedCourse->addStudent(addedStudent);
             }
         }
-    } 
+
+        cout << endl << "Demonstration finished" << endl;
+        cout << "Press enter to continue..." << endl;
+        cin.ignore();
+        cin.get();
+    }
 
     char userAnswer;
     while (userAnswer != '0')
     {
         displayMenu();
-        std::cin >> userAnswer;
+        cin >> userAnswer;
         handleOption(userAnswer);
     }
 

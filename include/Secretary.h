@@ -66,6 +66,7 @@ class Secretary
         void printCourses() const;
         Secretary& addCourse(Course& courseToAdd);
         void removeCourse(const unsigned int& courseId);
+        Course* getAvailableCourse(const unsigned int& courseId);
         Course* getCourse(const unsigned int& courseId);
 
         unsigned calculateMandatoryCount() const;

@@ -150,7 +150,7 @@ void Secretary::removeCourse(const unsigned int& courseId)
     }
 }
 
-Course* Secretary::getCourse(const unsigned int& courseId)
+Course* Secretary::getAvailableCourse(const unsigned int& courseId)
 {
     if (isWinterSemester) {
         for (const auto& pair : courses) {
@@ -163,6 +163,16 @@ Course* Secretary::getCourse(const unsigned int& courseId)
             if (pair.second->getSemester() % 2 == 0 && pair.second->getId() == courseId) {
                 return pair.second;
             }
+        }
+    }
+    return nullptr;
+}
+
+Course* Secretary::getCourse(const unsigned int& courseId)
+{
+    for (const auto& pair : courses) {
+        if (pair.second->getId() == courseId) {
+            return pair.second;
         }
     }
     return nullptr;
