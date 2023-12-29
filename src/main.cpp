@@ -1098,29 +1098,60 @@ int main() {
     }
 
     // run a demonstration of the functionality of our program
-    // Β5. Πρόγραμμα main που θα επιδεικνύει την λειτουργικότητα των παραπάνω.
     std::cout << "Do you want to run demonstration? (Y/N): ";
     char demoAnswer;
     std::cin >> demoAnswer;
     if(demoAnswer == 'y' || demoAnswer == 'Y')
     {
-        // run demo
-        // what should demo do?
-
         // 1. create a new student
         Student demoStudent = Student("Mike", 19, 2022);
         dit += demoStudent;
 
         // 2. create a new professor
-        Professor demoProfessor = Professor("Gizopoulos", 51);
+        Professor demoProfessor = Professor("Gizopoulos", 51, Person::getCount());
         dit += demoProfessor;
 
         // 3. create a new course
-        // 4. move a course from one semester to another? 
-        // 5. define some professors for some courses
-        // 6. enroll students to a course
+        std::cout << Course::getIdCounter() << std::endl;
+        Course demoCourse = Course("Architecture 2", 6, false, 4, Course::getIdCounter());
+        dit += demoCourse;
 
-        // probably we already do that with the [a] option in the menu
+        // 4. move a course from one semester to another
+
+        // Need to refactor for get course to be able to get courses
+        // not only in this semester
+        
+        std::cout << Course::getIdCounter() << std::endl;
+        Course* addedCourse = dit.getCourse(Course::getIdCounter() - 1);
+        if(addedCourse)
+        {
+            addedCourse->setSemester(5);
+        }
+        else
+        {
+            std::cout << "did not find course" << std::endl;
+        }
+
+        // 5. define some professors for some courses
+        if(addedCourse)
+        {
+            Professor* addedProfessor = dynamic_cast<Professor*>(dit.findPerson(Person::getCount()));
+            if(addedProfessor != nullptr)
+            {
+                addedCourse->addProfessor(addedProfessor);
+                addedProfessor->addCourse(addedCourse);
+            }
+        }
+        // 6. enroll students to a course
+        if(addedCourse)
+        {
+            Student* addedStudent = dynamic_cast<Student*>(dit.findPerson(Person::getCount() - 1));
+            if(addedStudent)
+            {
+                addedStudent->addCourse(addedCourse);
+                addedCourse->addStudent(addedStudent);
+            }
+        }
     } 
 
     char userAnswer;
