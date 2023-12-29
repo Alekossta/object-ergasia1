@@ -1103,25 +1103,22 @@ int main() {
     cin >> demoAnswer;
     if(demoAnswer == 'y' || demoAnswer == 'Y')
     {
-        // demo secretary
-        Secretary demoSecretary = Secretary("demoSecretary", 6, 4, 2023);
-
         // 1. create a new student
         Student demoStudent = Student("Mike", 19, 2022);
-        demoSecretary += demoStudent;
+        dit += demoStudent;
 
         // 2. create a new professor
         Professor demoProfessor = Professor("Gizopoulos", 51, Person::getCount());
-        demoSecretary += demoProfessor;
+        dit += demoProfessor;
 
         // 3. create a new course
         cout << Course::getIdCounter() << endl;
         Course demoCourse = Course("Architecture 2", 6, false, 4, Course::getIdCounter());
-        demoSecretary += demoCourse;
+        dit += demoCourse;
 
         // 4. move a course from one semester to another
         cout << Course::getIdCounter() << endl;
-        Course* addedCourse = demoSecretary.getCourse(Course::getIdCounter() - 1);
+        Course* addedCourse = dit.getCourse(Course::getIdCounter() - 1);
         if(addedCourse)
         {
             addedCourse->setSemester(5);
@@ -1134,7 +1131,7 @@ int main() {
         // 5. define some professors for some courses
         if(addedCourse)
         {
-            Professor* addedProfessor = dynamic_cast<Professor*>(demoSecretary.findPerson(Person::getCount()));
+            Professor* addedProfessor = dynamic_cast<Professor*>(dit.findPerson(Person::getCount()));
             if(addedProfessor != nullptr)
             {
                 addedCourse->addProfessor(addedProfessor);
@@ -1145,7 +1142,7 @@ int main() {
         // 6. enroll students to a course
         if(addedCourse)
         {
-            Student* addedStudent = dynamic_cast<Student*>(demoSecretary.findPerson(Person::getCount() - 1));
+            Student* addedStudent = dynamic_cast<Student*>(dit.findPerson(Person::getCount() - 1));
             if(addedStudent)
             {
                 addedStudent->addCourse(addedCourse);
