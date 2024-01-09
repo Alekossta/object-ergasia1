@@ -78,6 +78,9 @@ class Secretary
         // find person
         Person* findPerson(const unsigned& id);
 
+        // remove person
+        void removePerson(unsigned id);
+
         // overload assigment operator
         Secretary& operator=(const Secretary& other);
 

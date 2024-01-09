@@ -196,6 +196,13 @@ unsigned Secretary::calculateMandatoryCount() const
     return count;
 }
 
+/// remove person /// 
+void Secretary::removePerson(unsigned id)
+{
+    delete findPerson(id);
+    persons.erase(id);
+}
+
 /// input and output operators ///
 
 std::ostream& operator<<(std::ostream& os, const Secretary& s) {

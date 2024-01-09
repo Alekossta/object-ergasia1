@@ -113,7 +113,7 @@ void handleOption(char option)
                 cin >> id;
                 Professor* prof = dynamic_cast<Professor*>(dit.findPerson(id));
                 if (prof != nullptr) {
-                    dit.getPersons().erase(id);
+                    dit.removePerson(id);
                 }
                 else {
                     cout << "Professor not found" << endl;
@@ -194,7 +194,7 @@ void handleOption(char option)
                 cin >> id;
                 Student* stud = dynamic_cast<Student*>(dit.findPerson(id));
                 if (stud != nullptr) {
-                    dit.getPersons().erase(id);
+                    dit.removePerson(id);
                 }
                 else {
                     cout << "Professor not found" << endl;
