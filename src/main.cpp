@@ -47,7 +47,7 @@ void displayMenu()
     cout << "[8] show specific student grades" << endl;
     cout << "[9] show student eligible for graduation" << endl;
     cout << "[0] to exit and save data" << endl;
-    cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
+    cout << "[x] to print everything" << endl; // REMOVE BEFORE SUBMISSION
     cout << "[r] to reset data" << endl;
     cout << (hasGradedStudents ? "[s] to switch semester" : "[s] to grade students") << endl;
     cout << "Enter a number: ";
@@ -1070,20 +1070,14 @@ int main() {
         dit += demoProfessor;
 
         // 3. create a new course
-        cout << Course::getIdCounter() << endl;
         Course demoCourse = Course("Architecture 2", 6, false, 4, Course::getIdCounter());
         dit += demoCourse;
 
         // 4. move a course from one semester to another
-        cout << Course::getIdCounter() << endl;
         Course* addedCourse = dit.getCourse(Course::getIdCounter() - 1);
         if(addedCourse)
         {
             addedCourse->setSemester(5);
-        }
-        else
-        {
-            cout << "did not find course" << endl;
         }
 
         // 5. define some professors for some courses
