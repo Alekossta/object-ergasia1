@@ -50,7 +50,6 @@ void displayMenu()
     cout << "[x] to print everything (for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "[r] to reset data" << endl;
     cout << (hasGradedStudents ? "[s] to switch semester" : "[s] to grade students") << endl;
-    cout << "[a] to auto load profs/students to courses(for debugging)" << endl; // REMOVE BEFORE SUBMISSION
     cout << "Enter a number: ";
 }
 
@@ -656,45 +655,6 @@ void handleOption(char option)
             {
                 dit.switchSemester();
                 hasGradedStudents = false;
-            }
-        }
-        break;
-        case 'a':
-        {
-            if (dit.getIsWinterSemester()) {
-                // add lygizou and pilot to oop
-                Course* oop = dit.getAvailableCourse(0);
-                oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(3)));
-                oop->addProfessor(dynamic_cast<Professor*>(dit.findPerson(4)));
-                dynamic_cast<Professor*>(dit.findPerson(3))->addCourse(oop);
-                dynamic_cast<Professor*>(dit.findPerson(4))->addCourse(oop);
-
-                // add alex to oop
-                Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
-                oop->addStudent(alex);
-                alex->addCourse(oop);
-
-
-                // add giannis to oop and itp
-                Student* giannis = dynamic_cast<Student*>(dit.findPerson(2));
-                oop->addStudent(giannis);
-                giannis->addCourse(oop);
-            }
-            else {
-                // add takis to itp
-                Course* itp = dit.getAvailableCourse(1);
-                itp->addProfessor(dynamic_cast<Professor*>(dit.findPerson(5)));
-                dynamic_cast<Professor*>(dit.findPerson(5))->addCourse(itp);
-
-                // add kostas to itp
-                Student* kostas = dynamic_cast<Student*>(dit.findPerson(1));
-                itp->addStudent(kostas);
-                kostas->addCourse(itp);
-
-                // add alex to itp
-                Student* alex = dynamic_cast<Student*>(dit.findPerson(0));
-                itp->addStudent(alex);
-                alex->addCourse(itp);
             }
         }
         break;
