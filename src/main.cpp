@@ -691,12 +691,11 @@ void loadCourses(std::string courseFileName, bool loadIds)
                 // id
                 getline(lineStream, value, ',');
                 id = static_cast<unsigned>(std::stoul(value));
-            } 
+            }
 
             // name
             getline(lineStream, value, ',');
             std::string name = value;
-
 
             // points
             getline(lineStream, value, ',');
@@ -714,16 +713,13 @@ void loadCourses(std::string courseFileName, bool loadIds)
             {
                 Course newCourse = Course(name, points, isMandatory, semester, id);
                 dit += newCourse;
-                std::cout << name;
             }
             else
             {
                 Course newCourse = Course(name, points, isMandatory, semester);
                 dit += newCourse;
-                std::cout << name;
             }
         }
-        cout << "Loaded courses" << endl;
         coursesFile.close();
     }
     else
@@ -776,8 +772,6 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
                         if (course != nullptr) {
                             course->addProfessor(professorAdded);
                             static_cast<Professor*>(dit.findPerson(professorAdded->getId()))->addCourse(course);
-
-                            cout << "Added rofessor " << professorAdded->getName() << " to course " << course->getName() << endl;
                         }
                         else {
                             cout << "Course not found" << endl;
@@ -792,7 +786,6 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
                 professorAdded = dynamic_cast<Professor*>(dit.findPerson(newProfessor.getId()));
             }
         }
-        cout << "Loaded professors" << endl;
         profsFile.close();
     }
     else
@@ -853,11 +846,6 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                             unsigned grade = static_cast<unsigned>(std::stoul(value));
 
                             studentAdded->addPassedCourse(course, grade);
-
-                            cout << "Added student " << studentAdded->getName() << " to course " << course->getName() << endl;
-                        }
-                        else {
-                            cout << "Course not found" << endl;
                         }
                     }
                 }
@@ -869,7 +857,6 @@ void loadStudents(std::string studentsFileName, bool loadIds)
                 studentAdded = dynamic_cast<Student*>(dit.findPerson(newStudent.getId()));
             }
         }
-        cout << "Loaded students" << endl;
         studsFile.close();
     }
     else
@@ -934,7 +921,6 @@ void loadData()
             dit.setYear(year);
             dit.setIsWinterSemester(isWinterSemester);
 
-            cout << "Loaded time data" << endl;
             timeDataFile.close();
         }
         else
@@ -942,6 +928,18 @@ void loadData()
             std::cout << "Error in opening time data file" << std::endl;
         }
 
+    }
+}
+
+std::string boolToString(bool value)
+{
+    if(value)
+    {
+        return "true";
+    }
+    else
+    {
+        return "false";
     }
 }
 
@@ -959,7 +957,7 @@ void saveData()
                 coursesFile << course->getId() << ','
                 << course->getName() << ','
                 << course->getPoints() << ','
-                << course->getIsMandatory() << ','
+                << boolToString(course->getIsMandatory()) << ','
                 << course->getSemester()
                 << std::endl;
             }
