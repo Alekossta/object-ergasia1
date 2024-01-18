@@ -311,14 +311,14 @@ void handleOption(char option)
         break;
         case '4':
         {
-            std::cout << "Pick course to define professors for: " << std::endl;
+            cout << "Pick course to define professors for: " << endl;
             dit.printCourses();
             unsigned id;
             cin >> id;
             Course* course = dit.getAvailableCourse(id);
             if(course != nullptr)
             {
-                std::cout << "Choose from these professors: " << std::endl;
+                cout << "Choose from these professors: " << endl;
                 dit.printProfessors();
                 unsigned id;
                 cin >> id;
@@ -334,21 +334,21 @@ void handleOption(char option)
         case '5':
         {
             if (hasGradedStudents) {
-                std::cout << "Cannot enroll students until next semester starts" << std::endl;
+                cout << "Cannot enroll students until next semester starts" << endl;
                 cout << endl << "Press enter to continue..." << endl;
                 cin.ignore();
                 cin.get();
                 break;
             }
             dit.printStudents();
-            std::cout << "Please select student ";
+            cout << "Please select student ";
             unsigned id;
             cin >> id;
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
                 dit.printCourses();
-                std::cout << "Select course to register to: ";
+                cout << "Select course to register to: ";
                 unsigned id;
                 cin >> id;
                 Course* course = dit.getAvailableCourse(id);
@@ -375,14 +375,14 @@ void handleOption(char option)
                 if(canRegister)
                 {
                     if (student->hasPassedCourse(course)) {
-                        std::cout << "Student has already passed this course" << std::endl;
-                        std::cout << "Press enter to continue..." << std::endl;
+                        cout << "Student has already passed this course" << endl;
+                        cout << "Press enter to continue..." << endl;
                         cin.ignore();
                         cin.get();
                         break;
                     } else if (student->hasEnrolledCourse(course)) {
-                        std::cout << "Student has already enrolled in this course" << std::endl;
-                        std::cout << "Press enter to continue..." << std::endl;
+                        cout << "Student has already enrolled in this course" << endl;
+                        cout << "Press enter to continue..." << endl;
                         cin.ignore();
                         cin.get();
                         break;
@@ -392,7 +392,7 @@ void handleOption(char option)
                 }
                 else
                 {
-                    std::cout << "Student cannot register yet" << std::endl;
+                    cout << "Student cannot register yet" << endl;
                     cout << endl << "Press enter to continue..." << endl;
                     cin.ignore();
                     cin.get();
@@ -403,7 +403,7 @@ void handleOption(char option)
         case '6':
         {
             dit.printCourses();
-            std::cout << "Select a course: ";
+            cout << "Select a course: ";
             unsigned id;
             cin >> id;
             Course* course = dit.getAvailableCourse(id);
@@ -411,7 +411,7 @@ void handleOption(char option)
             // loop through all students and print the ones that have passed the course
             if(course != nullptr)
             {
-                std::cout << "Students who have passed " << course->getName() << ": " << std::endl;
+                cout << "Students who have passed " << course->getName() << ": " << endl;
 
                 unsigned year = dit.getYear();
                 std::string courseName = course->getName();
@@ -435,14 +435,14 @@ void handleOption(char option)
                 }
                 else
                 {
-                    std::cout << "Could not create file" << std::endl;
+                    cout << "Could not create file" << endl;
                 }
                 
                 outputFile.close();
             }
             else
             {
-                std::cout << "Course not found" << std::endl;
+                cout << "Course not found" << endl;
             }
 
             cout << endl << "Press enter to continue..." << endl;
@@ -455,7 +455,7 @@ void handleOption(char option)
             if(hasGradedStudents)
             {
                 dit.printProfessors();
-                std::cout << "Select a professor: ";
+                cout << "Select a professor: ";
                 unsigned id;
                 cin >> id;
                 Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
@@ -465,12 +465,12 @@ void handleOption(char option)
                 }
                 else
                 {
-                    std::cout << "Professor not found" << std::endl;
+                    cout << "Professor not found" << endl;
                 }
             }
             else
             {
-                std::cout << "Students haven't been graded yet to show stats for this semester." << std::endl;
+                cout << "Students haven't been graded yet to show stats for this semester." << endl;
             }
             cout << endl << "Press enter to continue..." << endl;
             cin.ignore();
@@ -480,27 +480,27 @@ void handleOption(char option)
         case '8':
         {
             dit.printStudents();
-            std::cout << "Select a student to print grades for: ";
+            cout << "Select a student to print grades for: ";
             unsigned id;
             cin >> id;
             Student* student = dynamic_cast<Student*>(dit.findPerson(id));
             if(student != nullptr)
             {
-                std::cout << "[Current semester courses of " << student->getName() << "]" << std::endl;
+                cout << "[Current semester courses of " << student->getName() << "]" << endl;
                 if (hasGradedStudents)
                 {
                     student->printCurrentSemesterGrades();
                 } 
                 else
                 {
-                    std::cout << "Current semester grades not available yet" << std::endl;
+                    cout << "Current semester grades not available yet" << endl;
                 }
 
                 student->printPassedGrades();
             }
             else
             {
-                std::cout << "Did not find student" << std::endl;
+                cout << "Did not find student" << endl;
             }
 
             cout << "Press enter to continue..." << endl;
@@ -518,7 +518,7 @@ void handleOption(char option)
                 {
                     if(dit.canGraduate(student))
                     {
-                        std::cout << student->getName() << " can graduate! [" << student->getAverage() << "]" << std::endl;
+                        cout << student->getName() << " can graduate! [" << student->getAverage() << "]" << endl;
                     }
                 }
             }
@@ -562,7 +562,7 @@ void handleOption(char option)
             }   
             else
             {
-                std::cout << "Failed to open file firstTimeRunning.csv" << std::endl;
+                cout << "Failed to open file firstTimeRunning.csv" << endl;
             }
 
             firstTimeRunningFileOutput.close();
@@ -576,7 +576,7 @@ void handleOption(char option)
             }   
             else
             {
-                std::cout << "Failed to open file timeData.csv" << std::endl;
+                cout << "Failed to open file timeData.csv" << endl;
             }
 
             timeDataOutput.close();
@@ -594,22 +594,22 @@ void handleOption(char option)
         {
             if(!hasGradedStudents)
             {
-                std::cout << "Do you want to grade students manually? (Y/N): ";
+                cout << "Do you want to grade students manually? (Y/N): ";
                 char userInput;
-                std::cin >> userInput;
+                cin >> userInput;
                 if(userInput == 'y' || userInput == 'Y')
                 {
                     dit.printProfessors();
-                    std::cout << "Please enter your id: ";
+                    cout << "Please enter your id: ";
                     unsigned id;
-                    std::cin >> id;
+                    cin >> id;
                     Professor* professor = dynamic_cast<Professor*>(dit.findPerson(id));
                     if(professor)
                     {
                         professor->printCourses();
-                        std::cout << "Enter course id you want to grade: ";
+                        cout << "Enter course id you want to grade: ";
                         unsigned id;
-                        std::cin >> id;
+                        cin >> id;
                         Course* course = professor->getCourse(id);
                         if(course)
                         {
@@ -617,7 +617,7 @@ void handleOption(char option)
                             {
                                 if(student)
                                 {
-                                    std::cout << "Grade " << student->getName() << ": ";
+                                    cout << "Grade " << student->getName() << ": ";
                                     unsigned grade;
                                     cin >> grade;
                                     student->setGrade(course, grade);
@@ -626,12 +626,12 @@ void handleOption(char option)
                         }
                         else
                         {
-                            std::cout << "Could not find course" << std::endl;
+                            cout << "Could not find course" << endl;
                         }
                     }
                     else
                     {
-                        std::cout << "Could not find professor" << std::endl;
+                        cout << "Could not find professor" << endl;
                     }
                 }
                 else
@@ -659,7 +659,7 @@ void handleOption(char option)
         }
         break;
         default:
-            std::cout << "Invalid option" << std::endl;
+            cout << "Invalid option" << endl;
     }
 }
 
@@ -670,7 +670,7 @@ bool stringToBool(const std::string& str) {
         return false;
     }
     // Handle error or return a default value
-    std::cerr << "Invalid string for conversion to bool: " << str << std::endl;
+    cerr << "Invalid string for conversion to bool: " << str << endl;
     return false;
 }
 
@@ -724,7 +724,7 @@ void loadCourses(std::string courseFileName, bool loadIds)
     }
     else
     {
-        std::cout << "Error in opening courses file" << std::endl;
+        cout << "Error in opening courses file" << endl;
     }
 }
 
@@ -790,7 +790,7 @@ void loadProfessors(std::string professorsFileName, bool loadIds)
     }
     else
     {
-        std::cout << "Error in opening professors file" << std::endl;
+        cout << "Error in opening professors file" << endl;
     }
 
 }
@@ -861,7 +861,7 @@ void loadStudents(std::string studentsFileName, bool loadIds)
     }
     else
     {
-        std::cout << "Error in opening students file" << std::endl;
+        cout << "Error in opening students file" << endl;
     }
 }
 
@@ -891,7 +891,7 @@ void loadData()
         }
         else
         {
-            std::cout << "Error writing to file first time running file" << std::endl;
+            cout << "Error writing to file first time running file" << endl;
         }
     }
     else
@@ -925,7 +925,7 @@ void loadData()
         }
         else
         {
-            std::cout << "Error in opening time data file" << std::endl;
+           cout << "Error in opening time data file" <<endl;
         }
 
     }
@@ -959,13 +959,13 @@ void saveData()
                 << course->getPoints() << ','
                 << boolToString(course->getIsMandatory()) << ','
                 << course->getSemester()
-                << std::endl;
+                << endl;
             }
         }
     }
     else
     {
-        std::cout << "Error: File could not be opened" << std::endl;
+        cout << "Error: File could not be opened" << endl;
     }
 
     // Save students
@@ -997,7 +997,7 @@ void saveData()
     }
     else
     {
-        std::cout << "Error: File could not be opened" << std::endl;
+        cout << "Error: File could not be opened" << endl;
     }
 
     // Save professors
@@ -1027,7 +1027,7 @@ void saveData()
     }
     else
     {
-        std::cout << "Error: File could not be opened" << std::endl;
+        cout << "Error: File could not be opened" << endl;
     }
 
     // Save time data
@@ -1037,11 +1037,11 @@ void saveData()
         timeDataFile 
         << dit.getYear() << ','
         << (dit.getIsWinterSemester() ? "true" : "false")
-        << std::endl;
+        << endl;
     }
     else
     {
-        std::cout << "Error: File could not be opened" << std::endl;
+        cout << "Error: File could not be opened" << endl;
     }
 
 }
@@ -1052,7 +1052,7 @@ int main() {
         loadData();
     }
     catch (const std::invalid_argument& e) {
-        std::cerr << "Invalid argument: " << e.what() << std::endl << "Continuing with incomplete data..." << std::endl;
+        cerr << "Invalid argument: " << e.what() << endl << "Continuing with incomplete data..." << endl;
     }
 
     // run a demonstration of the functionality of our program
