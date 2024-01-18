@@ -653,6 +653,29 @@ void handleOption(char option)
             }
             else
             {
+                // age people by one year
+                // to do that randomly, we will convert the students name to an int, and check if it is even or odd
+                // if even, we will say their birthday is in the winter semester, else in the summer semester
+
+                for(const auto& pair : dit.getPersons())
+                {
+                    Person* person = dynamic_cast<Person*>(pair.second);
+                    if(person != nullptr)
+                    {
+                        int nameToInt = 0;
+                        for (char c : person->getName()) {
+                            nameToInt += c;
+                        }
+                        if (nameToInt % 2 == 0 && dit.getIsWinterSemester()) {
+                            person->setAge(person->getAge() + 1);
+                        } else if (nameToInt % 2 != 0 && !dit.getIsWinterSemester()) {
+                            person->setAge(person->getAge() + 1);
+                        }
+                    }
+                }
+
+                // switch semester
+
                 dit.switchSemester();
                 hasGradedStudents = false;
             }
