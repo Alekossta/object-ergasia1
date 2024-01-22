@@ -427,8 +427,8 @@ void handleOption(char option)
                         {
                             if(student->hasPassedCourse(course))
                             {
-                                std::cout << student->getName() << std::endl; // to console
-                                outputFile << student->getId() << "," << student->getName() << std::endl; // to file
+                                cout << student->getName() << endl; // to console
+                                outputFile << student->getId() << "," << student->getName() << endl; // to file
                             }
                         }
                     }
@@ -588,6 +588,15 @@ void handleOption(char option)
 
             // make passedStudents folder empty
             emptyFolder("data/passedStudents");
+
+            cout << "Data reset" << endl;
+            cout << endl << "Exit program to save changes? (Y/N): ";
+            char userInput;
+            cin >> userInput;
+            if(userInput == 'y' || userInput == 'Y')
+            {
+                exit(0);
+            }
         }
         break;
         case 's':
